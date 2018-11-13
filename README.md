@@ -6,11 +6,12 @@
 #### Software Architecture
 Software architecture description
 
+
 #### Installation
 
-1. xxxx
-2. xxxx
-3. xxxx
+1. git clone https://gitee.com/asuis/JCRM.git
+2. mvn clean package
+3. java -jar crm-1.0.jar
 
 #### Instructions
 
@@ -34,3 +35,11 @@ Software architecture description
 4. The most valuable open source project [GVP](https://gitee.com/gvp)
 5. The manual of Gitee [https://gitee.com/help](https://gitee.com/help)
 6. The most popular members  [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+
+#### PS
+mybatis 通用代码生成
+1. 配置generatorConfig.xml
+
+2. 执行 
+
+``mvn mybatis-generator:generate``
