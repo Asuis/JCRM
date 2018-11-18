@@ -29,11 +29,11 @@ public class JwtUserFactory {
         }
         return new JwtUserDetails(
                 user.getUid(),
-                null,
+                user.getPass(),
                 user.getUsername(),
                 grantedAuthorities,
                 accountNonExpired,
-                false,
+                accountNonExpired,
                 true,
                 enabled
         );

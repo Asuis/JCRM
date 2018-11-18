@@ -1,5 +1,7 @@
 package com.jc.crm.model;
 
+import com.jc.crm.form.account.UserUpdateForm;
+
 import java.util.Date;
 
 public class UserEntity {
@@ -16,6 +18,18 @@ public class UserEntity {
     public int eid;
     public Date createTime;
     public Date updateTime;
+
+
+    public UserEntity() {
+    }
+
+    public UserEntity(UserUpdateForm form, Integer addressId, Integer contactId) {
+        this.setUsername(form.getUsername());
+        this.setEmail(form.getEmail());
+        this.setAddressId(addressId);
+        this.setContactId(contactId);
+    }
+
     public int getEid() {
         return eid;
     }
@@ -116,5 +130,24 @@ public class UserEntity {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "uid=" + uid +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", pass='" + pass + '\'' +
+                ", salt='" + salt + '\'' +
+                ", contactId=" + contactId +
+                ", addressId=" + addressId +
+                ", phone='" + phone + '\'' +
+                ", weight=" + weight +
+                ", isLock=" + isLock +
+                ", eid=" + eid +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
     }
 }

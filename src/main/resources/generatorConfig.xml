@@ -37,5 +37,6 @@
         <table tableName="competitors" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">
             <generatedKey column="address_id" sqlStatement="MySql" identity="true" type="post"/>
         </table>
+
     </context>
 </generatorConfiguration>
