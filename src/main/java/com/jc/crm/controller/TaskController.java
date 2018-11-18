@@ -21,7 +21,7 @@ public class TaskController {
     public Result delete() {
         return null;
     }
-    @GetMapping("${uid}")
+    @GetMapping("")
     public Result<List<TaskEntity>> get(@PathVariable int uid) {
         return null;
     }

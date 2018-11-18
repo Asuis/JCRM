@@ -54,6 +54,7 @@ public class JwtUtils {
     }
 
     public static boolean compare(String jwt, String salt) {
+        jwt = jwt.substring(7);
         return Jwts.parser()
                 .setSigningKey(SECRET + salt)
                 .isSigned(jwt);

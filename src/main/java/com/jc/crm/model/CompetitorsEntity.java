@@ -6,7 +6,31 @@ import java.util.Date;
 
 public class CompetitorsEntity {
 
-    public int competitor_id;
+    public int getCompetitorId() {
+        return competitorId;
+    }
+
+    public void setCompetitorId(int competitorId) {
+        this.competitorId = competitorId;
+    }
+
+    public String getEx1() {
+        return ex1;
+    }
+
+    public void setEx1(String ex1) {
+        this.ex1 = ex1;
+    }
+
+    public String getCompetitorName() {
+        return competitorName;
+    }
+
+    public void setCompetitorName(String competitorName) {
+        this.competitorName = competitorName;
+    }
+
+    public int competitorId;
 
     public String description;
 
@@ -16,7 +40,7 @@ public class CompetitorsEntity {
 
     public int status;
 
-    public String ex_1;
+    public String ex1;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Date ctime;
@@ -24,15 +48,9 @@ public class CompetitorsEntity {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Date utime;
 
-    public String competitor_name;
+    public String competitorName;
 
-    public int getCompetitor_id() {
-        return competitor_id;
-    }
 
-    public void setCompetitor_id(int competitor_id) {
-        this.competitor_id = competitor_id;
-    }
 
     public String getDescription() {
         return description;
@@ -66,13 +84,7 @@ public class CompetitorsEntity {
         this.status = status;
     }
 
-    public String getEx_1() {
-        return ex_1;
-    }
 
-    public void setEx_1(String ex_1) {
-        this.ex_1 = ex_1;
-    }
 
     public Date getCtime() {
         return ctime;
@@ -90,8 +102,6 @@ public class CompetitorsEntity {
         this.utime = utime;
     }
 
-    public String getCompetitor_name() { return competitor_name; }
 
-    public void setCompetitor_name(String competitor_name) { this.competitor_name = competitor_name; }
 
 }

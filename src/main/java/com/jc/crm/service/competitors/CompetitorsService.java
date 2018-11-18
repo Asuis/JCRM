@@ -13,7 +13,7 @@ public interface CompetitorsService {
     /**
      * @return 是否成功添加竞争对手信息 返回信息 200成功， -1失败， 100信息已存在， 401异常。
      * */
-    int addCompetitors(CompetitorsForm competitorsForm, int uid)throws Exception;
+    int addCompetitors(CompetitorsForm competitorsForm, Integer uid)throws Exception;
 
     /**
      * @return 是否成功删除竞争对手信息 返回信息 200成功， -1失败， 401异常。

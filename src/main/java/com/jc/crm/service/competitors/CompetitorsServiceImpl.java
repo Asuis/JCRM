@@ -17,12 +17,12 @@ public class CompetitorsServiceImpl implements CompetitorsService{
 
 
     @Override
-    public int addCompetitors(CompetitorsForm competitorsForm, int uid) throws Exception {
+    public int addCompetitors(CompetitorsForm competitorsForm, Integer uid) throws Exception {
 
         CompetitorsEntity competitorsEntity = new CompetitorsEntity();
-        competitorsEntity.setCompetitor_name(competitorsForm.getCompetitorName());
+        competitorsEntity.setCompetitorName(competitorsForm.getCompetitorName());
         competitorsEntity.setDescription(competitorsForm.getDescription());
-        competitorsEntity.setEx_1(competitorsForm.getEx1());
+        competitorsEntity.setEx1(competitorsForm.getEx1());
         competitorsEntity.setTypes(competitorsForm.getTypes());
         System.out.println("开始添加竞争对手");
         Date day = new Date();
@@ -41,7 +41,7 @@ public class CompetitorsServiceImpl implements CompetitorsService{
         if(competitorsMapper.selectByPrimaryKey(competitorsForm.getCompetitorName()) == null){
             competitorsEntity.setCtime(day);
             competitorsEntity.setUtime(day);
-            competitorsEntity.setHolder(123123);
+            competitorsEntity.setHolder(uid);
 
             competitorsMapper.insert(competitorsEntity);
             System.out.println("成功添加");

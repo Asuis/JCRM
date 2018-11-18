@@ -6,14 +6,13 @@ import javax.validation.constraints.Size;
 public class CompetitorsForm {
 
     @NotBlank(message = "竞争对手名字不能为空")
-    @Size(max = 10 , message = "填写内容长度不能超过18")
+    @Size(min = 1, max = 10 , message = "填写内容长度不能超过18")
     public String competitorName;
 
     @Size(max = 100 , message = "填写内容长度不能超过100")
     public String description;
 
-    @NotBlank(message = "竞争对手类别不能为空")
-    public int types;
+    public Integer types;
 
     @Size(max = 100 , message = "填写内容长度不能超过100")
     public String ex1;
@@ -34,11 +33,11 @@ public class CompetitorsForm {
         this.description = description;
     }
 
-    public int getTypes() {
+    public Integer getTypes() {
         return types;
     }
 
-    public void setTypes(int types) {
+    public void setTypes(Integer types) {
         this.types = types;
     }
 

@@ -20,14 +20,14 @@ public class CompetitorsController {
     private CompetitorsServiceImpl competitorsService;
 
     @ApiOperation(value = "添加竞争对手", response = Result.class)
-    @PostMapping("Add")
-    public Result <String> AddCompetitors(@Validated @RequestBody CompetitorsForm competitorsForm, BindingResult result){
+    @PostMapping
+    public Result <String> AddCompetitors(@Validated @RequestBody CompetitorsForm competitorsForm, BindingResult result,@RequestAttribute Integer uid){
         int flag = 0;
         if (result.hasErrors()){
             return Result.fail(ResultStatus.EXCEPTION,result.getFieldError().toString());
         }
         try{
-            flag = competitorsService.addCompetitors(competitorsForm,0);
+            flag = competitorsService.addCompetitors(competitorsForm,uid);
         } catch (Exception e) {
             e.printStackTrace();
             return Result.fail(ResultStatus.EXCEPTION,"发生异常：e.getMessage()");
