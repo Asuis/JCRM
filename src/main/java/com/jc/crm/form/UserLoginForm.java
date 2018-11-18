@@ -1,6 +1,7 @@
 package com.jc.crm.form;
 
 public class UserLoginForm {
+
     private String username;
     private String password;
 
