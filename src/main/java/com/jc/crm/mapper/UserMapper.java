@@ -22,7 +22,7 @@ public interface UserMapper {
     int delete(int id);
     @Select("SELECT * FROM user WHERE email = #{email} LIMIT 1")
     UserEntity getByEmail(String email);
-    @Select("SELECT role_name FROM auth_role, auth_role_user_link, user WHERE user.uid=auth_role_user_link.uid AND auth_role.role_id=auth_role_user_link.id")
+    @Select("SELECT role_name FROM auth_role, auth_role_user_link, user WHERE user.uid=auth_role_user_link.uid AND auth_role.role_id=auth_role_user_link.link_id")
     List<String> getRoles(int uid);
     @Update("UPDATE user set is_lock = #{isLock} WHERE uid = #{uid}")
     int setLock(int isLock, int uid);
