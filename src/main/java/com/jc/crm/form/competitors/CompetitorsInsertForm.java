@@ -3,18 +3,19 @@ package com.jc.crm.form.competitors;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-public class CompetitorsForm {
+public class CompetitorsInsertForm {
 
     @NotBlank(message = "竞争对手名字不能为空")
-    @Size(min = 1, max = 10 , message = "填写内容长度不能超过18")
+    @Size(min = 2, max = 18 , message = "填写内容范围2-18")
     public String competitorName;
 
-    @Size(max = 100 , message = "填写内容长度不能超过100")
+    @NotBlank(message = "竞争对手描述不能为空")
+    @Size(min = 10, max = 100 , message = "填写内容范围10-100")
     public String description;
 
     public Integer types;
 
-    @Size(max = 100 , message = "填写内容长度不能超过100")
+    @Size(max = 200 , message = "填写内容长度不能超过200")
     public String ex1;
 
     public String getCompetitorName() {

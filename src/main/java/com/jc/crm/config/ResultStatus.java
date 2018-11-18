@@ -8,5 +8,6 @@ public final class ResultStatus {
     public final static int EXCEPTION = 401;
     public final static int CONFLICT = 402;
     public final static int NOT_INFO = 403;
+    public final static int NOT_FOUND = 404;
 
 }

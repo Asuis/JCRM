@@ -11,15 +11,18 @@ public interface CompetitorsMapper {
     @Select("SELECT * FROM competitors")
     List<CompetitorsEntity> getCompetitorsList();
 
-    @Insert("INSERT INTO competitors(competitor_name, description, types, ex_1, status, ctime, utime, holder) VALUES(#{competitorName},#{description},#{types},#{ex1},#{status},#{types},#{ctime},#{utime},#{holder})")
+    @Insert("INSERT INTO competitors(competitor_name, description, types, ex_1, status, ctime, utime, holder) VALUES(#{competitorName},#{description},#{types},#{ex1},#{status},#{ctime},#{utime},#{holder})")
     int insert(CompetitorsEntity competitorsEntity);
 
-    @Update("UPDATE competitors set competitor_name = #{competitorName}, description = #{description}, types = #{description}, ex_1, status) VALUES(#{competitor_name},#{description},#{types},#{ex1},#{status})")
+    @Update("UPDATE competitors SET competitor_name = #{competitorName}, description = #{description}, types = #{types}, ex_1 = #{ex1}, utime = #{utime} WHERE competitor_id = #{competitorId}")
     int update(CompetitorsEntity competitorsEntity);
 
     @Delete("DELETE FROM competitors where competitor_id = #{competitor_id}")
-    int delete(int competitor_id);
+    int delete(int competitorId);
 
-    @Select("SELECT * FROM competitors where competitor_name = #{competitor_name}")
-    CompetitorsEntity selectByPrimaryKey(String competitor_name)throws Exception;
+    @Select("SELECT * FROM competitors where competitor_name = #{competitorName}")
+    CompetitorsEntity selectByCompetitorsName(String competitorName)throws Exception;
+
+    @Select("SELECT * FROM competitors where competitor_id = #{competitorId}")
+    CompetitorsEntity selectByPrimaryKey(int competitorId)throws Exception;
 }

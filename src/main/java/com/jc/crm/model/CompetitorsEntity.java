@@ -6,20 +6,32 @@ import java.util.Date;
 
 public class CompetitorsEntity {
 
+    public int competitorId;
+
+    public String competitorName;
+
+    public String description;
+
+    public Integer types;
+
+    public int holder;
+
+    public Integer status;
+
+    public String ex1;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    public Date ctime;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    public Date utime;
+
     public int getCompetitorId() {
         return competitorId;
     }
 
     public void setCompetitorId(int competitorId) {
         this.competitorId = competitorId;
-    }
-
-    public String getEx1() {
-        return ex1;
-    }
-
-    public void setEx1(String ex1) {
-        this.ex1 = ex1;
     }
 
     public String getCompetitorName() {
@@ -30,28 +42,6 @@ public class CompetitorsEntity {
         this.competitorName = competitorName;
     }
 
-    public int competitorId;
-
-    public String description;
-
-    public int types;
-
-    public int holder;
-
-    public int status;
-
-    public String ex1;
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-    public Date ctime;
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-    public Date utime;
-
-    public String competitorName;
-
-
-
     public String getDescription() {
         return description;
     }
@@ -60,11 +50,11 @@ public class CompetitorsEntity {
         this.description = description;
     }
 
-    public int getTypes() {
+    public Integer getTypes() {
         return types;
     }
 
-    public void setTypes(int types) {
+    public void setTypes(Integer types) {
         this.types = types;
     }
 
@@ -76,15 +66,21 @@ public class CompetitorsEntity {
         this.holder = holder;
     }
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
+    public String getEx1() {
+        return ex1;
+    }
 
+    public void setEx1(String ex1) {
+        this.ex1 = ex1;
+    }
 
     public Date getCtime() {
         return ctime;
@@ -101,7 +97,5 @@ public class CompetitorsEntity {
     public void setUtime(Date utime) {
         this.utime = utime;
     }
-
-
 
 }
