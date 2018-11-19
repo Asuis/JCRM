@@ -29,7 +29,6 @@ public class UserController {
 
     @ApiOperation(value = "用户登录")
     @PostMapping("login")
-    @ApiResponse(code = 1,message = "hello",response = String.class, responseContainer = "Result.class")
     public Result login(@RequestBody @Validated UserLoginForm form, BindingResult result) {
         if (result.hasErrors()) {
             return Result.fail(ResultStatus.FAIL, Objects.requireNonNull(result.getFieldError()).toString());

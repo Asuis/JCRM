@@ -6,6 +6,8 @@ import com.jc.crm.form.competitors.CompetitorsInsertForm;
 import com.jc.crm.form.competitors.CompetitorsUpdateForm;
 import com.jc.crm.service.competitors.CompetitorsServiceImpl;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -21,6 +23,9 @@ public class CompetitorsController {
     private CompetitorsServiceImpl competitorsService;
 
     @ApiOperation(value = "添加竞争对手", response = Result.class)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", paramType = "header")
+    })
     @PostMapping
     public Result AddCompetitors(@Validated @RequestBody CompetitorsInsertForm competitorsInsertForm, BindingResult result, @RequestAttribute Integer uid){
         int flag = 0;
@@ -48,6 +53,9 @@ public class CompetitorsController {
     }
 
     @ApiOperation(value = "修改竞争对手", response = Result.class)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", paramType = "header")
+    })
     @PutMapping
     public Result UpdateCompetitors(@Validated @RequestBody CompetitorsUpdateForm competitorsUpdateForm, BindingResult result){
         int flag = 0;
