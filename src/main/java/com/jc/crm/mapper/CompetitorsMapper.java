@@ -1,5 +1,6 @@
 package com.jc.crm.mapper;
 
+import com.jc.crm.mapper.provider.CompetitorSqlProvider;
 import com.jc.crm.model.CompetitorsEntity;
 import org.apache.ibatis.annotations.*;
 
@@ -17,6 +18,9 @@ public interface CompetitorsMapper {
     @Update("UPDATE competitors SET competitor_name = #{competitorName}, description = #{description}, types = #{types}, ex_1 = #{ex1}, utime = #{utime} WHERE competitor_id = #{competitorId}")
     int update(CompetitorsEntity competitorsEntity);
 
+    @Update("UPDATE competitors SET status = #{status}, utime = #{utime} WHERE competitor_id = #{competitorId}")
+    int updateStatus(CompetitorsEntity competitorsEntity);
+
     @Delete("DELETE FROM competitors where competitor_id = #{competitor_id}")
     int delete(int competitorId);
 
@@ -25,4 +29,10 @@ public interface CompetitorsMapper {
 
     @Select("SELECT * FROM competitors where competitor_id = #{competitorId}")
     CompetitorsEntity selectByPrimaryKey(int competitorId)throws Exception;
+
+    @SelectProvider(type = CompetitorSqlProvider.class, method = "selectByKeyWord")
+    List<CompetitorsEntity> selectByKeyWord(String keyword)throws Exception;
+
+    @Select("SELECT * FROM competitors where holder = #{holder}")
+    List<CompetitorsEntity> selectByHolder(int holder)throws Exception;
 }
