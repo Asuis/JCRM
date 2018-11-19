@@ -1,7 +1,7 @@
 package com.jc.crm.controller;
 
 import com.jc.crm.config.Result;
-import com.jc.crm.form.EnterpriseForm;
+import com.jc.crm.form.enterprise.EnterpriseForm;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -10,6 +10,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+
+/**
+ * @author asuis
+ */
 @Api("企业相关Api")
 @RestController
 @RequestMapping("api/enterprise")
@@ -19,7 +23,8 @@ public class EnterpriseController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @PostMapping
-    public Result create(@RequestBody @Validated EnterpriseForm form, BindingResult result) {
+    public Result create(@RequestBody @Validated EnterpriseForm form, BindingResult result, @RequestAttribute("uid")Integer uid) {
+
         return null;
     }
     @ApiOperation(value = "修改企业信息，仅admin")
