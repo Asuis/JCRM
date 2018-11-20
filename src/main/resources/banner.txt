@@ -8,6 +8,6 @@ ${AnsiColor.BRIGHT_CYAN}
 ##     ## ##     ## ##        ##           ##       ##   ### ##       ##  ##  ##       ##    ##       ##     ## ##    ##
 ##     ## ##     ## ##        ##           ##       ##    ## ########  ###  ###        ##    ######## ##     ## ##     ##
 
-${AnsiColor.BRIGHT_RED}
+${AnsiColor.BRIGHT_YELLOW}
 Application Version: ${application.version}${application.formatted-version}
 Spring Boot Version: ${spring-boot.version}${spring-boot.formatted-version}
