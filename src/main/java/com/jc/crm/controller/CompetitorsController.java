@@ -118,11 +118,7 @@ public class CompetitorsController {
         if(pageInfo != null){
             return Result.fail(ResultStatus.SUCCESS,"成功获取查询列表");
         }
-        if(pageInfo == null){
-            return Result.fail(ResultStatus.NOT_INFO,"查询信息为空");
-        }else{
-            return Result.fail(ResultStatus.FAIL,"失败");
-        }
+        return Result.fail(ResultStatus.NOT_INFO,"查询信息为空");
     }
 
     /*@ApiOperation(value = "查询自己挖掘的竞争对手信息", response = Result.class)
