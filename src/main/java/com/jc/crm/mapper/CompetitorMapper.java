@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.*;
 import java.util.List;
 
 @Mapper
-public interface CompetitorsMapper {
+public interface CompetitorMapper {
 
     @Select("SELECT * FROM competitors")
     List<CompetitorsEntity> getCompetitorsList();

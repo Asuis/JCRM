@@ -5,7 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.jc.crm.form.competitors.CompetitorsDeleteForm;
 import com.jc.crm.form.competitors.CompetitorsInsertForm;
 import com.jc.crm.form.competitors.CompetitorsUpdateForm;
-import com.jc.crm.mapper.CompetitorsMapper;
+import com.jc.crm.mapper.CompetitorMapper;
 import com.jc.crm.model.CompetitorsEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ import java.util.List;
 public class CompetitorsServiceImpl implements CompetitorsService{
 
     @Autowired
-    private CompetitorsMapper competitorsMapper;
+    private CompetitorMapper competitorsMapper;
 
 
     @Override
