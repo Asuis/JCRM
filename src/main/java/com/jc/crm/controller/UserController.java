@@ -23,6 +23,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 @Api
 @RestController
@@ -40,7 +41,7 @@ public class UserController {
     @PostMapping("login")
     public Result login(@RequestBody @Validated UserLoginForm form, BindingResult result) {
         if (result.hasErrors()) {
-            return Result.fail(ResultStatus.FAIL, Objects.requireNonNull(result.getFieldError()).toString());
+            return Result.fail(ResultStatus.FAIL, result.getAllErrors().get(0).getDefaultMessage());
         }
         try {
             String token = userService.login(form.getUsername(), form.getPassword());
@@ -57,7 +58,7 @@ public class UserController {
     @PostMapping
     public Result register(@RequestBody @Validated RegisterForm form, BindingResult result) {
         if (result.hasErrors()) {
-            return Result.fail(ResultStatus.FAIL, Objects.requireNonNull(result.getFieldError()).toString());
+            return Result.fail(ResultStatus.FAIL, result.getAllErrors().get(0).getDefaultMessage());
         }
         int code = ResultStatus.FAIL;
         try {
