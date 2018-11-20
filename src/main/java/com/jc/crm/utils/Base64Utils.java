@@ -1,9 +1,5 @@
 package com.jc.crm.utils;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
-
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
@@ -19,7 +15,6 @@ public class Base64Utils {
         byte[] b = null;
         String result = null;
         if (s!=null) {
-            BASE64Decoder decoder = new BASE64Decoder();
             b = Base64.getDecoder().decode(s);
             result = new String(b, StandardCharsets.UTF_8);
         }
