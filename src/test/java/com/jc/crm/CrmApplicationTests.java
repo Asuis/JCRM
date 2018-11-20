@@ -41,11 +41,11 @@ public class CrmApplicationTests {
     @Test
     @Rollback
     public void registerTest() {
-        RegisterForm form = new RegisterForm();
-        form.setEmail("727443530@qq.com");
-        form.setPass("123456aA");
-        form.setVerifyCode("hello hello");
-        userService.register(form);
+//        RegisterForm form = new RegisterForm();
+//        form.setEmail("727443530@qq.com");
+//        form.setPass("123456aA");
+//        form.setVerifyCode("hello hello");
+//        userService.register(form);
     }
 
 }

@@ -19,7 +19,7 @@ public class UserTests {
 
     @Test
     public void loginTests() {
-        userService.login("727443530@qq.com", "Mysql123456");
+//        userService.login("727443530@qq.com", "Mysql123456");
     }
     @Test
     public void registerTests() {
