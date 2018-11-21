@@ -39,17 +39,13 @@ public class CrmApplicationTests {
         logger.debug("username:",JwtTokenUtils.getUsernameFromToken(token));
     }
     @Test
-    public void getSecurityKey() {
-        System.out.println(Keys.hmacShaKeyFor("hellohellohellohellohellohellohellohello".getBytes()));
-    }
-    @Test
     @Rollback
     public void registerTest() {
-        RegisterForm form = new RegisterForm();
-        form.setEmail("727443530@qq.com");
-        form.setPass("123456aA");
-        form.setVerifyCode("hello hello");
-        userService.register(form);
+//        RegisterForm form = new RegisterForm();
+//        form.setEmail("727443530@qq.com");
+//        form.setPass("123456aA");
+//        form.setVerifyCode("hello hello");
+//        userService.register(form);
     }
 
 }

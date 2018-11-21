@@ -1,6 +1,8 @@
 package com.jc.crm.service.user;
 
-public class UserAlreadyRegisterException extends RuntimeException {
+import com.jc.crm.config.exception.BaseRuntimeException;
+
+public class UserAlreadyRegisterException extends BaseRuntimeException {
     public UserAlreadyRegisterException(String s) {
         super(s);
     }

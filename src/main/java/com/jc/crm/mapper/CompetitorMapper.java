@@ -14,7 +14,7 @@ import java.util.List;
  * @author currysss 2018-11-16
  * */
 @Mapper
-public interface CompetitorsMapper {
+public interface CompetitorMapper {
 
     /**
      * 添加竞争对手信息

@@ -11,6 +11,8 @@ import com.jc.crm.form.tag.CompetitorsTagLinkDeleteForm;
 import com.jc.crm.form.tag.CompetitorsTagLinkInsertForm;
 import com.jc.crm.service.competitors.CompetitorsServiceImpl;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -31,6 +33,9 @@ public class CompetitorsController {
     private CompetitorsServiceImpl competitorsService;
 
     @ApiOperation(value = "添加竞争对手", response = Result.class)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", paramType = "header")
+    })
     @PostMapping
     public Result addCompetitors(@Validated @RequestBody CompetitorsInsertForm competitorsInsertForm,
                                  BindingResult result, @RequestAttribute Integer uid) {
@@ -57,6 +62,9 @@ public class CompetitorsController {
     }
 
     @ApiOperation(value = "修改竞争对手", response = Result.class)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", paramType = "header")
+    })
     @PutMapping
     public Result updateCompetitors(@Validated @RequestBody CompetitorsUpdateForm competitorsUpdateForm,
                                     BindingResult result, @RequestAttribute Integer uid) {
@@ -140,7 +148,8 @@ public class CompetitorsController {
         }
         if (flag.equals(mess2)) {
             return Result.fail(ResultStatus.NOT_FOUND, "该标签Id或该竞争对手Id不存在");
-        }if (flag.equals(mess3)) {
+        }
+        if (flag.equals(mess3)) {
             return Result.fail(ResultStatus.NO_AUTHORITY, "权限不足");
         }
         if (flag.equals(mess4)) {

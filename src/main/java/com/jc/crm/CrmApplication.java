@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 import java.util.Properties;
 
 @SpringBootApplication
-@MapperScan("com.jc.crm.mapper")
+@MapperScan({"com.jc.crm.mapper", "com.jc.crm.dao"})
 public class CrmApplication {
 
     public static void main(String[] args) {

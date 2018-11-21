@@ -2,13 +2,16 @@ package com.jc.crm.form.account;
 
 import com.jc.crm.form.AddressForm;
 import com.jc.crm.form.contacts.ContactForm;
-import com.jc.crm.form.EnterpriseForm;
+import com.jc.crm.form.enterprise.EnterpriseForm;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Past;
 import java.util.Date;
 
+/**
+ * @author asuis
+ */
 public class UserUpdateForm {
     private String username;
     @Email(message = "email格式不正确")

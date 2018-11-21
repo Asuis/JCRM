@@ -4,6 +4,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+/**
+ * @author asuis
+ */
 public class UserLoginForm {
     @NotBlank(message = "用户名为空")
     @Size(min = 1, max = 32)
