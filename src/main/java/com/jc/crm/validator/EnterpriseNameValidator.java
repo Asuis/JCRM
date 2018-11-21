@@ -23,6 +23,6 @@ public class EnterpriseNameValidator implements ConstraintValidator<EnterpriseNa
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return enterpriseService.isExsit(value) <= 0;
+        return enterpriseService.isExist(value) <= 0;
     }
 }

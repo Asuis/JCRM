@@ -61,6 +61,6 @@ public class EnterpriseServiceImpl implements EnterpriseService {
 
     @Override
     public int isExist(String enterpriseName) {
-        return enterpriseMapper.isExist(enterpriseName);
+        return enterpriseMapper.isExistByName(enterpriseName);
     }
 }

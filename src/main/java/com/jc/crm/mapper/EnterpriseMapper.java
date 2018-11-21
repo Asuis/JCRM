@@ -35,14 +35,14 @@ public interface EnterpriseMapper {
      * @return 是否存在 存在>0
      * */
     @Select("SELECT COUNT() FROM enterprise WHERE eid = #{eid} LIMIT 1")
-    int isExist(int eid);
+    int isExistById(int eid);
     /**
      * 判断企业是否存在
      * @param name 企业名称
      * @return 是否存在 存在>0
      * */
     @Select("SELECT COUNT() FROM enterprise WHERE enterprise_name = #{name} LIMIT 1")
-    int isExist(String name);
+    int isExistByName(String name);
 
     /**
      * 更新企业信息
