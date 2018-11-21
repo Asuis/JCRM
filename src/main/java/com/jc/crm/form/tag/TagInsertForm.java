@@ -1,26 +1,23 @@
-package com.jc.crm.model;
+package com.jc.crm.form.tag;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
- * 标签表(tag)实体类
+ * 为自定义标签信息创建的实体类
  * @author currysss 2018-11-16
  * */
-public class TagEntity {
+public class TagInsertForm {
 
-    private Integer tagId;
-
+    @NotBlank(message = "标签名不能为空")
+    @Size(min = 2, max = 5 , message = "填写内容范围2-5")
     private String tagName;
 
+    @NotBlank(message = "标签描述不能为空")
+    @Size(min = 5, max = 20 , message = "填写内容范围5-20")
     private String description;
 
     private Integer pid;
-
-    public Integer getTagId() {
-        return tagId;
-    }
-
-    public void setTagId(Integer tagId) {
-        this.tagId = tagId;
-    }
 
     public String getTagName() {
         return tagName;

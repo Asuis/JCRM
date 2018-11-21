@@ -1,9 +1,8 @@
 package com.jc.crm.competitor;
 
 import com.github.pagehelper.PageInfo;
-import com.jc.crm.model.CompetitorsEntity;
+import com.jc.crm.form.competitors.CompetitorsSelectVo;
 import com.jc.crm.service.competitors.CompetitorsService;
-import lombok.extern.java.Log;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -22,7 +21,7 @@ public class CompetitorTests {
     @Test
     public void test() {
         try {
-            PageInfo<CompetitorsEntity> pageInfo = competitorsService.selectListByKeyWord("华", 1, 5);
+            PageInfo<CompetitorsSelectVo> pageInfo = competitorsService.selectListByKeyWord("华", 1, 1,5);
             logger.info(pageInfo.toString());
         } catch (Exception e) {
             e.printStackTrace();

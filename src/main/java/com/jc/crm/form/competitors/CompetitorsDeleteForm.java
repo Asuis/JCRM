@@ -1,10 +1,14 @@
 package com.jc.crm.form.competitors;
 
+/**
+ * 为修改竞争对手状态创建的实体类
+ * @author currysss 2018-11-16
+ * */
 public class CompetitorsDeleteForm {
 
-    int competitorId;
+    private int competitorId;
 
-    Integer status;
+    private Integer status;
 
     public int getCompetitorId() {
         return competitorId;
@@ -21,5 +25,6 @@ public class CompetitorsDeleteForm {
     public void setStatus(Integer status) {
         this.status = status;
     }
+
 
 }

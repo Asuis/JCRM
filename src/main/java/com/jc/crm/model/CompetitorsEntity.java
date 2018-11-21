@@ -4,27 +4,31 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 
+/**
+ * 竞争对手表(competitors)实体类
+ * @author currysss 2018-11-16
+ * */
 public class CompetitorsEntity {
 
-    public int competitorId;
+    private int competitorId;
 
-    public String competitorName;
+    private String competitorName;
 
-    public String description;
+    private String description;
 
-    public Integer types;
+    private Integer types;
 
-    public int holder;
+    private int holder;
 
-    public Integer status;
+    private Integer status;
 
-    public String ex1;
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-    public Date ctime;
+    private String ex1;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-    public Date utime;
+    private Date ctime;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    private Date utime;
 
     public int getCompetitorId() {
         return competitorId;
