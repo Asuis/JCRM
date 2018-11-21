@@ -2,21 +2,21 @@ package com.jc.crm.service.competitors;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+
 import com.jc.crm.form.competitors.CompetitorsDeleteForm;
 import com.jc.crm.form.competitors.CompetitorsInsertForm;
 import com.jc.crm.form.competitors.CompetitorsSelectVo;
 import com.jc.crm.form.competitors.CompetitorsUpdateForm;
-<<<<<<< HEAD
 import com.jc.crm.form.tag.CompetitorsTagLinkDeleteForm;
 import com.jc.crm.form.tag.CompetitorsTagLinkInsertForm;
 import com.jc.crm.form.tag.TagVo;
-import com.jc.crm.mapper.CompetitorsMapper;
+
 import com.jc.crm.mapper.TagMapper;
-=======
 import com.jc.crm.mapper.CompetitorMapper;
->>>>>>> 289b5a75b37e885d6fdf587a9d3c639a9b2c24f2
+
 import com.jc.crm.model.CompetitorsEntity;
 import com.jc.crm.model.CompetitorsTagLinkEntity;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
