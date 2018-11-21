@@ -2,6 +2,7 @@ package com.jc.crm.service.competitors;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+
 import com.jc.crm.form.competitors.CompetitorsDeleteForm;
 import com.jc.crm.form.competitors.CompetitorsInsertForm;
 import com.jc.crm.form.competitors.CompetitorsSelectVo;
@@ -13,6 +14,7 @@ import com.jc.crm.mapper.CompetitorMapper;
 import com.jc.crm.mapper.TagMapper;
 import com.jc.crm.model.CompetitorsEntity;
 import com.jc.crm.model.CompetitorsTagLinkEntity;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
