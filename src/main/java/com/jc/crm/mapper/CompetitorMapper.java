@@ -6,6 +6,7 @@ import com.jc.crm.mapper.provider.CompetitorSqlProvider;
 import com.jc.crm.model.CompetitorsEntity;
 import com.jc.crm.model.CompetitorsTagLinkEntity;
 import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * @author currysss 2018-11-16
  * */
 @Mapper
+@Repository
 public interface CompetitorMapper {
 
     /**
