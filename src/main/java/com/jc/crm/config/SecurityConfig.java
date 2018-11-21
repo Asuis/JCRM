@@ -61,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/*/api-docs").permitAll()
                 .antMatchers(HttpMethod.POST,
                         "/api/user",
-                        "/api/user/exit").permitAll()
+                        "/api/user/login").permitAll()
                 .antMatchers("/auth/**").permitAll()
                 .anyRequest().authenticated();
         http.addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter.class);
