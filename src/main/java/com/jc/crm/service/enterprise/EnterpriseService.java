@@ -13,7 +13,7 @@ public interface EnterpriseService {
      * @return code 1 表示成功 <0表示失败
      * 为管理员绑定 绑定企业
      * */
-    int bindEnterpriseForAdmin(EnterpriseForm enterpriseForm);
+    int bindEnterpriseForAdmin(EnterpriseForm enterpriseForm, Integer uid);
     /**
      * 更新enterprise
      * */
@@ -24,4 +24,10 @@ public interface EnterpriseService {
      * @return 删除
      * */
     int deleteEnterprise(Integer eid);
+    /**
+     * 注销企业
+     * @param enterpriseName 企业名称
+     * @return code
+     * */
+    int isExist(String enterpriseName);
 }

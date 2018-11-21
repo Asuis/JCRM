@@ -5,6 +5,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+/**
+ * @author asuis
+ */
 public class RegisterForm {
     @Email(message = "message.email不是邮箱格式")
     private String email;

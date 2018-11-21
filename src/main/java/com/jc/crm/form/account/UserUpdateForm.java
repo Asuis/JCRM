@@ -9,6 +9,9 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Past;
 import java.util.Date;
 
+/**
+ * @author asuis
+ */
 public class UserUpdateForm {
     private String username;
     @Email(message = "email格式不正确")
