@@ -7,18 +7,26 @@ import java.util.Date;
 public class UserEntity {
     public int uid;
     public String username;
-    public String email;
-    public String pass;
-    public String salt;
-    public Integer contactId;
-    public Integer addressId;
-    public String phone;
-    public int weight;
-    public int isLock;
-    public int eid;
-    public Date createTime;
-    public Date updateTime;
+    private String avatar;
+    private String email;
+    private String pass;
+    private String salt;
+    private Integer contactId;
+    private Integer addressId;
+    private String phone;
+    private int weight;
+    private int isLock;
+    private int eid;
+    private Date createTime;
+    private Date updateTime;
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 
     public UserEntity() {
     }

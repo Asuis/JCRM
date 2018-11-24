@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
+import java.util.Random;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -35,5 +36,11 @@ public class UserTests {
         System.out.println(
                 Arrays.toString("eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI3Mjc0NDM1MzBAcXEuY29tIiwiZXhwIjoxNTQyNzg3MzA0fQ.WUMgHJIWElxp-Aqar6KUghWQFxZBVfceANrgjtk5gmt3t97r16RnFjdL7vnud842".split("\\."))
         );
+    }
+    @Test
+    public void test2() {
+        for (int i = 0; i < 10; i++) {
+            System.out.println(new Random().nextInt(4));
+        }
     }
 }

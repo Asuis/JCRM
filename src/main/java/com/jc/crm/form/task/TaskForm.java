@@ -1,7 +1,10 @@
 package com.jc.crm.form.task;
 
+/**
+ * @author asuis
+ */
 public class TaskForm {
-    int businessOppId;
-    int holderId;
+    private int businessOppId;
+    private int holderId;
 
 }

@@ -11,7 +11,7 @@ import java.util.List;
 public interface UserMapper {
     @Select("SELECT * FROM user")
     List<UserEntity> getUserList();
-    @Insert("INSERT INTO user(username, pass, email, phone, salt, contact_id, eid) VALUES(#{username},#{pass},#{email},#{phone},#{salt},#{contactId},#{eid})")
+    @Insert("INSERT INTO user(username, pass, email, phone, salt, contact_id, eid, avatar) VALUES(#{username},#{pass},#{email},#{phone},#{salt},#{contactId},#{eid},#{avatar})")
     @Options(useGeneratedKeys = true, keyProperty = "uid", keyColumn = "uid")
     int insert(UserEntity userEntity);
     @Update("UPDATE user set username = #{username}, pass = #{pass}, email = #{email}, phone = #{phone}, salt = #{salt}, contact_id = #{contactId}, eid = #{eid}, weight = #{weight}")

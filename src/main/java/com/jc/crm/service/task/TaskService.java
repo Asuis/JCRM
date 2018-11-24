@@ -1,5 +1,6 @@
 package com.jc.crm.service.task;
 
+import com.jc.crm.form.task.TaskForm;
 import com.jc.crm.service.tag.TagService;
 
 /**
@@ -9,7 +10,7 @@ public interface TaskService extends TagService {
     /**
      * 创建任务
      * */
-    int createTaskForUser();
+    int createTaskForUser(TaskForm form, Integer uid);
     /**
      * 删除任务
      * */

@@ -2,6 +2,12 @@ package com.jc.crm.service.user;
 
 import com.jc.crm.form.account.RegisterForm;
 import com.jc.crm.form.account.UserUpdateForm;
+import com.jc.crm.service.user.exception.UserAlreadyRegisterException;
+import com.jc.crm.service.user.exception.UserIsLockedException;
+import com.jc.crm.service.user.exception.UserNotFoundException;
+import com.jc.crm.service.user.exception.UserNotRightPassException;
+
+import java.util.List;
 
 /**
  * 用户接口
@@ -9,6 +15,7 @@ import com.jc.crm.form.account.UserUpdateForm;
  * */
 public interface UserService {
     /**
+     * @param registerForm 注册表单
      * @return 是否注册成功 成功>0 200成功 失败<=0 -1失败
      * **/
     int register(RegisterForm registerForm) throws UserAlreadyRegisterException;
@@ -25,8 +32,22 @@ public interface UserService {
      * @return 是否注册成功 成功>0 200成功 失败<=0 -1失败
      * */
     int logout(String token);
-
+    /**
+     * @param uid 用户id
+     * @param updateForm 更新用户表单
+     * @return code > 0 成功
+     * */
     int updateUserDetail(UserUpdateForm updateForm, int uid);
-
+    /**
+     * @param uid 用户id
+     * @param verifyCode 验证码
+     * @return code >0成功
+     * */
     int active(int uid, String verifyCode);
+    /**
+     * 获得权限
+     * @param uid 用户id
+     * @return 用户权限
+     * */
+    List<String> getRoles(Integer uid);
 }

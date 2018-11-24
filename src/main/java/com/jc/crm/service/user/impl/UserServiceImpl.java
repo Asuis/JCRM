@@ -12,6 +12,10 @@ import com.jc.crm.mapper.EnterpriseMapper;
 import com.jc.crm.mapper.UserMapper;
 import com.jc.crm.model.UserEntity;
 import com.jc.crm.service.user.*;
+import com.jc.crm.service.user.exception.UserAlreadyRegisterException;
+import com.jc.crm.service.user.exception.UserIsLockedException;
+import com.jc.crm.service.user.exception.UserNotFoundException;
+import com.jc.crm.service.user.exception.UserNotRightPassException;
 import com.jc.crm.utils.Base64Utils;
 import com.jc.crm.utils.MD5Utils;
 import com.jc.crm.utils.TimeUtils;
@@ -22,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.Random;
 
 @Service
@@ -103,5 +108,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public int active(int uid, String verifyCode) {
         return userMapper.setLock(0, uid);
+    }
+
+    @Override
+    public List<String> getRoles(Integer uid) {
+
+        return null;
     }
 }

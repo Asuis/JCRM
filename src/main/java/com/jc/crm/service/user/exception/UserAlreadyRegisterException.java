@@ -1,4 +1,4 @@
-package com.jc.crm.service.user;
+package com.jc.crm.service.user.exception;
 
 import com.jc.crm.config.exception.BaseRuntimeException;
 
