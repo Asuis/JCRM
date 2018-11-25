@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * @author asuis
  * @version: DepartmentMapper.java 18-11-23:上午9:59
  */
+@Repository
 public interface DepartmentMapper {
 
     @Insert("INSERT INTO department VALUES()")
@@ -42,7 +44,7 @@ public interface DepartmentMapper {
             "department,\n" +
             "department_user_link\n" +
             "WHERE `user`.uid = department_user_link.user_id\n" +
-            "AND department.department_id =  department_user_link.department_id = 1\n" +
+            "AND department.department_id =  department_user_link.department_id\n"+
             "AND `user`.uid = #{uid} ORDER BY department.department_id ASC")
     List<UserDepartmentVO> getDepartmentDetailByUser(Integer uid);
     @Select("SELECT\n" +

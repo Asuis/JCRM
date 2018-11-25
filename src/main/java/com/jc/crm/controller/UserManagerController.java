@@ -21,4 +21,8 @@ public class UserManagerController {
     public Result delete() {
         return null;
     }
+    @GetMapping
+    public Result get() {
+        return null;
+    }
 }

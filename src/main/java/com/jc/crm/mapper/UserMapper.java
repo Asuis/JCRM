@@ -30,4 +30,5 @@ public interface UserMapper {
     int updateSalt(String salt, int uid);
     @Update("UPDATE user set eid = #{eid} WHERE uid = #{uid}")
     int bindEnterprise(int eid, int uid);
+    
 }

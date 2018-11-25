@@ -1,11 +1,21 @@
 package com.jc.crm.service.task.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.jc.crm.config.ResultStatus;
 import com.jc.crm.form.tag.TagInsertForm;
+import com.jc.crm.form.task.RepeatSettingForm;
 import com.jc.crm.form.task.TaskForm;
+import com.jc.crm.mapper.TaskMapper;
 import com.jc.crm.model.TagEntity;
+import com.jc.crm.model.TaskEntity;
 import com.jc.crm.service.task.TaskService;
+import org.hibernate.validator.constraints.URL;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * @author asuis
@@ -13,12 +23,44 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class TaskServiceImpl implements TaskService {
+
+    private final TaskMapper taskMapper;
+
+    @Autowired
+    public TaskServiceImpl(TaskMapper taskMapper) {
+        this.taskMapper = taskMapper;
+    }
+
     /**
      * 创建任务
      */
     @Override
+    @Transactional(rollbackFor = RuntimeException.class)
     public int createTaskForUser(TaskForm form, Integer uid) {
-        return 0;
+        int code = ResultStatus.FAIL;
+        Integer taskId = taskMapper.insert(form.toTask());
+        if (taskId<0) {
+            return code;
+        }
+        if (form.getBusinessOppId()!=null) {
+            if (taskMapper.insertTaskBusinessOpp(form.getBusinessOppId(), taskId)<0){
+                throw new RuntimeException("商业机会-任务关联添加失败");
+            }
+        }
+        if (form.getHolderId()!=null) {
+            if (taskMapper.insertTaskConsumer(taskId, form.getHolderId())<0) {
+                throw new RuntimeException("任务所有者-关联添加失败");
+            }
+        }
+        RepeatSettingForm repeatSettingForm = form.getRepeatSetting();
+        if (repeatSettingForm!=null) {
+            repeatSettingForm.setTaskId(taskId);
+            if (taskMapper.insertRepeatSetting(form.getRepeatSetting())<0) {
+                throw new RuntimeException("任务重复设置-添加失败");
+            }
+        }
+        code = ResultStatus.SUCCESS;
+        return code;
     }
 
     /**
@@ -27,8 +69,11 @@ public class TaskServiceImpl implements TaskService {
      * @param taskId
      */
     @Override
-    public int removeTask(int taskId) {
-        return 0;
+    public int removeTask(int taskId, int uid) {
+        /*
+         * 判断是否有权限删除
+         * */
+        return taskMapper.delete(taskId);
     }
 
     /**
@@ -39,7 +84,7 @@ public class TaskServiceImpl implements TaskService {
      */
     @Override
     public int changeTaskUser(int taskId, int userId) {
-        return 0;
+        return taskMapper.changeHolder(taskId, userId);
     }
 
     /**
@@ -48,8 +93,15 @@ public class TaskServiceImpl implements TaskService {
      * @param userId
      */
     @Override
-    public int getTasks(int userId) {
-        return 0;
+    public PageInfo<TaskEntity> getTasks(int userId, Integer pageSize, Integer pageNum) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<TaskEntity> taskEntities = taskMapper.getRemindTaskForUser(userId);
+        return new PageInfo<>(taskEntities);
+    }
+
+    @Override
+    public int updateTask(TaskForm taskForm, int userId) {
+        return taskMapper.update(taskForm.toTask());
     }
 
     /**

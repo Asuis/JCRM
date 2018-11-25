@@ -15,7 +15,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     /**
      * 获得用户组（同组、部门）
      *
-     * @param uid
+     * @param uid 用户id
      */
     @Override
     public List<UserEntity> getUsersByDepartment(Integer uid) {

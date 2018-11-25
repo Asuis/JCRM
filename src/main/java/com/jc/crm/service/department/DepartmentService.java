@@ -11,5 +11,5 @@ import java.util.List;
  * @version: DepartmentService.java 18-11-22:下午9:14
  */
 public interface DepartmentService {
-
+    List<UserEntity> getUsersByDepartment(Integer uid);
 }
