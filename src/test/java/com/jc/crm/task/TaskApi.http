@@ -1,0 +1,35 @@
+# For a quick start check out our HTTP Requests collection (Tools|HTTP Client|Open HTTP Requests Collection).
+#
+# Following HTTP Request Live Templates are available:
+# * 'gtrp' and 'gtr' create a GET request with or without query parameters;
+# * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
+# * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
+POST http://localhost:8080/api/task
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI3Mjc0NDM1MzBAcXEuY29tIiwiZXhwIjoxNTQzNTc3NzgzfQ.fwR6rPgupeoS8v2W5LlS407y3Oy60jlH0WJcskg-GE6g0D-WrCGAz3Mk577Aap-C
+
+{
+  "deadline": "2018-12-25T15:21:02.886Z",
+  "description": "string",
+  "holderId": 28,
+  "priority": 0,
+  "holders": [27],
+  "repeatSetting": {
+    "endTime": "2018-12-25T15:21:02.886Z",
+    "interval": 0,
+    "recommend": true,
+    "remindTime": "2018-12-25T15:21:02.886Z",
+    "repeat": true,
+    "repeatType": 0,
+    "startTime": "2018-12-25T15:21:02.886Z"
+  },
+  "startTime": "2018-11-25T15:21:02.886Z",
+  "state": 0,
+  "theme": "string"
+}
+###
+
+GET http://localhost:8080/api/task/28/0/10
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI3Mjc0NDM1MzBAcXEuY29tIiwiZXhwIjoxNTQzNTc3NzgzfQ.fwR6rPgupeoS8v2W5LlS407y3Oy60jlH0WJcskg-GE6g0D-WrCGAz3Mk577Aap-C
+###

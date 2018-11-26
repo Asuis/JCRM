@@ -6,6 +6,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author asuis
@@ -15,7 +16,8 @@ public class TaskForm {
     @Size(min = 1,max = 64)
     private String theme;
     private Integer businessOppId;
-    private Integer holderId;
+    private Integer consumberId;
+    private List<Integer> holders;
     @Future
     private Date deadline;
     private Date startTime;
@@ -32,11 +34,20 @@ public class TaskForm {
         entity.setPriority(priority);
         entity.setState(state);
         entity.setTaskId(taskId);
+        entity.setHolderId(holders.get(0));
         entity.setRemind(true);
         entity.setRepeat(repeatSetting!=null);
         entity.setDescription(description);
         entity.setStartTime(startTime);
         return entity;
+    }
+
+    public Integer getConsumberId() {
+        return consumberId;
+    }
+
+    public void setConsumberId(Integer consumberId) {
+        this.consumberId = consumberId;
     }
 
     public Date getStartTime() {
@@ -71,12 +82,12 @@ public class TaskForm {
         this.businessOppId = businessOppId;
     }
 
-    public Integer getHolderId() {
-        return holderId;
+    public List<Integer> getHolders() {
+        return holders;
     }
 
-    public void setHolderId(Integer holderId) {
-        this.holderId = holderId;
+    public void setHolders(List<Integer> holders) {
+        this.holders = holders;
     }
 
     public Date getDeadline() {

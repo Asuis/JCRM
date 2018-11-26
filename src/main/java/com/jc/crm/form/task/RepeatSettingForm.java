@@ -7,6 +7,7 @@ import java.util.Date;
  * @version: RepeatSettingForm.java 18-11-24:下午4:53
  */
 public class RepeatSettingForm {
+    private Integer repeatId;
     private Integer taskId;
     private boolean isRepeat;
     private boolean isRecommend;
@@ -15,6 +16,14 @@ public class RepeatSettingForm {
     private int repeatType;
     private Date startTime;
     private Date endTime;
+
+    public Integer getRepeatId() {
+        return repeatId;
+    }
+
+    public void setRepeatId(Integer repeatId) {
+        this.repeatId = repeatId;
+    }
 
     public Integer getTaskId() {
         return taskId;

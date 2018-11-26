@@ -10,7 +10,6 @@ import com.jc.crm.mapper.TaskMapper;
 import com.jc.crm.model.TagEntity;
 import com.jc.crm.model.TaskEntity;
 import com.jc.crm.service.task.TaskService;
-import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,25 +37,41 @@ public class TaskServiceImpl implements TaskService {
     @Transactional(rollbackFor = RuntimeException.class)
     public int createTaskForUser(TaskForm form, Integer uid) {
         int code = ResultStatus.FAIL;
-        Integer taskId = taskMapper.insert(form.toTask());
+        TaskEntity taskEntity = form.toTask();
+        Integer taskId = taskMapper.insert(taskEntity);
         if (taskId<0) {
             return code;
+        }
+        taskId = taskEntity.getTaskId();
+        if (form.getHolders()!=null){
+            for (Integer holder:
+                 form.getHolders()) {
+                if (taskMapper.insertTaskHolder(taskId, holder)<0) {
+                    throw new RuntimeException("商业机会-holder关联添加失败");
+                }
+            }
         }
         if (form.getBusinessOppId()!=null) {
             if (taskMapper.insertTaskBusinessOpp(form.getBusinessOppId(), taskId)<0){
                 throw new RuntimeException("商业机会-任务关联添加失败");
             }
         }
-        if (form.getHolderId()!=null) {
-            if (taskMapper.insertTaskConsumer(taskId, form.getHolderId())<0) {
+        if (form.getConsumberId()!=null) {
+
+            if (taskMapper.insertTaskConsumer(taskId, form.getConsumberId())<0) {
                 throw new RuntimeException("任务所有者-关联添加失败");
             }
         }
         RepeatSettingForm repeatSettingForm = form.getRepeatSetting();
         if (repeatSettingForm!=null) {
             repeatSettingForm.setTaskId(taskId);
-            if (taskMapper.insertRepeatSetting(form.getRepeatSetting())<0) {
+
+            int settingId = taskMapper.insertRepeatSetting(repeatSettingForm);
+            if (settingId<0) {
                 throw new RuntimeException("任务重复设置-添加失败");
+            }
+            if (taskMapper.updateReapetSettingId(repeatSettingForm.getRepeatId(), taskId)<0) {
+                throw new RuntimeException("任务重复设置-关联失败");
             }
         }
         code = ResultStatus.SUCCESS;
@@ -97,6 +112,18 @@ public class TaskServiceImpl implements TaskService {
         PageHelper.startPage(pageNum, pageSize);
         List<TaskEntity> taskEntities = taskMapper.getRemindTaskForUser(userId);
         return new PageInfo<>(taskEntities);
+    }
+
+    /**
+     * 获取单个任务详细信息
+     *
+     * @param userId
+     * @param pageSize
+     * @param pageNum
+     */
+    @Override
+    public TaskForm getTaskDetail(int userId, Integer pageSize, Integer pageNum) {
+        return null;
     }
 
     @Override

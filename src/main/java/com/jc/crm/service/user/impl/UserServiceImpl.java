@@ -66,7 +66,9 @@ public class UserServiceImpl implements UserService {
     public String login(String account, String pass) throws UserNotFoundException, UserNotRightPassException, UserIsLockedException {
         UserEntity userEntity = userMapper.getByEmail(account);
         //用户校验
-        if (userEntity == null) throw new UserNotFoundException("用户名不存在");
+        if (userEntity == null) {
+            throw new UserNotFoundException("用户名不存在");
+        }
         if (!userEntity.getPass().equals(MD5Utils.encode(pass))) {
             throw new UserNotRightPassException("密码不正确");
         }
@@ -87,7 +89,9 @@ public class UserServiceImpl implements UserService {
         String msg = token.split("\\.")[1];
         String data = Base64Utils.decode(msg);
         JSONObject jsonObject = JSON.parseObject(data);
-        if (!jsonObject.containsKey("sub")) throw new RuntimeException("token格式不正确");
+        if (!jsonObject.containsKey("sub")) {
+            throw new RuntimeException("token格式不正确");
+        }
         String account = (String) jsonObject.get("sub");
         UserEntity userEntity = userMapper.getByEmail(account);
         if (!JwtUtils.compare(token, userEntity.getSalt())) {

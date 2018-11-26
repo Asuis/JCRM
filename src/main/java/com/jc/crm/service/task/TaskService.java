@@ -25,5 +25,10 @@ public interface TaskService extends TagService {
      * 查询任务
      * */
     PageInfo<TaskEntity> getTasks(int userId, Integer pageSize, Integer pageNum);
+    /**
+     * 获取单个任务详细信息
+     * */
+    TaskForm getTaskDetail(int userId, Integer pageSize, Integer pageNum);
+
     int updateTask(TaskForm taskForm, int userId);
 }
