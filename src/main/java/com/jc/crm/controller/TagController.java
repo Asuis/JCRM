@@ -3,11 +3,12 @@ package com.jc.crm.controller;
 import com.github.pagehelper.PageInfo;
 import com.jc.crm.config.Result;
 import com.jc.crm.config.ResultStatus;
-import com.jc.crm.form.tag.CompetitorsTagLinkInsertForm;
 import com.jc.crm.form.tag.TagInsertForm;
 import com.jc.crm.model.TagEntity;
 import com.jc.crm.service.tag.TagServiceImpl;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -23,11 +24,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("tag")
 public class TagController {
 
+    private final TagServiceImpl tagService;
     @Autowired
-    private TagServiceImpl tagService;
-
+    public TagController(TagServiceImpl tagService) {
+        this.tagService = tagService;
+    }
 
     @ApiOperation(value = "添加标签信息", response = Result.class)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", paramType = "header")
+    })
     @PostMapping
     public Result addTag(@Validated @RequestBody TagInsertForm tagInsertForm, BindingResult result) {
         String flag;
@@ -53,6 +59,9 @@ public class TagController {
     }
 
     @ApiOperation(value = "获取标签信息", response = Result.class)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", paramType = "header")
+    })
     @GetMapping
     public Result searchCompetitors(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                     @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {

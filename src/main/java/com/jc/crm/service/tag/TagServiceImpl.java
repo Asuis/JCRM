@@ -2,16 +2,12 @@ package com.jc.crm.service.tag;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.jc.crm.form.tag.CompetitorsTagLinkInsertForm;
 import com.jc.crm.form.tag.TagInsertForm;
-import com.jc.crm.mapper.CompetitorsMapper;
 import com.jc.crm.mapper.TagMapper;
-import com.jc.crm.model.CompetitorsTagLinkEntity;
 import com.jc.crm.model.TagEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,8 +17,12 @@ import java.util.List;
 @Service
 public class TagServiceImpl implements TagService{
 
+
+    private final TagMapper tagMapper;
     @Autowired
-    private TagMapper tagMapper;
+    public TagServiceImpl(TagMapper tagMapper) {
+        this.tagMapper = tagMapper;
+    }
 
     @Override
     public String addTag(TagInsertForm tagInsertForm){
@@ -58,8 +58,5 @@ public class TagServiceImpl implements TagService{
         System.out.println("查找成功");
         return pageInfo;
     }
-
-
-
 
 }
