@@ -3,6 +3,9 @@ package com.jc.crm.form.consumer;
 import com.jc.crm.form.AddressForm;
 import com.jc.crm.form.contacts.ContactForm;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 /**
  * @author asuis
  * @version: ConsumerForm.java 18-11-24:下午5:52
@@ -12,9 +15,16 @@ public class ConsumerForm {
      * 潜在客户来源】】】】】】】
      * */
     private Integer pid;
+
+    @NotBlank(message = "客户名字不能为空")
+    @Size(min = 2, max = 18 , message = "填写内容范围2-18")
     private String consumerName;
+
     private Integer holderId;
     private String website;
+
+    @NotBlank(message = "客户地址不能为空")
+    @Size(min = 2, max = 18 , message = "填写内容范围不超过100")
     private AddressForm address;
     private int state;
     private int staffNum;
@@ -52,13 +62,13 @@ public class ConsumerForm {
         this.website = website;
     }
 
-    public AddressForm getAddress() {
-        return address;
-    }
-
-    public void setAddress(AddressForm address) {
-        this.address = address;
-    }
+//    public AddressForm getAddress() {
+//        return address;
+//    }
+//
+//    public void setAddress(AddressForm address) {
+//        this.address = address;
+//    }
 
     public int getState() {
         return state;
