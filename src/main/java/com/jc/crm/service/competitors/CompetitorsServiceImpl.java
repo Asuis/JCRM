@@ -10,10 +10,8 @@ import com.jc.crm.form.competitors.CompetitorsUpdateForm;
 import com.jc.crm.form.tag.CompetitorsTagLinkDeleteForm;
 import com.jc.crm.form.tag.CompetitorsTagLinkInsertForm;
 import com.jc.crm.form.tag.TagVo;
-
-import com.jc.crm.mapper.TagMapper;
 import com.jc.crm.mapper.CompetitorMapper;
-
+import com.jc.crm.mapper.TagMapper;
 import com.jc.crm.model.CompetitorsEntity;
 import com.jc.crm.model.CompetitorsTagLinkEntity;
 

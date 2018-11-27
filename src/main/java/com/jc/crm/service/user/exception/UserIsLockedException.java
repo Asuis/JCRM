@@ -1,4 +1,4 @@
-package com.jc.crm.service.user;
+package com.jc.crm.service.user.exception;
 
 public class UserIsLockedException extends RuntimeException {
     public UserIsLockedException(String s) {

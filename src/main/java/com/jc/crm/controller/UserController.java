@@ -5,10 +5,13 @@ import com.jc.crm.config.ResultStatus;
 import com.jc.crm.form.account.RegisterForm;
 import com.jc.crm.form.account.UserLoginForm;
 import com.jc.crm.service.user.*;
+import com.jc.crm.service.user.exception.UserAlreadyRegisterException;
+import com.jc.crm.service.user.exception.UserIsLockedException;
+import com.jc.crm.service.user.exception.UserNotFoundException;
+import com.jc.crm.service.user.exception.UserNotRightPassException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ResourceUtils;
 import org.springframework.validation.BindingResult;
@@ -20,10 +23,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Objects;
-import java.util.logging.Logger;
 
 @Api
 @RestController

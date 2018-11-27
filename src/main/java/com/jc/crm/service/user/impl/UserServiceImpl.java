@@ -12,6 +12,10 @@ import com.jc.crm.mapper.EnterpriseMapper;
 import com.jc.crm.mapper.UserMapper;
 import com.jc.crm.model.UserEntity;
 import com.jc.crm.service.user.*;
+import com.jc.crm.service.user.exception.UserAlreadyRegisterException;
+import com.jc.crm.service.user.exception.UserIsLockedException;
+import com.jc.crm.service.user.exception.UserNotFoundException;
+import com.jc.crm.service.user.exception.UserNotRightPassException;
 import com.jc.crm.utils.Base64Utils;
 import com.jc.crm.utils.MD5Utils;
 import com.jc.crm.utils.TimeUtils;
@@ -22,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.Random;
 
 @Service
@@ -61,7 +66,9 @@ public class UserServiceImpl implements UserService {
     public String login(String account, String pass) throws UserNotFoundException, UserNotRightPassException, UserIsLockedException {
         UserEntity userEntity = userMapper.getByEmail(account);
         //用户校验
-        if (userEntity == null) throw new UserNotFoundException("用户名不存在");
+        if (userEntity == null) {
+            throw new UserNotFoundException("用户名不存在");
+        }
         if (!userEntity.getPass().equals(MD5Utils.encode(pass))) {
             throw new UserNotRightPassException("密码不正确");
         }
@@ -82,7 +89,9 @@ public class UserServiceImpl implements UserService {
         String msg = token.split("\\.")[1];
         String data = Base64Utils.decode(msg);
         JSONObject jsonObject = JSON.parseObject(data);
-        if (!jsonObject.containsKey("sub")) throw new RuntimeException("token格式不正确");
+        if (!jsonObject.containsKey("sub")) {
+            throw new RuntimeException("token格式不正确");
+        }
         String account = (String) jsonObject.get("sub");
         UserEntity userEntity = userMapper.getByEmail(account);
         if (!JwtUtils.compare(token, userEntity.getSalt())) {
@@ -103,5 +112,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public int active(int uid, String verifyCode) {
         return userMapper.setLock(0, uid);
+    }
+
+    @Override
+    public List<String> getRoles(Integer uid) {
+
+        return null;
     }
 }

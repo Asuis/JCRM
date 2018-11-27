@@ -1,5 +1,8 @@
 package com.jc.crm.service.task;
 
+import com.github.pagehelper.PageInfo;
+import com.jc.crm.form.task.TaskForm;
+import com.jc.crm.model.TaskEntity;
 import com.jc.crm.service.tag.TagService;
 
 /**
@@ -9,11 +12,11 @@ public interface TaskService extends TagService {
     /**
      * 创建任务
      * */
-    int createTaskForUser();
+    int createTaskForUser(TaskForm form, Integer uid);
     /**
      * 删除任务
      * */
-    int removeTask(int taskId);
+    int removeTask(int taskId, int uid);
     /**
      * 工作移交
      * */
@@ -21,5 +24,11 @@ public interface TaskService extends TagService {
     /**
      * 查询任务
      * */
-    int getTasks(int userId);
+    PageInfo<TaskEntity> getTasks(int userId, Integer pageSize, Integer pageNum);
+    /**
+     * 获取单个任务详细信息
+     * */
+    TaskForm getTaskDetail(int userId, Integer pageSize, Integer pageNum);
+
+    int updateTask(TaskForm taskForm, int userId);
 }
