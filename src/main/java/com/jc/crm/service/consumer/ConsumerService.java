@@ -1,7 +1,10 @@
 package com.jc.crm.service.consumer;
 
 import com.github.pagehelper.PageInfo;
+import com.jc.crm.form.AddressForm;
 import com.jc.crm.form.consumer.ConsumerForm;
+import com.jc.crm.mapper.AddressEntityMapper;
+import com.jc.crm.model.Consumer;
 
 /**
  * 客户管理业务逻辑定义层接口
@@ -22,6 +25,7 @@ public interface ConsumerService {
      * @param uid 登录的用户ID
      * @param pageNum 页面数
      * @param pageSize 每页含有的数据数量
+     * @param keyword 关键字  [关键字为空则显示全部]
      * @return PageInfo对象
      * */
     PageInfo<ConsumerForm> selectListByKeyWord(String keyword, Integer uid, Integer pageNum, Integer pageSize);
