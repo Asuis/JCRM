@@ -63,7 +63,7 @@ public interface ConsumerMapper {
     @Select("<script>" +
             "SELECT * FROM consumer\n" +
             "    <if test=\"keyword != ''\">\n" +
-            "    WHERE consumer_name LIKE #{keyword}\n" +
+            "    WHERE consumer_name LIKE \"%\"#{keyword}\"%\"\n" +
             "    </if>\n" +
             "    GROUP BY consumer_name " +
             "</script>")
