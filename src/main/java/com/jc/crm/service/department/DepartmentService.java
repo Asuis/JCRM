@@ -12,4 +12,5 @@ import java.util.List;
  */
 public interface DepartmentService {
     List<UserEntity> getUsersByDepartment(Integer uid);
+    boolean isHaveAuth(Integer uid, Integer cuid);
 }

@@ -14,7 +14,6 @@ public class UserEntity {
     private Integer contactId;
     private Integer addressId;
     private String phone;
-    private int weight;
     private int isLock;
     private int eid;
     private Date createTime;
@@ -108,14 +107,6 @@ public class UserEntity {
         this.phone = phone;
     }
 
-    public int getWeight() {
-        return weight;
-    }
-
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
-
     public int getIsLock() {
         return isLock;
     }
@@ -151,7 +142,6 @@ public class UserEntity {
                 ", contactId=" + contactId +
                 ", addressId=" + addressId +
                 ", phone='" + phone + '\'' +
-                ", weight=" + weight +
                 ", isLock=" + isLock +
                 ", eid=" + eid +
                 ", createTime=" + createTime +
