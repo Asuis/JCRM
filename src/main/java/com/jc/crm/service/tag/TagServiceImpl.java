@@ -17,8 +17,12 @@ import java.util.List;
 @Service
 public class TagServiceImpl implements TagService{
 
+
+    private final TagMapper tagMapper;
     @Autowired
-    private TagMapper tagMapper;
+    public TagServiceImpl(TagMapper tagMapper) {
+        this.tagMapper = tagMapper;
+    }
 
     @Override
     public String addTag(TagInsertForm tagInsertForm){
@@ -54,8 +58,5 @@ public class TagServiceImpl implements TagService{
         System.out.println("查找成功");
         return pageInfo;
     }
-
-
-
 
 }

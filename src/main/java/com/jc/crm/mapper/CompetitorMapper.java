@@ -14,7 +14,6 @@ import java.util.List;
  * 竞争对手数据访问层接口
  * @author currysss 2018-11-16
  * */
-@Mapper
 @Repository
 public interface CompetitorMapper {
 
@@ -29,10 +28,9 @@ public interface CompetitorMapper {
     /**
      * 为竞争对手添加标签信息
      * @param competitorsTagLinkEntity 竞争对手与标签链接表(competitors_tag_link)实体类
-     * @return int类型的变量
      * */
     @Insert("INSERT INTO competitors_tag_link(tag_id, competitor_id, ctime) VALUES(#{tagId},#{competitorId},#{ctime})")
-    int attach(CompetitorsTagLinkEntity competitorsTagLinkEntity);
+    void attach(CompetitorsTagLinkEntity competitorsTagLinkEntity);
 
     /**
      * 修改竞争对手信息
@@ -45,10 +43,9 @@ public interface CompetitorMapper {
     /**
      * 修改竞争对手状态信息
      * @param competitorsEntity 竞争对手表(competitors)实体类
-     * @return int类型的变量
      * */
     @Update("UPDATE competitors SET status = #{status}, utime = #{utime} WHERE competitor_id = #{competitorId} AND holder = #{holder}")
-    int updateStatus(CompetitorsEntity competitorsEntity);
+    void updateStatus(CompetitorsEntity competitorsEntity);
 
     /**
      * 根据竞争对手与标签的链接ID为竞争对手移除标签

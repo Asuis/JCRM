@@ -5,16 +5,16 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Date;
 
 /**
- * 商业机会失去原因表(business_opp_loss_reason)实体类
+ * 商业机会价值表(business_opp_account_money)实体类
  * @author currysss 2018-11-23
  * */
-public class BusinessOpportunityLossReasonEntity {
+public class BusinessOpportunityAccountMoneyEntity {
 
-    private Integer oppLossReasonId;
+    private Integer oppAccountMoneyId;
 
-    private String reasonDetail;
+    private String accountMoney;
 
-    private String reasonName;
+    private String description;
 
     private String ex1;
 
@@ -24,28 +24,28 @@ public class BusinessOpportunityLossReasonEntity {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date utime;
 
-    public Integer getOppLossReasonId() {
-        return oppLossReasonId;
+    public Integer getOppAccountMoneyId() {
+        return oppAccountMoneyId;
     }
 
-    public void setOppLossReasonId(Integer oppLossReasonId) {
-        this.oppLossReasonId = oppLossReasonId;
+    public void setOppAccountMoneyId(Integer oppAccountMoneyId) {
+        this.oppAccountMoneyId = oppAccountMoneyId;
     }
 
-    public String getReasonDetail() {
-        return reasonDetail;
+    public String getAccountMoney() {
+        return accountMoney;
     }
 
-    public void setReasonDetail(String reasonDetail) {
-        this.reasonDetail = reasonDetail;
+    public void setAccountMoney(String accountMoney) {
+        this.accountMoney = accountMoney;
     }
 
-    public String getReasonName() {
-        return reasonName;
+    public String getDescription() {
+        return description;
     }
 
-    public void setReasonName(String reasonName) {
-        this.reasonName = reasonName;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getEx1() {

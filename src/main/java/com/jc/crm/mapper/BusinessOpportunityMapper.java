@@ -1,0 +1,199 @@
+package com.jc.crm.mapper;
+
+import com.jc.crm.form.opportunity.*;
+import com.jc.crm.model.*;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+/**
+ * 商业机会数据访问层接口
+ * @author currysss 2018-11-23
+ * */
+@Repository
+public interface BusinessOpportunityMapper {
+
+    /**
+     * 添加商业机会信息
+     * @param businessOpportunityEntity 商业机会表(business_opp)实体类
+     * @return int类型的变量
+     * */
+    @Insert("INSERT INTO business_opp(opp_name, description, opp_stage_id, opp_source_id, opp_account_money_id, " +
+            "holder, executor, important_level, roi_analysis_completed, budget_confirmed, is_completed, is_deleted, possibility, next_step, " +
+            "ex_1, deadline, ctime, utime, cid) VALUES(#{oppName},#{description},#{oppStageId},#{oppSourceId},#{oppAccountMoneyId}," +
+            "#{holder},#{executor},#{importantLevel},#{roiAnalysisCompleted},#{budgetConfirmed},#{isCompleted},#{isDeleted},#{possibility},#{nextStep}," +
+            "#{ex1},#{deadline},#{ctime},#{utime},#{cid})")
+    int insert(BusinessOpportunityEntity businessOpportunityEntity);
+
+    /**
+     * 添加商业机会来源信息
+     * @param businessOpportunitySourceEntity 商业机会来源表(business_opp_source)实体类
+     * */
+    @Insert("INSERT INTO business_opp_source(source_name, description, weight, ex_1, ctime, utime, status_id, " +
+            "type_id, sdate, edate, holder, send_count, response_percentage, budget_cost, actual_cost, expected_income) " +
+            "VALUES(#{sourceName},#{description},#{weight},#{ex1},#{ctime},#{utime},#{statusId},#{typeId}," +
+            "#{sdate},#{edate},#{holder},#{sendCount},#{responsePercentage},#{budgetCost},#{actualCost},#{expectedIncome})")
+    void insertSource(BusinessOpportunitySourceEntity businessOpportunitySourceEntity);
+
+    /**
+     * 添加商业机会价值信息
+     * @param businessOpportunityAccountMoneyEntity 商业机会价值表(business_opp_account_money)实体类
+     * */
+    @Insert("INSERT INTO business_opp_account_money(account_money, description, ex_1, ctime, utime) " +
+            "VALUES(#{accountMoney},#{description},#{ex1},#{ctime},#{utime})")
+    @Options(useGeneratedKeys = true, keyProperty = "oppAccountMoneyId")
+    void insertAccountMoney(BusinessOpportunityAccountMoneyEntity businessOpportunityAccountMoneyEntity);
+
+    /**
+     * 机会所有人修改商业机会信息
+     * @param businessOpportunityEntity 市场来源表(business_opp_source)实体类
+     * @return int类型的变量
+     * */
+    @Update("UPDATE business_opp SET opp_name = #{oppName}, description = #{description}, cid = #{cid}, " +
+            "opp_source_id = #{oppSourceId}, opp_loss_reason_id = #{oppLossReasonId}, opp_stage_id = #{oppStageId}, " +
+            "executor = #{executor}, important_level = #{importantLevel}, roi_analysis_completed = #{roiAnalysisCompleted}, " +
+            "budget_confirmed = #{budgetConfirmed}, is_completed = #{isCompleted}, possibility = #{possibility}, " +
+            "next_step = #{nextStep}, ex_1 = #{ex1}, deadline = #{deadline}, utime = #{utime} " +
+            "WHERE business_opp_id = #{businessOppId} AND holder = #{holder}")
+    int update(BusinessOpportunityEntity businessOpportunityEntity);
+
+    /**
+     * 机会跟进人修改商业机会信息
+     * @param businessOpportunityEntity 市场来源表(business_opp_source)实体类
+     * */
+    @Update("UPDATE business_opp SET opp_loss_reason_id = #{oppLossReasonId}, opp_stage_id = #{oppStageId}, " +
+            "roi_analysis_completed = #{roiAnalysisCompleted}, budget_confirmed = #{budgetConfirmed}, " +
+            "is_completed = #{isCompleted}, possibility = #{possibility}, " +
+            "next_step = #{nextStep}, ex_1 = #{ex1}, utime = #{utime} " +
+            "WHERE business_opp_id = #{businessOppId} AND executor = #{executor} OR holder = #{holder}")
+    void updatePartial(BusinessOpportunityEntity businessOpportunityEntity);
+
+    /**
+     * 修改市场来源信息
+     * @param businessOpportunitySourceEntity 市场来源表(business_opp_source)实体类
+     * @return int类型的变量
+     * */
+    @Update("UPDATE business_opp_source SET source_name = #{sourceName}, description = #{description}, " +
+            "status_id = #{statusId}, type_id = #{typeId}, sdate = #{sdate}, edate = #{edate}, " +
+            "send_count = #{sendCount}, response_percentage = #{responsePercentage}, " +
+            "budget_cost = #{budgetCost}, actual_cost = #{actualCost}, expected_income = #{expectedIncome}, " +
+            "ex_1 = #{ex1}, ex_1 = #{ex1}, utime = #{utime} WHERE opp_source_id = #{oppSourceId} AND holder = #{holder}")
+    void updateSource(BusinessOpportunitySourceEntity businessOpportunitySourceEntity);
+
+    /**
+     * 修改市场来源权重信息
+     * @param businessOpportunitySourceEntity 市场来源表(business_opp_source)实体类
+     * */
+    @Update("UPDATE business_opp_source SET weight = #{weight}, utime = #{utime} WHERE opp_source_id = #{oppSourceId}")
+    void updateWeight(BusinessOpportunitySourceEntity businessOpportunitySourceEntity);
+
+    /**
+     * 修改商业机会机会价格信息
+     * @param businessOpportunityAccountMoneyEntity 商业机会价值表(business_opp_account_money)实体类
+     * */
+    @Update("UPDATE business_opp_account_money SET account_money = #{accountMoney}, utime = #{utime} WHERE opp_account_money_id = #{oppAccountMoneyId}")
+    void updateAccountMoney(BusinessOpportunityAccountMoneyEntity businessOpportunityAccountMoneyEntity);
+
+    /**
+     * 根据商业机会ID查询商业机会列表信息
+     * @param businessOppId 商业机会ID
+     * @return BusinessOpportunityEntity对象
+     * */
+    @Select("SELECT * FROM business_opp WHERE business_opp_id = #{businessOppId}")
+    BusinessOpportunityEntity selectByBusinessOppId(Integer businessOppId);
+
+    /**
+     * 根据商业机会名称查询商业机会列表信息
+     * @param oppName 商业机会名称
+     * @return BusinessOpportunityEntity对象
+     * */
+    @Select("SELECT * FROM business_opp WHERE opp_name = #{oppName}")
+    BusinessOpportunityEntity selectByOppName(String oppName);
+
+    /**
+     * 根据市场来源ID查询市场来源列表信息
+     * @param oppSourceId 市场来源ID
+     * @return BusinessOpportunitySourceEntity对象
+     * */
+    @Select("SELECT * FROM business_opp_source WHERE opp_source_id = #{oppSourceId}")
+    BusinessOpportunitySourceEntity selectBySourceId(Integer oppSourceId);
+
+    /**
+     * 根据市场来源名称查询市场来源列表信息
+     * @param sourceName 市场来源名称
+     * @return BusinessOpportunitySourceEntity对象
+     * */
+    @Select("SELECT * FROM business_opp_source WHERE source_name = #{sourceName}")
+    BusinessOpportunitySourceEntity selectBySourceName(String sourceName);
+
+    /**
+     * 根据机会阶段ID查询机会阶段列表信息
+     * @param oppStageId 阶段ID
+     * @return BusinessOpportunityStageEntity对象
+     * */
+    @Select("SELECT * FROM business_opp_stage WHERE opp_stage_id = #{oppStageId}")
+    BusinessOpportunityStageEntity selectByStageId(Integer oppStageId);
+
+    /**
+     * 根据机会丢失原因ID查询丢失原因列表信息
+     * @param oppLossReasonId 丢失原因ID
+     * @return BusinessOpportunityLossReasonEntity对象
+     * */
+    @Select("SELECT * FROM business_opp_loss_reason WHERE opp_loss_reason_id = #{oppLossReasonId}")
+    BusinessOpportunityLossReasonEntity selectByLossReasonId(Integer oppLossReasonId);
+
+    /**
+     * 根据市场来源的状态ID查询状态列表信息
+     * @param statusId 状态ID
+     * @return BusinessOpportunitySourceStatusEntity对象
+     * */
+    @Select("SELECT * FROM business_opp_source_status WHERE status_id = #{statusId}")
+    BusinessOpportunitySourceStatusEntity selectBySourceStatusId(Integer statusId);
+
+    /**
+     * 根据市场来源的类别ID查询类别列表信息
+     * @param typeId 类别ID
+     * @return BusinessOpportunitySourceTypeEntity对象
+     * */
+    @Select("SELECT * FROM business_opp_source_type WHERE type_id = #{typeId}")
+    BusinessOpportunitySourceTypeEntity selectBySourceTypeId(Integer typeId);
+
+    /**
+     * 查询商业机会阶段列表信息
+     * @return BusinessOpportunityStageSelectVo类的泛型集合
+     * */
+    @Select("SELECT * FROM business_opp_stage")
+    List<BusinessOpportunityStageSelectVo> getStageList();
+
+    /**
+     * 查询商业机会市场来源列表信息
+     * @return BusinessOpportunitySourceSelectVo类的泛型集合
+     * */
+    @Select("SELECT * FROM business_opp_source ORDER BY weight DESC")
+    List<BusinessOpportunitySourceSelectVo> getSourceList();
+
+    /**
+     * 查询商业机会丢失原因列表信息
+     * @return BusinessOpportunityLossReasonSelectVo类的泛型集合
+     * */
+    @Select("SELECT * FROM business_opp_loss_reason")
+    List<BusinessOpportunityLossReasonSelectVo> getLossReasonList();
+
+    /**
+     * 查询商业机会市场来源状态列表信息
+     * @return BusinessOpportunitySourceStatusSelectVo类的泛型集合
+     * */
+    @Select("SELECT * FROM business_opp_source_status")
+    List<BusinessOpportunitySourceStatusSelectVo> getSourceStatusList();
+
+    /**
+     * 查询商业机会市场来源类别列表信息
+     * @return BusinessOpportunitySourceTypeSelectVo类的泛型集合
+     * */
+    @Select("SELECT * FROM business_opp_source_type")
+    List<BusinessOpportunitySourceTypeSelectVo> getSourceTypeList();
+}

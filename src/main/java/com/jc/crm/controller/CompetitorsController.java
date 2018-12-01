@@ -29,8 +29,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("competitors")
 public class CompetitorsController {
 
-    @Autowired
     private CompetitorsServiceImpl competitorsService;
+    @Autowired
+    public CompetitorsController(CompetitorsServiceImpl competitorsService) {
+        this.competitorsService = competitorsService;
+    }
 
     @ApiOperation(value = "添加竞争对手", response = Result.class)
     @ApiImplicitParams({
@@ -99,6 +102,9 @@ public class CompetitorsController {
     }
 
     @ApiOperation(value = "删除竞争对手", response = Result.class)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", paramType = "header")
+    })
     @PutMapping("delete")
     public Result deleteCompetitors(@Validated @RequestBody CompetitorsDeleteForm competitorsDeleteForm, @RequestAttribute Integer uid) {
         String flag;
@@ -129,6 +135,9 @@ public class CompetitorsController {
     }
 
     @ApiOperation(value = "为竞争对手附加标签", response = Result.class)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", paramType = "header")
+    })
     @PostMapping("add")
     public Result attachCompetitorsTag(@RequestBody CompetitorsTagLinkInsertForm competitorsTagLinkInsertForm,
                                        @RequestAttribute Integer uid) {
@@ -160,6 +169,9 @@ public class CompetitorsController {
     }
 
     @ApiOperation(value = "为竞争对手移除标签", response = Result.class)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", paramType = "header")
+    })
     @DeleteMapping
     public Result removeCompetitorsTag(@RequestBody CompetitorsTagLinkDeleteForm competitorsTagLinkDeleteForm,
                                        @RequestAttribute Integer uid) {
@@ -187,6 +199,9 @@ public class CompetitorsController {
     }
 
     @ApiOperation(value = "根据关键字查询竞争对手信息", response = Result.class)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", paramType = "header")
+    })
     @GetMapping
     public Result searchCompetitors(@RequestParam(value = "keyword", required = false) String keyword,
                                     @RequestAttribute Integer uid,
@@ -210,6 +225,9 @@ public class CompetitorsController {
     }
 
     @ApiOperation(value = "查询自己挖掘的竞争对手信息", response = Result.class)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", paramType = "header")
+    })
     @GetMapping("search")
     public Result searchCompetitorsByMyself(@RequestAttribute Integer uid,
                                     @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,

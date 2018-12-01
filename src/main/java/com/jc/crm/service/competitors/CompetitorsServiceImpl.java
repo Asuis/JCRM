@@ -29,11 +29,15 @@ import java.util.List;
 @Service
 public class CompetitorsServiceImpl implements CompetitorsService{
 
-    @Autowired
-    private CompetitorMapper competitorsMapper;
+    private final CompetitorMapper competitorsMapper;
+
+    private final TagMapper tagMapper;
 
     @Autowired
-    private TagMapper tagMapper;
+    public CompetitorsServiceImpl(CompetitorMapper competitorsMapper,TagMapper tagMapper) {
+        this.competitorsMapper = competitorsMapper;
+        this.tagMapper = tagMapper;
+    }
 
     @Override
     public String addCompetitors(CompetitorsInsertForm competitorsInsertForm, Integer uid){
@@ -75,10 +79,7 @@ public class CompetitorsServiceImpl implements CompetitorsService{
         competitorsEntity.setEx1(competitorsUpdateForm.getEx1());
         competitorsEntity.setTypes(competitorsUpdateForm.getTypes());
         competitorsEntity.setCompetitorId(competitorsUpdateForm.getCompetitorId());
-        competitorsEntity.setHolder(competitorsMapper.selectByPrimaryKey(competitorsEntity.getCompetitorId()).getHolder());
 
-        System.out.println("开始修改竞争对手信息,修改的对手id为"+competitorsEntity.getCompetitorId()+",该条信息的编辑者为"+
-                competitorsEntity.getHolder());
         String flag = "";
 
         if(competitorsMapper.selectByPrimaryKey(competitorsEntity.getCompetitorId()) == null){
@@ -86,6 +87,11 @@ public class CompetitorsServiceImpl implements CompetitorsService{
             flag = "不存在";
             return flag;
         }
+
+        competitorsEntity.setHolder(competitorsMapper.selectByPrimaryKey(competitorsEntity.getCompetitorId()).getHolder());
+        System.out.println("开始修改竞争对手信息,修改的对手id为"+competitorsEntity.getCompetitorId()+",该条信息的编辑者为"+
+                competitorsEntity.getHolder());
+
         if(competitorsEntity.getHolder() != uid){
             System.out.println("您不是该条信息的编辑者，没有权限修改该条信息");
             flag = "权限不足";
