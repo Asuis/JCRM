@@ -1,12 +1,12 @@
 package com.jc.crm.controller;
 
-import com.github.pagehelper.PageInfo;
 import com.jc.crm.config.Result;
+import io.swagger.annotations.Api;
+import com.github.pagehelper.PageInfo;
 import com.jc.crm.config.ResultStatus;
 import com.jc.crm.form.opportunity.*;
 import com.jc.crm.model.BusinessOpportunitySourceEntity;
 import com.jc.crm.service.opportunity.BusinessOpportunityServiceImpl;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -456,6 +456,7 @@ public class BusinessOpportunityController {
         } else {
             return Result.fail(ResultStatus.FAIL, "失败");
         }
+>>>>>>> 46f6d78a532422aaa3d4ffe10408898a9b091e5d
     }
 
     @ApiOperation(value = "根据关键字查询市场活动来源信息", response = Result.class)

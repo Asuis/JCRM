@@ -6,6 +6,7 @@ import com.jc.crm.model.AddressEntity;
  * @author asuis
  */
 public class AddressForm {
+
     private String country;
     private String province;
     private String city;
@@ -62,6 +63,17 @@ public class AddressForm {
     }
     public AddressEntity toAddress() {
         AddressEntity addressEntity = new AddressEntity();
+        addressEntity.setCity(this.getCity());
+        addressEntity.setCountry(this.getCountry());
+        addressEntity.setEx1(this.getEx1());
+        addressEntity.setProvince(this.getProvince());
+        addressEntity.setStreet(this.getStreet());
+        addressEntity.setZipCode(this.getZipCode());
+        return addressEntity;
+    }
+    public AddressEntity updateAddress(Integer aid) {
+        AddressEntity addressEntity = new AddressEntity();
+        addressEntity.setAddressId(aid);
         addressEntity.setCity(this.getCity());
         addressEntity.setCountry(this.getCountry());
         addressEntity.setEx1(this.getEx1());

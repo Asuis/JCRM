@@ -31,7 +31,9 @@ public class UserDetailServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity userEntity =  userMapper.getByEmail(username);
-        if (userEntity==null) throw new UsernameNotFoundException(username);
+        if (userEntity==null) {
+            throw new UsernameNotFoundException(username);
+        }
         List<String> roles = userMapper.getRoles(userEntity.uid);
         return JwtUserFactory.create(userEntity, roles);
     }

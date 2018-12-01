@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author 15988440973
@@ -29,7 +32,6 @@ public class JwtUtils {
     // Token前缀
     public static final String HEADER_STRING = "Authorization";
     // 存放Token的Header Key
-
     private static UserMapper userMapper;
 
     @Autowired
@@ -38,14 +40,24 @@ public class JwtUtils {
     }
 
     // JWT生成方法
-    public static String addAuthentication(UserEntity userEntity) {
+    public static String addAuthentication(UserEntity userEntity, List<String> roles) {
 
-        if (userEntity.getSalt() == null) throw new RuntimeException("用户验证不应该为空");
+        if (userEntity.getSalt() == null) {
+            throw new RuntimeException("用户验证不应该为空");
+        }
+        HashMap<String, Object> map = new HashMap<>(3);
+        if (userEntity.getAvatar() != null) {
+            map.put("avatar", userEntity.getAvatar());
+        }
+        if (roles!=null) {
+            map.put("authority", roles);
+        }
         // 生成JWT
         JwtBuilder jwtBuilder = Jwts.builder();
         jwtBuilder
                 // 用户名写入标题
                 .setSubject(userEntity.getUsername())
+                .addClaims(map)
                 // 有效期设置
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATIONTIME))
                 // 签名设置
@@ -63,10 +75,24 @@ public class JwtUtils {
         String msg = token.split("\\.")[1];
         String data = Base64Utils.decode(msg);
         JSONObject jsonObject = JSON.parseObject(data);
-        if (!jsonObject.containsKey("sub")) throw new RuntimeException("token格式不正确");
+        if (!jsonObject.containsKey("sub")) {
+            throw new RuntimeException("token格式不正确");
+        }
         String account = (String) jsonObject.get("sub");
         UserEntity userEntity = userMapper.getByEmail(account);
-        if (!compare(token, userEntity.getSalt())) return null;
+        if (!compare(token, userEntity.getSalt())) {
+            return null;
+        }
         return userEntity;
+    }
+    public Map<String,Object> buildUserData(UserEntity userEntity, List<String> roles) {
+        HashMap<String, Object> map = new HashMap<>(3);
+        if (userEntity.getAvatar() != null) {
+            map.put("avatar", userEntity.getAvatar());
+        }
+        if (roles!=null) {
+            map.put("authority", roles);
+        }
+        return map;
     }
 }

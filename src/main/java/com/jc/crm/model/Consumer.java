@@ -103,7 +103,7 @@ public class Consumer implements Serializable {
         return address;
     }
 
-    public void setAddressId(Integer addressId) {
+    public void setAddressId(Integer address) {
         this.address = address;
     }
 

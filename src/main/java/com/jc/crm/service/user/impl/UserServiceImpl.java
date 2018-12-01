@@ -75,8 +75,10 @@ public class UserServiceImpl implements UserService {
         if (userEntity.getIsLock()==1) {
             throw new UserIsLockedException("用户被锁定");
         }
+        List<String> roles = userMapper.getRoles(userEntity.getUid());
         //jwt 签名
-        String token = JwtUtils.addAuthentication(userEntity);
+        String token = JwtUtils.addAuthentication(userEntity, roles);
+
         //更新user 登录信息
         userMapper.updateLoginTime(TimeUtils.getNowTime() ,userEntity.getUid());
         return token;
