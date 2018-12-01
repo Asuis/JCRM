@@ -119,4 +119,5 @@ public interface CompetitorMapper {
     @Select("SELECT t.tag_name, l.competitors_tag_link_id FROM tag t INNER JOIN competitors_tag_link l \n" +
             "ON t.tag_id = l.tag_id WHERE l.competitor_id = #{competitorId}")
     List<TagVo> selectTagByCompetitorId(Integer competitorId);
+
 }

@@ -4,9 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jc.crm.form.opportunity.*;
 import com.jc.crm.mapper.BusinessOpportunityMapper;
-import com.jc.crm.model.BusinessOpportunityAccountMoneyEntity;
-import com.jc.crm.model.BusinessOpportunityEntity;
-import com.jc.crm.model.BusinessOpportunitySourceEntity;
+import com.jc.crm.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,10 +50,12 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
 
         BusinessOpportunitySourceEntity businessOpportunitySourceEntity = new BusinessOpportunitySourceEntity();
 
+        BusinessRecordEntity businessRecordEntity = new BusinessRecordEntity();
+
         System.out.println("开始添加商业机会");
         Date day = new Date();
         String flag = "";
-
+        Integer stage = 5;
         if(businessOpportunityMapper.selectBySourceId(businessOpportunityEntity.getOppSourceId()) == null){
             System.out.println("市场来源不存在");
             flag = "不存在";
@@ -81,7 +81,15 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
             businessOpportunityEntity.setHolder(uid);
             businessOpportunityEntity.setCtime(day);
             businessOpportunityEntity.setUtime(day);
+            businessOpportunityEntity.setIsDeleted(0);
             businessOpportunityMapper.insert(businessOpportunityEntity);
+
+            if(businessOpportunityEntity.getOppStageId().equals(stage)){
+                businessRecordEntity.setCtime(day);
+                businessRecordEntity.setBusinessOppId(businessOpportunityEntity.getBusinessOppId());
+                businessRecordEntity.setDescription(businessOpportunityMapper.selectByBusinessOppId(businessOpportunityEntity.getBusinessOppId()).getDescription());
+                businessOpportunityMapper.insertRecord(businessRecordEntity);
+            }
 
             Integer weight = businessOpportunityMapper.selectBySourceId(businessOpportunityInsertForm.getOppSourceId()).getWeight();
             businessOpportunitySourceEntity.setOppSourceId(businessOpportunityInsertForm.getOppSourceId());
@@ -97,6 +105,7 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public String updateBusinessOpportunity(BusinessOpportunityUpdateForm businessOpportunityUpdateForm, Integer uid){
         Date day = new Date();
         BusinessOpportunityEntity businessOpportunityEntity = new BusinessOpportunityEntity();
@@ -116,31 +125,25 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
         businessOpportunityEntity.setOppSourceId(businessOpportunityUpdateForm.getOppSourceId());
         businessOpportunityEntity.setBusinessOppId(businessOpportunityUpdateForm.getBusinessOppId());
         businessOpportunityEntity.setOppLossReasonId(businessOpportunityUpdateForm.getOppLossReasonId());
-
         BusinessOpportunityAccountMoneyEntity businessOpportunityAccountMoneyEntity = new BusinessOpportunityAccountMoneyEntity();
         businessOpportunityAccountMoneyEntity.setAccountMoney(businessOpportunityUpdateForm.getAccountMoney());
-        businessOpportunityAccountMoneyEntity.setOppAccountMoneyId(businessOpportunityMapper.selectByBusinessOppId
-                (businessOpportunityEntity.getBusinessOppId()).getOppAccountMoneyId());
+        businessOpportunityAccountMoneyEntity.setOppAccountMoneyId(businessOpportunityMapper.selectByBusinessOppId(businessOpportunityEntity.getBusinessOppId()).getOppAccountMoneyId());
         BusinessOpportunitySourceEntity businessOpportunitySourceEntity = new BusinessOpportunitySourceEntity();
-
+        BusinessRecordEntity businessRecordEntity = new BusinessRecordEntity();
         String flag = "";
+        Integer stage = 5;
         if(businessOpportunityMapper.selectByBusinessOppId(businessOpportunityEntity.getBusinessOppId()) == null){
             System.out.println("错误的Id,该商业机会不存在");
             flag = "不存在";
             return flag;
         }
-        businessOpportunityEntity.setHolder(businessOpportunityMapper.selectByBusinessOppId
-                (businessOpportunityEntity.getBusinessOppId()).getHolder());
-        System.out.println("开始修改商业机会信息,修改的机会id为" + businessOpportunityEntity.getBusinessOppId()
-                + ",该条信息的所有者为" + businessOpportunityEntity.getHolder());
-
+        businessOpportunityEntity.setHolder(businessOpportunityMapper.selectByBusinessOppId(businessOpportunityEntity.getBusinessOppId()).getHolder());
+        System.out.println("开始修改商业机会信息,修改的机会id为" + businessOpportunityEntity.getBusinessOppId() + ",该条信息的所有者为" + businessOpportunityEntity.getHolder());
         if(businessOpportunityMapper.selectBySourceId(businessOpportunityEntity.getOppSourceId()) == null){
-            System.out.println("市场来源不存在");
             flag = "不存在";
             return flag;
         }
         if(businessOpportunityMapper.selectByStageId(businessOpportunityEntity.getOppStageId()) == null){
-            System.out.println("阶段不存在");
             flag = "不存在";
             return flag;
         }
@@ -150,13 +153,10 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
             return flag;
         }
         if(!businessOpportunityEntity.getHolder().equals(uid)){
-            System.out.println("您不是该条信息的所有者，没有权限修改该条信息");
             flag = "权限不足";
             return flag;
         }
-        if(businessOpportunityMapper.selectByOppName(businessOpportunityEntity.getOppName()) != null
-                && !(businessOpportunityMapper.selectByOppName(businessOpportunityEntity.getOppName()).getBusinessOppId())
-                .equals(businessOpportunityEntity.getBusinessOppId())){
+        if(businessOpportunityMapper.selectByOppName(businessOpportunityEntity.getOppName()) != null && !(businessOpportunityMapper.selectByOppName(businessOpportunityEntity.getOppName()).getBusinessOppId()).equals(businessOpportunityEntity.getBusinessOppId())){
             System.out.println("冲突，该机会已存在");
             flag = "已存在";
             return flag;
@@ -166,12 +166,20 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
             businessOpportunityMapper.updateAccountMoney(businessOpportunityAccountMoneyEntity);
             businessOpportunityEntity.setUtime(day);
             businessOpportunityMapper.update(businessOpportunityEntity);
+            if(businessOpportunityEntity.getOppStageId().equals(stage)){
+                businessRecordEntity.setBusinessOppId(businessOpportunityEntity.getBusinessOppId());
+                if(businessOpportunityMapper.selectRecordByOppId(businessRecordEntity.getBusinessOppId()) != null){
+                    businessOpportunityMapper.deleteRecord(businessRecordEntity);
+                }
+                businessRecordEntity.setDescription(businessOpportunityMapper.selectByBusinessOppId(businessOpportunityEntity.getBusinessOppId()).getDescription());
+                businessRecordEntity.setCtime(day);
+                businessOpportunityMapper.insertRecord(businessRecordEntity);
+            }
             Integer weight = businessOpportunityMapper.selectBySourceId(businessOpportunityUpdateForm.getOppSourceId()).getWeight();
             businessOpportunitySourceEntity.setOppSourceId(businessOpportunityUpdateForm.getOppSourceId());
             businessOpportunitySourceEntity.setUtime(day);
             businessOpportunitySourceEntity.setWeight(weight + 1);
             businessOpportunityMapper.updateWeight(businessOpportunitySourceEntity);
-            System.out.println("成功修改");
             flag = "成功";
             return flag;
         }
@@ -179,6 +187,7 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public String updateBusinessOpportunityPartial(BusinessOpportunityUpdatePartialForm businessOpportunityUpdatePartialForm, Integer uid) {
         Date day = new Date();
         BusinessOpportunityEntity businessOpportunityEntity = new BusinessOpportunityEntity();
@@ -191,8 +200,9 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
         businessOpportunityEntity.setEx1(businessOpportunityUpdatePartialForm.getEx1());
         businessOpportunityEntity.setBusinessOppId(businessOpportunityUpdatePartialForm.getBusinessOppId());
         businessOpportunityEntity.setOppLossReasonId(businessOpportunityUpdatePartialForm.getOppLossReasonId());
-
+        BusinessRecordEntity businessRecordEntity = new BusinessRecordEntity();
         String flag = "";
+        Integer stage = 5;
         if(businessOpportunityMapper.selectByBusinessOppId(businessOpportunityEntity.getBusinessOppId()) == null){
             System.out.println("错误的Id,该商业机会不存在");
             flag = "不存在";
@@ -224,7 +234,53 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
         if(businessOpportunityMapper.selectByBusinessOppId(businessOpportunityEntity.getBusinessOppId()) != null){
             businessOpportunityEntity.setUtime(day);
             businessOpportunityMapper.updatePartial(businessOpportunityEntity);
+            if(businessOpportunityEntity.getOppStageId().equals(stage)){
+                businessRecordEntity.setBusinessOppId(businessOpportunityEntity.getBusinessOppId());
+                if(businessOpportunityMapper.selectRecordByOppId(businessRecordEntity.getBusinessOppId()) != null){
+                    businessOpportunityMapper.deleteRecord(businessRecordEntity);
+                }
+                businessRecordEntity.setCtime(day);
+                businessRecordEntity.setDescription(businessOpportunityMapper.selectByBusinessOppId(businessOpportunityEntity.getBusinessOppId()).getDescription());
+                businessOpportunityMapper.insertRecord(businessRecordEntity);
+            }
             System.out.println("成功修改");
+            flag = "成功";
+            return flag;
+        }
+        return flag;
+    }
+
+    @Override
+    public String deleteBusinessOpportunity(BusinessOpportunityDeleteForm businessOpportunityDeleteForm, Integer uid) {
+        BusinessOpportunityEntity businessOpportunityEntity = new BusinessOpportunityEntity();
+        businessOpportunityEntity.setIsDeleted(businessOpportunityDeleteForm.getIsDeleted());
+        businessOpportunityEntity.setBusinessOppId(businessOpportunityDeleteForm.getBusinessOppId());
+
+        System.out.println("开始删除商业机会");
+        Date day = new Date();
+        String flag = "";
+
+        if(businessOpportunityMapper.selectByBusinessOppId(businessOpportunityEntity.getBusinessOppId()) == null){
+            System.out.println("错误的Id,该商业机会不存在");
+            flag = "不存在";
+            return flag;
+        }
+        businessOpportunityEntity.setHolder(businessOpportunityMapper.selectByBusinessOppId
+                (businessOpportunityEntity.getBusinessOppId()).getHolder());
+        if(!businessOpportunityMapper.selectByBusinessOppId(businessOpportunityEntity.getBusinessOppId()).getHolder().equals(uid)){
+            System.out.println("您不是该商业机会的所有者，没有权限修改该条信息状态");
+            flag = "权限不足";
+            return flag;
+        }
+        if(businessOpportunityEntity.getIsDeleted() !=0 && businessOpportunityEntity.getIsDeleted() != 1){
+            System.out.println("传递的数据格式出错，只能为0或1" + businessOpportunityEntity.getIsDeleted());
+            flag = "错误数据格式";
+            return flag;
+        }
+        if(businessOpportunityMapper.selectByBusinessOppId(businessOpportunityEntity.getBusinessOppId()) != null){
+            businessOpportunityEntity.setUtime(day);
+            businessOpportunityMapper.delete(businessOpportunityEntity);
+            System.out.println("成功修改该该商业机会状态为已删除/未删除");
             flag = "成功";
             return flag;
         }
@@ -344,6 +400,162 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
     }
 
     @Override
+    public String addBusinessOpportunityApplication(BusinessOpportunityApplicationInsertForm businessOpportunityApplicationInsertForm, Integer uid) {
+        BusinessOpportunityApplicationEntity businessOpportunityApplicationEntity = new BusinessOpportunityApplicationEntity();
+        businessOpportunityApplicationEntity.setAccountMoney(businessOpportunityApplicationInsertForm.getAccountMoney());
+        businessOpportunityApplicationEntity.setDeadline(businessOpportunityApplicationInsertForm.getDeadline());
+        businessOpportunityApplicationEntity.setApplicationReason(businessOpportunityApplicationInsertForm.getApplicationReason());
+        businessOpportunityApplicationEntity.setBusinessOppId(businessOpportunityApplicationInsertForm.getBusinessOppId());
+        businessOpportunityApplicationEntity.setEx1(businessOpportunityApplicationInsertForm.getEx1());
+
+        BusinessOpportunityEntity businessOpportunityEntity = new BusinessOpportunityEntity();
+
+        Date day = new Date();
+        String flag = "";
+        System.out.println("开始添加修改申请信息");
+
+        if(businessOpportunityMapper.selectByBusinessOppId(businessOpportunityApplicationEntity.getBusinessOppId()) == null){
+            System.out.println("商业机会不存在");
+            flag = "不存在";
+            return flag;
+        }
+        businessOpportunityEntity.setExecutor(businessOpportunityMapper.selectByBusinessOppId
+                (businessOpportunityApplicationEntity.getBusinessOppId()).getExecutor());
+        businessOpportunityEntity.setHolder(businessOpportunityMapper.selectByBusinessOppId
+                (businessOpportunityApplicationEntity.getBusinessOppId()).getHolder());
+        if(businessOpportunityEntity.getHolder().equals(uid)){
+            System.out.println("您是该条信息的所有者，无需申请修改，可直接编辑该条信息");
+            flag = "不需要";
+            return flag;
+        }
+        if(!businessOpportunityEntity.getExecutor().equals(uid)){
+            System.out.println("您不是该条信息的跟进者，没有权限申请修改该条信息");
+            flag = "权限不足";
+            return flag;
+        }
+        if(businessOpportunityMapper.selectByBusinessOppId(businessOpportunityApplicationEntity.getBusinessOppId()) != null){
+            businessOpportunityApplicationEntity.setStatus("待审批");
+            businessOpportunityApplicationEntity.setCtime(day);
+            businessOpportunityApplicationEntity.setUtime(day);
+            businessOpportunityMapper.insertApplication(businessOpportunityApplicationEntity);
+            System.out.println("成功添加");
+            flag = "成功";
+            return flag;
+        }
+        return flag;
+
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public String agreeBusinessOpportunityApplication(BusinessOpportunityAgreeApplicationForm businessOpportunityAgreeApplicationForm, Integer uid) {
+        BusinessOpportunityApplicationEntity businessOpportunityApplicationEntity = new BusinessOpportunityApplicationEntity();
+        businessOpportunityApplicationEntity.setOppApplicationId(businessOpportunityAgreeApplicationForm.getOppApplicationId());
+        businessOpportunityApplicationEntity.setBusinessOppId(businessOpportunityAgreeApplicationForm.getBusinessOppId());
+
+        BusinessOpportunityEntity businessOpportunityEntity = new BusinessOpportunityEntity();
+
+        BusinessOpportunityAccountMoneyEntity businessOpportunityAccountMoneyEntity = new BusinessOpportunityAccountMoneyEntity();
+
+        Date day = new Date();
+        String flag = "";
+        System.out.println("正在同意修改申请");
+
+        if(businessOpportunityMapper.selectByApplicationId(businessOpportunityApplicationEntity.getOppApplicationId()) == null){
+            System.out.println("该申请不存在");
+            flag = "不存在";
+            return flag;
+        }
+        if(businessOpportunityMapper.selectByBusinessOppId(businessOpportunityApplicationEntity.getBusinessOppId()) == null){
+            System.out.println("该商业机会不存在");
+            flag = "不存在";
+            return flag;
+        }
+        if(businessOpportunityMapper.selectByBothId(businessOpportunityApplicationEntity.getOppApplicationId(), businessOpportunityApplicationEntity.getBusinessOppId()) == null){
+            System.out.println("匹配的两者条件的申请不存在");
+            flag = "不存在";
+            return flag;
+        }
+        businessOpportunityEntity.setHolder(businessOpportunityMapper.selectByBusinessOppId
+                (businessOpportunityApplicationEntity.getBusinessOppId()).getHolder());
+        if(!businessOpportunityEntity.getHolder().equals(uid)){
+            System.out.println("您不是该条信息的所有者，没有权限同意该请求");
+            flag = "权限不足";
+            return flag;
+        }
+        if(businessOpportunityMapper.selectByApplicationId(businessOpportunityApplicationEntity.getOppApplicationId()) != null
+                && businessOpportunityEntity.getHolder().equals(uid)){
+            businessOpportunityApplicationEntity.setStatus("同意");
+            businessOpportunityApplicationEntity.setUtime(day);
+            businessOpportunityMapper.agree(businessOpportunityApplicationEntity);
+
+            Integer oppAccountMoneyId = businessOpportunityMapper.selectByBusinessOppId(businessOpportunityApplicationEntity.getBusinessOppId()).getOppAccountMoneyId();
+            String accountMoney = businessOpportunityMapper.selectByApplicationId(businessOpportunityApplicationEntity.getOppApplicationId()).getAccountMoney();
+            businessOpportunityAccountMoneyEntity.setOppAccountMoneyId(oppAccountMoneyId);
+            businessOpportunityAccountMoneyEntity.setAccountMoney(accountMoney);
+            businessOpportunityAccountMoneyEntity.setUtime(day);
+            businessOpportunityMapper.updateAccountMoney(businessOpportunityAccountMoneyEntity);
+
+            businessOpportunityEntity.setBusinessOppId(businessOpportunityMapper.selectByApplicationId(businessOpportunityApplicationEntity.getOppApplicationId()).getBusinessOppId());
+            businessOpportunityEntity.setDeadline(businessOpportunityMapper.selectByApplicationId(businessOpportunityApplicationEntity.getOppApplicationId()).getDeadline());
+            businessOpportunityEntity.setUtime(day);
+            businessOpportunityMapper.updateDeadline(businessOpportunityEntity);
+            System.out.println("已同意");
+            flag = "成功";
+            return flag;
+        }
+        return flag;
+    }
+
+    @Override
+    public String rejectBusinessOpportunityApplication(BusinessOpportunityRejectApplicationForm businessOpportunityRejectApplicationForm, Integer uid) {
+        BusinessOpportunityApplicationEntity businessOpportunityApplicationEntity = new BusinessOpportunityApplicationEntity();
+        businessOpportunityApplicationEntity.setOppApplicationId(businessOpportunityRejectApplicationForm.getOppApplicationId());
+        businessOpportunityApplicationEntity.setBusinessOppId(businessOpportunityRejectApplicationForm.getBusinessOppId());
+
+        BusinessOpportunityEntity businessOpportunityEntity = new BusinessOpportunityEntity();
+
+        Date day = new Date();
+        String flag = "";
+        System.out.println("正在拒绝修改申请");
+
+        if(businessOpportunityMapper.selectByApplicationId(businessOpportunityApplicationEntity.getOppApplicationId()) == null){
+            System.out.println("该申请不存在");
+            flag = "不存在";
+            return flag;
+        }
+        if(businessOpportunityMapper.selectByBusinessOppId(businessOpportunityApplicationEntity.getBusinessOppId()) == null){
+            System.out.println("该商业机会不存在");
+            flag = "不存在";
+            return flag;
+        }
+        if(businessOpportunityMapper.selectByBothId(businessOpportunityApplicationEntity.getOppApplicationId(), businessOpportunityApplicationEntity.getBusinessOppId()) == null){
+            System.out.println("匹配的两者条件的申请不存在");
+            flag = "不存在";
+            return flag;
+        }
+        businessOpportunityEntity.setHolder(businessOpportunityMapper.selectByBusinessOppId
+                (businessOpportunityApplicationEntity.getBusinessOppId()).getHolder());
+        if(!businessOpportunityEntity.getHolder().equals(uid)){
+            System.out.println("您不是该条信息的所有者，没有权限拒绝该请求");
+            flag = "权限不足";
+            return flag;
+        }
+        if(businessOpportunityMapper.selectByApplicationId(businessOpportunityApplicationEntity.getOppApplicationId()) != null
+                && businessOpportunityEntity.getHolder().equals(uid)){
+            businessOpportunityApplicationEntity.setStatus("拒绝");
+            businessOpportunityApplicationEntity.setRejectionReason(businessOpportunityRejectApplicationForm.getRejectionReason());
+            businessOpportunityApplicationEntity.setUtime(day);
+            businessOpportunityMapper.reject(businessOpportunityApplicationEntity);
+
+            System.out.println("已拒绝");
+            flag = "成功";
+            return flag;
+        }
+        return flag;
+    }
+
+    @Override
     public PageInfo<BusinessOpportunityStageSelectVo> selectStageList(Integer pageNum, Integer pageSize) {
         System.out.println("获得商业机会阶段信息列表");
         PageHelper.startPage(pageNum,pageSize);
@@ -390,6 +602,51 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
         List<BusinessOpportunitySourceTypeSelectVo> list = businessOpportunityMapper.getSourceTypeList();
         PageInfo<BusinessOpportunitySourceTypeSelectVo> pageInfo = new PageInfo<>(list);
         System.out.println("查找成功");
+        return pageInfo;
+    }
+
+    @Override
+    public PageInfo<BusinessOpportunitySourceEntity> selectSourceListByKeyWord(String keyword, Integer uid, Integer pageNum, Integer pageSize) {
+        System.out.println("开始查询市场来源信息");
+        if(keyword == null){
+            System.out.println("关键字为空");
+        }
+        PageHelper.startPage(pageNum,pageSize);
+        List<BusinessOpportunitySourceEntity> list = businessOpportunityMapper.selectSourceByKeyWord(keyword, uid);
+        PageInfo<BusinessOpportunitySourceEntity> pageInfo = new PageInfo<>(list);
+        System.out.println("查询成功");
+        return pageInfo;
+    }
+
+    @Override
+    public PageInfo<BusinessOpportunitySelectVo> selectOppListByKeyWord(String keyword, Integer uid, Integer pageNum, Integer pageSize) {
+        System.out.println("开始查询含申请信息的商业机会信息");
+        if(keyword == null){
+            System.out.println("关键字为空");
+        }
+        PageHelper.startPage(pageNum,pageSize);
+        List<BusinessOpportunitySelectVo> list = businessOpportunityMapper.selectOppByKeyWord(keyword, uid);
+
+        for (BusinessOpportunitySelectVo businessOpportunitySelectVo : list) {
+            List<BusinessOpportunityApplicationEntity> list1 = businessOpportunityMapper.selectApplicationByOppId(businessOpportunitySelectVo.getBusinessOppId());
+            businessOpportunitySelectVo.setApplicationVoList(list1);
+        }
+
+        PageInfo<BusinessOpportunitySelectVo> pageInfo = new PageInfo<>(list);
+        System.out.println("查询成功");
+        return pageInfo;
+    }
+
+    @Override
+    public PageInfo<BusinessRecordSelectVo> selectRecordListByKeyWord(String keyword, Integer uid, Integer pageNum, Integer pageSize) {
+        System.out.println("开始查询机会完成记录信息");
+        if(keyword == null){
+            System.out.println("关键字为空");
+        }
+        PageHelper.startPage(pageNum,pageSize);
+        List<BusinessRecordSelectVo> list = businessOpportunityMapper.selectRecordByKeyWord(keyword, uid);
+        PageInfo<BusinessRecordSelectVo> pageInfo = new PageInfo<>(list);
+        System.out.println("查询成功");
         return pageInfo;
     }
 }
