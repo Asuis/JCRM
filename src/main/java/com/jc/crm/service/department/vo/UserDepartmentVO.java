@@ -9,8 +9,12 @@ import com.jc.crm.model.UserEntity;
 public class UserDepartmentVO extends UserEntity {
     private String post;
     private Integer weight;
-    private String departmentId;
+    private Integer departmentId;
     private String departmentName;
+
+    public Integer getWeight() {
+        return weight;
+    }
 
     public String getPost() {
         return post;
@@ -20,20 +24,15 @@ public class UserDepartmentVO extends UserEntity {
         this.post = post;
     }
 
-    @Override
-    public int getWeight() {
-        return weight;
-    }
-
     public void setWeight(Integer weight) {
         this.weight = weight;
     }
 
-    public String getDepartmentId() {
+    public Integer getDepartmentId() {
         return departmentId;
     }
 
-    public void setDepartmentId(String departmentId) {
+    public void setDepartmentId(Integer departmentId) {
         this.departmentId = departmentId;
     }
 

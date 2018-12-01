@@ -320,6 +320,5 @@ public class BusinessOpportunityController {
         } else {
             return Result.fail(ResultStatus.FAIL, "失败");
         }
->>>>>>> 46f6d78a532422aaa3d4ffe10408898a9b091e5d
     }
 }
