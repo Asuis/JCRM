@@ -1,11 +1,9 @@
 package com.jc.crm.mapper;
 
 import com.jc.crm.form.opportunity.*;
+import com.jc.crm.mapper.provider.BusinessOpportunitySqlProvider;
 import com.jc.crm.model.*;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -27,6 +25,7 @@ public interface BusinessOpportunityMapper {
             "ex_1, deadline, ctime, utime, cid) VALUES(#{oppName},#{description},#{oppStageId},#{oppSourceId},#{oppAccountMoneyId}," +
             "#{holder},#{executor},#{importantLevel},#{roiAnalysisCompleted},#{budgetConfirmed},#{isCompleted},#{isDeleted},#{possibility},#{nextStep}," +
             "#{ex1},#{deadline},#{ctime},#{utime},#{cid})")
+    @Options(useGeneratedKeys = true, keyProperty = "businessOppId")
     int insert(BusinessOpportunityEntity businessOpportunityEntity);
 
     /**
@@ -47,6 +46,23 @@ public interface BusinessOpportunityMapper {
             "VALUES(#{accountMoney},#{description},#{ex1},#{ctime},#{utime})")
     @Options(useGeneratedKeys = true, keyProperty = "oppAccountMoneyId")
     void insertAccountMoney(BusinessOpportunityAccountMoneyEntity businessOpportunityAccountMoneyEntity);
+
+    /**
+     * 添加商业机会修改申请信息
+     * @param businessOpportunityApplicationEntity 商业机会修改申请表(business_opp_application)实体类
+     * */
+    @Insert("INSERT INTO business_opp_application(business_opp_id, deadline, application_reason, " +
+            "account_money, status, ex_1, ctime, utime) VALUES(#{businessOppId},#{deadline}," +
+            "#{applicationReason},#{accountMoney},#{status},#{ex1},#{ctime},#{utime})")
+    void insertApplication(BusinessOpportunityApplicationEntity businessOpportunityApplicationEntity);
+
+    /**
+     * 添加阶段为已赢得的商业机会记录信息
+     * @param businessRecordEntity 商业机会完成记录表(business_record)实体类
+     * */
+    @Insert("INSERT INTO business_record(business_opp_id, description, ex_1, ctime) " +
+            "VALUES(#{businessOppId},#{description},#{ex1},#{ctime})")
+    void insertRecord(BusinessRecordEntity businessRecordEntity);
 
     /**
      * 机会所有人修改商业机会信息
@@ -73,9 +89,15 @@ public interface BusinessOpportunityMapper {
     void updatePartial(BusinessOpportunityEntity businessOpportunityEntity);
 
     /**
+     * 修改商业机会机会截止日期信息
+     * @param businessOpportunityEntity 市场来源表(business_opp_source)实体类
+     * */
+    @Update("UPDATE business_opp SET deadline = #{deadline}, utime = #{utime} WHERE business_opp_id = #{businessOppId}")
+    void updateDeadline(BusinessOpportunityEntity businessOpportunityEntity);
+
+    /**
      * 修改市场来源信息
      * @param businessOpportunitySourceEntity 市场来源表(business_opp_source)实体类
-     * @return int类型的变量
      * */
     @Update("UPDATE business_opp_source SET source_name = #{sourceName}, description = #{description}, " +
             "status_id = #{statusId}, type_id = #{typeId}, sdate = #{sdate}, edate = #{edate}, " +
@@ -97,6 +119,36 @@ public interface BusinessOpportunityMapper {
      * */
     @Update("UPDATE business_opp_account_money SET account_money = #{accountMoney}, utime = #{utime} WHERE opp_account_money_id = #{oppAccountMoneyId}")
     void updateAccountMoney(BusinessOpportunityAccountMoneyEntity businessOpportunityAccountMoneyEntity);
+
+    /**
+     * 修改商业机会状态信息(0为未删除，1为已删除)
+     * @param businessOpportunityEntity 商业机会表(business_opp)实体类
+
+     * */
+    @Update("UPDATE business_opp SET is_deleted = #{isDeleted}, utime = #{utime} WHERE business_opp_id = #{businessOppId} AND holder = #{holder}")
+    int delete(BusinessOpportunityEntity businessOpportunityEntity);
+
+    /**
+     * 修改商业机会修改申请信息(同意申请)
+     * @param businessOpportunityApplicationEntity 商业机会修改申请表(business_opp_application)实体类
+     * */
+    @Update("UPDATE business_opp_application SET status = #{status}, utime = #{utime} WHERE opp_application_id = #{oppApplicationId}")
+    void agree(BusinessOpportunityApplicationEntity businessOpportunityApplicationEntity);
+
+    /**
+     * 修改商业机会修改申请信息(拒绝申请)
+     * @param businessOpportunityApplicationEntity 商业机会修改申请表(business_opp_application)实体类
+     * */
+    @Update("UPDATE business_opp_application SET status = #{status}, rejection_reason = #{rejectionReason}, utime = #{utime} WHERE opp_application_id = #{oppApplicationId}")
+    void reject(BusinessOpportunityApplicationEntity businessOpportunityApplicationEntity);
+
+    /**
+     * 删除状态为赢得的商业机会的重复信息
+     * @param businessRecordEntity 商业机会赢得记录表(business_record)实体类
+     * @return int类型的变量
+     * */
+    @Delete("DELETE FROM business_record WHERE business_opp_id = #{businessOppId}")
+    int deleteRecord(BusinessRecordEntity businessRecordEntity);
 
     /**
      * 根据商业机会ID查询商业机会列表信息
@@ -163,6 +215,31 @@ public interface BusinessOpportunityMapper {
     BusinessOpportunitySourceTypeEntity selectBySourceTypeId(Integer typeId);
 
     /**
+     * 根据修改申请ID查询修改申请列表信息
+     * @param oppApplicationId 申请ID
+     * @return BusinessOpportunitySourceTypeEntity对象
+     * */
+    @Select("SELECT * FROM business_opp_application WHERE opp_application_id = #{oppApplicationId}")
+    BusinessOpportunityApplicationEntity selectByApplicationId(Integer oppApplicationId);
+
+    /**
+     * 根据修改申请ID和机会ID查询修改申请列表信息
+     * @param oppApplicationId 申请ID
+     * @param businessOppId 机会ID
+     * @return BusinessOpportunitySourceTypeEntity对象
+     * */
+    @Select("SELECT * FROM business_opp_application WHERE opp_application_id = #{oppApplicationId} AND business_opp_id = #{businessOppId}")
+    BusinessOpportunityApplicationEntity selectByBothId(Integer oppApplicationId, Integer businessOppId);
+
+    /**
+     * 根据机会ID查询阶段为赢得的记录列表信息
+     * @param businessOppId 机会ID
+     * @return BusinessRecordEntity对象
+     * */
+    @Select("SELECT * FROM business_record WHERE business_opp_id = #{businessOppId}")
+    BusinessRecordEntity selectRecordByOppId(Integer businessOppId);
+
+    /**
      * 查询商业机会阶段列表信息
      * @return BusinessOpportunityStageSelectVo类的泛型集合
      * */
@@ -196,4 +273,41 @@ public interface BusinessOpportunityMapper {
      * */
     @Select("SELECT * FROM business_opp_source_type")
     List<BusinessOpportunitySourceTypeSelectVo> getSourceTypeList();
+
+    /**
+     * 根据商业机会ID查询该商业机会含有的申请列表信息
+     * @param businessOppId 商业机会ID
+     * @return BusinessOpportunityApplicationEntity类的泛型集合
+     * */
+    @Select("SELECT * FROM business_opp_application WHERE business_opp_id = #{businessOppId}")
+    List<BusinessOpportunityApplicationEntity> selectApplicationByOppId(Integer businessOppId);
+
+    /**
+     * 根据关键字和登录的用户ID多表关联动态模糊查询市场来源列表信息
+     * @param keyword 关键字
+     * @param uid 登录用户ID
+     * @return BusinessOpportunitySourceEntity类的泛型集合
+     * */
+    @SelectProvider(type = BusinessOpportunitySqlProvider.class, method = "queryListOne")
+    List<BusinessOpportunitySourceEntity> selectSourceByKeyWord(@Param("keyword") String keyword, @Param("uid") Integer uid);
+
+    /**
+     * 根据关键字和登录的用户ID多表关联动态模糊查询喊申请信息的商业机会列表信息
+     * @param keyword 关键字
+     * @param uid 登录用户ID
+     * @return BusinessOpportunitySelectVo类的泛型集合
+     * */
+    @SelectProvider(type = BusinessOpportunitySqlProvider.class, method = "queryListTwo")
+    List<BusinessOpportunitySelectVo> selectOppByKeyWord(@Param("keyword") String keyword, @Param("uid") Integer uid);
+
+    /**
+     * 根据关键字和登录的用户ID多表关联动态模糊查询喊申请信息的商业机会列表信息
+     * @param keyword 关键字
+     * @param uid 登录用户ID
+     * @return BusinessRecordEntity类的泛型集合
+     * */
+    @SelectProvider(type = BusinessOpportunitySqlProvider.class, method = "queryListThree")
+    List<BusinessRecordSelectVo> selectRecordByKeyWord(@Param("keyword") String keyword, @Param("uid") Integer uid);
+
+
 }

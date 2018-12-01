@@ -6,11 +6,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 动态构建多表联合模糊查询的SQL语句
+ * 动态构建竞争对手多表联合模糊查询的SQL语句
  * @author currysss 2018-11-20
  * */
 public class CompetitorSqlProvider {
+
     private final static Logger logger = LoggerFactory.getLogger(CompetitorSqlProvider.class);
+
     public String queryList(@Param("keyword") String keyword, @Param("uid") Integer uid) {
         String sql = new SQL(){{
             SELECT("*");
@@ -25,7 +27,9 @@ public class CompetitorSqlProvider {
                 AND().WHERE("competitor_name LIKE '%" + keyword + "%'");
             }
         }}.toString();
+
         logger.info("provider sql:"+sql);
+
         return sql;
     }
 }
