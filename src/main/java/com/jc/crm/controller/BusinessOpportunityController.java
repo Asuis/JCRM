@@ -1,22 +1,17 @@
 package com.jc.crm.controller;
 
-<<<<<<< HEAD
 import com.jc.crm.config.Result;
 import io.swagger.annotations.Api;
-=======
 import com.github.pagehelper.PageInfo;
-import com.jc.crm.config.Result;
 import com.jc.crm.config.ResultStatus;
 import com.jc.crm.form.opportunity.*;
 import com.jc.crm.service.opportunity.BusinessOpportunityServiceImpl;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
->>>>>>> 46f6d78a532422aaa3d4ffe10408898a9b091e5d
 import org.springframework.web.bind.annotation.*;
 
 /**
