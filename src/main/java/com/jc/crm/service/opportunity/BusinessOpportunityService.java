@@ -151,4 +151,15 @@ public interface BusinessOpportunityService {
      * @return PageInfo对象
      * */
     PageInfo<BusinessRecordSelectVo> selectRecordListByKeyWord(String keyword, Integer uid, Integer pageNum, Integer pageSize);
+
+    /**
+     * 根据商业机会ID和输入的时间段获得机会价值变化图表
+     * @param startTime 开始时间
+     * @param endTime 截止时间
+     * @param businessOppId 商业机会ID
+     * @param pageNum 页面数
+     * @param pageSize 每页含有的数据数量
+     * @return PageInfo对象
+     * */
+    PageInfo<BusinessOpportunityAccountMoneyVo> selectAccountMoneyListByTime(String startTime, String endTime, Integer businessOppId, Integer pageNum, Integer pageSize);
 }

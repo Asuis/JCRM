@@ -12,6 +12,8 @@ public class BusinessOpportunityAccountMoneyEntity {
 
     private Integer oppAccountMoneyId;
 
+    private Integer businessOppId;
+
     private String accountMoney;
 
     private String description;
@@ -31,6 +33,10 @@ public class BusinessOpportunityAccountMoneyEntity {
     public void setOppAccountMoneyId(Integer oppAccountMoneyId) {
         this.oppAccountMoneyId = oppAccountMoneyId;
     }
+
+    public Integer getBusinessOppId() { return businessOppId; }
+
+    public void setBusinessOppId(Integer businessOppId) { this.businessOppId = businessOppId; }
 
     public String getAccountMoney() {
         return accountMoney;

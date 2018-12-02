@@ -15,6 +15,7 @@ import com.jc.crm.mapper.TagMapper;
 import com.jc.crm.model.CompetitorsEntity;
 import com.jc.crm.model.CompetitorsTagLinkEntity;
 
+import com.jc.crm.service.department.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,10 +34,13 @@ public class CompetitorsServiceImpl implements CompetitorsService{
 
     private final TagMapper tagMapper;
 
+    private final DepartmentService departmentService;
+
     @Autowired
-    public CompetitorsServiceImpl(CompetitorMapper competitorsMapper,TagMapper tagMapper) {
+    public CompetitorsServiceImpl(CompetitorMapper competitorsMapper, TagMapper tagMapper, DepartmentService departmentService) {
         this.competitorsMapper = competitorsMapper;
         this.tagMapper = tagMapper;
+        this.departmentService = departmentService;
     }
 
     @Override
@@ -230,11 +234,12 @@ public class CompetitorsServiceImpl implements CompetitorsService{
     @Override
     public PageInfo<CompetitorsSelectVo> selectListByKeyWord(String keyword, Integer uid, Integer pageNum, Integer pageSize){
         System.out.println("开始查询竞争对手信息");
+        List<Integer> uidList = departmentService.getIdsByUser(uid);
         if(keyword == null){
             System.out.println("关键字为空");
         }
         PageHelper.startPage(pageNum,pageSize);
-        List<CompetitorsSelectVo> list = competitorsMapper.selectByKeyWord(keyword, uid);
+        List<CompetitorsSelectVo> list = competitorsMapper.selectByKeyWord(keyword, uidList);
 
         for (CompetitorsSelectVo competitorsSelectVO : list) {
             List<TagVo> list1 = competitorsMapper.selectTagByCompetitorId(competitorsSelectVO.getCompetitorId());

@@ -4,7 +4,9 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jc.crm.form.opportunity.*;
 import com.jc.crm.mapper.BusinessOpportunityMapper;
+import com.jc.crm.mapper.DepartmentMapper;
 import com.jc.crm.model.*;
+import com.jc.crm.service.department.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,15 +22,21 @@ import java.util.List;
 public class BusinessOpportunityServiceImpl implements BusinessOpportunityService {
 
     private final BusinessOpportunityMapper businessOpportunityMapper;
+
+    private final DepartmentService departmentService;
+
+    private final DepartmentMapper departmentMapper;
+
     @Autowired
-    public BusinessOpportunityServiceImpl(BusinessOpportunityMapper businessOpportunityMapper) {
+    public BusinessOpportunityServiceImpl(BusinessOpportunityMapper businessOpportunityMapper,DepartmentService departmentService,DepartmentMapper departmentMapper) {
         this.businessOpportunityMapper = businessOpportunityMapper;
+        this.departmentService = departmentService;
+        this.departmentMapper = departmentMapper;
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public String addBusinessOpportunity(BusinessOpportunityInsertForm businessOpportunityInsertForm, Integer uid) {
-
         BusinessOpportunityEntity businessOpportunityEntity = new BusinessOpportunityEntity();
         businessOpportunityEntity.setOppName(businessOpportunityInsertForm.getOppName());
         businessOpportunityEntity.setDescription(businessOpportunityInsertForm.getOppDescription());
@@ -47,15 +55,14 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
 
         BusinessOpportunityAccountMoneyEntity businessOpportunityAccountMoneyEntity = new BusinessOpportunityAccountMoneyEntity();
         businessOpportunityAccountMoneyEntity.setAccountMoney(businessOpportunityInsertForm.getAccountMoney());
-
         BusinessOpportunitySourceEntity businessOpportunitySourceEntity = new BusinessOpportunitySourceEntity();
-
         BusinessRecordEntity businessRecordEntity = new BusinessRecordEntity();
 
         System.out.println("开始添加商业机会");
         Date day = new Date();
         String flag = "";
         Integer stage = 5;
+        Integer we = 10;
         if(businessOpportunityMapper.selectBySourceId(businessOpportunityEntity.getOppSourceId()) == null){
             System.out.println("市场来源不存在");
             flag = "不存在";
@@ -66,6 +73,11 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
             flag = "不存在";
             return flag;
         }
+        if(departmentMapper.selectByUid(uid).getWeight().equals(we)){
+            System.out.println("没有添加机会的权限");
+            flag = "权限不足";
+            return flag;
+        }
         if(businessOpportunityMapper.selectByOppName(businessOpportunityEntity.getOppName()) != null){
             System.out.println("机会名已存在");
             flag = "已存在";
@@ -73,16 +85,16 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
         }
         if(businessOpportunityMapper.selectByOppName(businessOpportunityEntity.getOppName()) == null){
 
-            businessOpportunityAccountMoneyEntity.setCtime(day);
-            businessOpportunityAccountMoneyEntity.setUtime(day);
-            businessOpportunityMapper.insertAccountMoney(businessOpportunityAccountMoneyEntity);
-
-            businessOpportunityEntity.setOppAccountMoneyId(businessOpportunityAccountMoneyEntity.getOppAccountMoneyId());
             businessOpportunityEntity.setHolder(uid);
             businessOpportunityEntity.setCtime(day);
             businessOpportunityEntity.setUtime(day);
             businessOpportunityEntity.setIsDeleted(0);
             businessOpportunityMapper.insert(businessOpportunityEntity);
+
+            businessOpportunityAccountMoneyEntity.setBusinessOppId(businessOpportunityEntity.getBusinessOppId());
+            businessOpportunityAccountMoneyEntity.setCtime(day);
+            businessOpportunityAccountMoneyEntity.setUtime(day);
+            businessOpportunityMapper.insertAccountMoney(businessOpportunityAccountMoneyEntity);
 
             if(businessOpportunityEntity.getOppStageId().equals(stage)){
                 businessRecordEntity.setCtime(day);
@@ -127,18 +139,15 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
         businessOpportunityEntity.setOppLossReasonId(businessOpportunityUpdateForm.getOppLossReasonId());
         BusinessOpportunityAccountMoneyEntity businessOpportunityAccountMoneyEntity = new BusinessOpportunityAccountMoneyEntity();
         businessOpportunityAccountMoneyEntity.setAccountMoney(businessOpportunityUpdateForm.getAccountMoney());
-        businessOpportunityAccountMoneyEntity.setOppAccountMoneyId(businessOpportunityMapper.selectByBusinessOppId(businessOpportunityEntity.getBusinessOppId()).getOppAccountMoneyId());
         BusinessOpportunitySourceEntity businessOpportunitySourceEntity = new BusinessOpportunitySourceEntity();
         BusinessRecordEntity businessRecordEntity = new BusinessRecordEntity();
         String flag = "";
         Integer stage = 5;
         if(businessOpportunityMapper.selectByBusinessOppId(businessOpportunityEntity.getBusinessOppId()) == null){
-            System.out.println("错误的Id,该商业机会不存在");
             flag = "不存在";
             return flag;
         }
         businessOpportunityEntity.setHolder(businessOpportunityMapper.selectByBusinessOppId(businessOpportunityEntity.getBusinessOppId()).getHolder());
-        System.out.println("开始修改商业机会信息,修改的机会id为" + businessOpportunityEntity.getBusinessOppId() + ",该条信息的所有者为" + businessOpportunityEntity.getHolder());
         if(businessOpportunityMapper.selectBySourceId(businessOpportunityEntity.getOppSourceId()) == null){
             flag = "不存在";
             return flag;
@@ -148,7 +157,6 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
             return flag;
         }
         if(businessOpportunityMapper.selectByLossReasonId(businessOpportunityEntity.getOppLossReasonId()) == null){
-            System.out.println("丢失原因不存在");
             flag = "不存在";
             return flag;
         }
@@ -157,15 +165,18 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
             return flag;
         }
         if(businessOpportunityMapper.selectByOppName(businessOpportunityEntity.getOppName()) != null && !(businessOpportunityMapper.selectByOppName(businessOpportunityEntity.getOppName()).getBusinessOppId()).equals(businessOpportunityEntity.getBusinessOppId())){
-            System.out.println("冲突，该机会已存在");
             flag = "已存在";
             return flag;
         }
         if(businessOpportunityMapper.selectByBusinessOppId(businessOpportunityEntity.getBusinessOppId()) != null){
-            businessOpportunityAccountMoneyEntity.setUtime(day);
-            businessOpportunityMapper.updateAccountMoney(businessOpportunityAccountMoneyEntity);
             businessOpportunityEntity.setUtime(day);
             businessOpportunityMapper.update(businessOpportunityEntity);
+            if(businessOpportunityMapper.selectAccountMoneyByBusinessOppId(businessOpportunityEntity.getBusinessOppId(),businessOpportunityAccountMoneyEntity.getAccountMoney()) == null){
+                businessOpportunityAccountMoneyEntity.setBusinessOppId(businessOpportunityEntity.getBusinessOppId());
+                businessOpportunityAccountMoneyEntity.setCtime(day);
+                businessOpportunityAccountMoneyEntity.setUtime(day);
+                businessOpportunityMapper.insertAccountMoney(businessOpportunityAccountMoneyEntity);
+            }
             if(businessOpportunityEntity.getOppStageId().equals(stage)){
                 businessRecordEntity.setBusinessOppId(businessOpportunityEntity.getBusinessOppId());
                 if(businessOpportunityMapper.selectRecordByOppId(businessRecordEntity.getBusinessOppId()) != null){
@@ -489,12 +500,13 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
             businessOpportunityApplicationEntity.setUtime(day);
             businessOpportunityMapper.agree(businessOpportunityApplicationEntity);
 
-            Integer oppAccountMoneyId = businessOpportunityMapper.selectByBusinessOppId(businessOpportunityApplicationEntity.getBusinessOppId()).getOppAccountMoneyId();
             String accountMoney = businessOpportunityMapper.selectByApplicationId(businessOpportunityApplicationEntity.getOppApplicationId()).getAccountMoney();
-            businessOpportunityAccountMoneyEntity.setOppAccountMoneyId(oppAccountMoneyId);
+
             businessOpportunityAccountMoneyEntity.setAccountMoney(accountMoney);
+            businessOpportunityAccountMoneyEntity.setBusinessOppId(businessOpportunityApplicationEntity.getBusinessOppId());
+            businessOpportunityAccountMoneyEntity.setCtime(day);
             businessOpportunityAccountMoneyEntity.setUtime(day);
-            businessOpportunityMapper.updateAccountMoney(businessOpportunityAccountMoneyEntity);
+            businessOpportunityMapper.insertAccountMoney(businessOpportunityAccountMoneyEntity);
 
             businessOpportunityEntity.setBusinessOppId(businessOpportunityMapper.selectByApplicationId(businessOpportunityApplicationEntity.getOppApplicationId()).getBusinessOppId());
             businessOpportunityEntity.setDeadline(businessOpportunityMapper.selectByApplicationId(businessOpportunityApplicationEntity.getOppApplicationId()).getDeadline());
@@ -608,11 +620,12 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
     @Override
     public PageInfo<BusinessOpportunitySourceEntity> selectSourceListByKeyWord(String keyword, Integer uid, Integer pageNum, Integer pageSize) {
         System.out.println("开始查询市场来源信息");
+        List<Integer> uidList = departmentService.getIdsByUser(uid);
         if(keyword == null){
             System.out.println("关键字为空");
         }
         PageHelper.startPage(pageNum,pageSize);
-        List<BusinessOpportunitySourceEntity> list = businessOpportunityMapper.selectSourceByKeyWord(keyword, uid);
+        List<BusinessOpportunitySourceEntity> list = businessOpportunityMapper.selectSourceByKeyWord(keyword, uidList);
         PageInfo<BusinessOpportunitySourceEntity> pageInfo = new PageInfo<>(list);
         System.out.println("查询成功");
         return pageInfo;
@@ -621,11 +634,12 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
     @Override
     public PageInfo<BusinessOpportunitySelectVo> selectOppListByKeyWord(String keyword, Integer uid, Integer pageNum, Integer pageSize) {
         System.out.println("开始查询含申请信息的商业机会信息");
+        List<Integer> uidList = departmentService.getIdsByUser(uid);
         if(keyword == null){
             System.out.println("关键字为空");
         }
         PageHelper.startPage(pageNum,pageSize);
-        List<BusinessOpportunitySelectVo> list = businessOpportunityMapper.selectOppByKeyWord(keyword, uid);
+        List<BusinessOpportunitySelectVo> list = businessOpportunityMapper.selectOppByKeyWord(keyword, uidList);
 
         for (BusinessOpportunitySelectVo businessOpportunitySelectVo : list) {
             List<BusinessOpportunityApplicationEntity> list1 = businessOpportunityMapper.selectApplicationByOppId(businessOpportunitySelectVo.getBusinessOppId());
@@ -640,12 +654,23 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
     @Override
     public PageInfo<BusinessRecordSelectVo> selectRecordListByKeyWord(String keyword, Integer uid, Integer pageNum, Integer pageSize) {
         System.out.println("开始查询机会完成记录信息");
+        List<Integer> uidList = departmentService.getIdsByUser(uid);
         if(keyword == null){
             System.out.println("关键字为空");
         }
         PageHelper.startPage(pageNum,pageSize);
-        List<BusinessRecordSelectVo> list = businessOpportunityMapper.selectRecordByKeyWord(keyword, uid);
+        List<BusinessRecordSelectVo> list = businessOpportunityMapper.selectRecordByKeyWord(keyword, uidList);
         PageInfo<BusinessRecordSelectVo> pageInfo = new PageInfo<>(list);
+        System.out.println("查询成功");
+        return pageInfo;
+    }
+
+    @Override
+    public PageInfo<BusinessOpportunityAccountMoneyVo> selectAccountMoneyListByTime(String startTime, String endTime, Integer businessOppId, Integer pageNum, Integer pageSize) {
+        System.out.println("开始查询该商业机会的价格变化");
+        PageHelper.startPage(pageNum,pageSize);
+        List<BusinessOpportunityAccountMoneyVo> list = businessOpportunityMapper.selectAccountMoneyByTime(startTime, endTime, businessOppId);
+        PageInfo<BusinessOpportunityAccountMoneyVo> pageInfo = new PageInfo<>(list);
         System.out.println("查询成功");
         return pageInfo;
     }

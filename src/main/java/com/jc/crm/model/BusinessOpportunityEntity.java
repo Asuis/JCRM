@@ -20,8 +20,6 @@ public class BusinessOpportunityEntity {
 
     private Integer oppSourceId;
 
-    private Integer oppAccountMoneyId;
-
     private Integer oppLossReasonId;
 
     private Integer holder;
@@ -91,14 +89,6 @@ public class BusinessOpportunityEntity {
 
     public void setOppSourceId(Integer oppSourceId) {
         this.oppSourceId = oppSourceId;
-    }
-
-    public Integer getOppAccountMoneyId() {
-        return oppAccountMoneyId;
-    }
-
-    public void setOppAccountMoneyId(Integer oppAccountMoneyId) {
-        this.oppAccountMoneyId = oppAccountMoneyId;
     }
 
     public Integer getOppLossReasonId() {
