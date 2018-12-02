@@ -108,7 +108,7 @@ public interface CompetitorMapper {
             "INNER JOIN department d \n" +
             "ON d.department_id = l.department_id \n" +
             " WHERE c.holder = #{holder} \n" +
-            "AND l.is_actived = 1")
+            "AND l.is_actived = 1 ORDER BY c.competitor_id ASC")
     List<CompetitorsSelectVo> selectByHolder(Integer uid);
 
     /**
