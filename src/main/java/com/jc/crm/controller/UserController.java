@@ -2,6 +2,7 @@ package com.jc.crm.controller;
 
 import com.jc.crm.config.Result;
 import com.jc.crm.config.ResultStatus;
+import com.jc.crm.config.logger.ControllerServiceLog;
 import com.jc.crm.form.account.RegisterForm;
 import com.jc.crm.form.account.UserLoginForm;
 import com.jc.crm.service.user.*;
@@ -38,6 +39,7 @@ public class UserController {
 
     @ApiOperation(value = "用户登录")
     @PostMapping("login")
+    @ControllerServiceLog
     public Result login(@RequestBody @Validated UserLoginForm form, BindingResult result) {
         if (result.hasErrors()) {
             return Result.fail(ResultStatus.FAIL, result.getAllErrors().get(0).getDefaultMessage());
@@ -55,6 +57,7 @@ public class UserController {
     }
     @ApiOperation(value = "用户注册", response = Result.class)
     @PostMapping
+    @ControllerServiceLog
     public Result register(@RequestBody @Validated RegisterForm form, BindingResult result) {
         if (result.hasErrors()) {
             return Result.fail(ResultStatus.FAIL, result.getAllErrors().get(0).getDefaultMessage());
@@ -73,6 +76,7 @@ public class UserController {
         }
     }
     @PutMapping("exit")
+    @ControllerServiceLog
     public Result exit(@RequestHeader("Authorization") String token) {
         if (token != null) {
             if (userService.logout(token) > 0) {
@@ -85,10 +89,12 @@ public class UserController {
         }
     }
     @PutMapping("active")
+    @ControllerServiceLog
     public Result<String> active() {
         return null;
     }
     @PutMapping
+    @ControllerServiceLog
     public Result<String> update() {
         return null;
     }

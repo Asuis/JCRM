@@ -1,6 +1,7 @@
 package com.jc.crm.controller;
 
 import com.jc.crm.config.Result;
+import com.jc.crm.config.logger.ControllerServiceLog;
 import com.jc.crm.form.enterprise.EnterpriseForm;
 import com.jc.crm.service.enterprise.EnterpriseService;
 import io.swagger.annotations.Api;
@@ -33,6 +34,7 @@ public class EnterpriseController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @PostMapping
+    @ControllerServiceLog
     public Result create(@RequestBody @Validated EnterpriseForm form, BindingResult result, @RequestAttribute("uid")Integer uid) {
 
         return null;
@@ -42,6 +44,7 @@ public class EnterpriseController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @PutMapping
+    @ControllerServiceLog
     public Result update() {
         return null;
     }
@@ -50,6 +53,7 @@ public class EnterpriseController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @DeleteMapping
+    @ControllerServiceLog
     public Result delete() {
         return null;
     }

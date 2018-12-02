@@ -2,6 +2,7 @@ package com.jc.crm.service.tag;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.jc.crm.config.logger.SystemServiceLog;
 import com.jc.crm.form.tag.TagInsertForm;
 import com.jc.crm.mapper.TagMapper;
 import com.jc.crm.model.TagEntity;
@@ -25,6 +26,7 @@ public class TagServiceImpl implements TagService{
     }
 
     @Override
+    @SystemServiceLog
     public String addTag(TagInsertForm tagInsertForm){
 
         TagEntity tagEntity = new TagEntity();
@@ -50,6 +52,7 @@ public class TagServiceImpl implements TagService{
     }
 
     @Override
+    @SystemServiceLog
     public PageInfo<TagEntity> selectTagList(Integer pageNum, Integer pageSize){
         System.out.println("获得标签信息列表");
         PageHelper.startPage(pageNum,pageSize);

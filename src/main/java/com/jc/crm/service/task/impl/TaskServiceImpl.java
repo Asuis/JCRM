@@ -3,6 +3,7 @@ package com.jc.crm.service.task.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jc.crm.config.ResultStatus;
+import com.jc.crm.config.logger.SystemServiceLog;
 import com.jc.crm.form.tag.TagInsertForm;
 import com.jc.crm.form.task.RepeatSettingForm;
 import com.jc.crm.form.task.TaskForm;
@@ -35,6 +36,7 @@ public class TaskServiceImpl implements TaskService {
      */
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
+    @SystemServiceLog
     public int createTaskForUser(TaskForm form, Integer uid) {
         int code = ResultStatus.FAIL;
         TaskEntity taskEntity = form.toTask();
@@ -84,6 +86,7 @@ public class TaskServiceImpl implements TaskService {
      * @param taskId
      */
     @Override
+    @SystemServiceLog
     public int removeTask(int taskId, int uid) {
         /*
          * 判断是否有权限删除
@@ -98,6 +101,7 @@ public class TaskServiceImpl implements TaskService {
      * @param userId
      */
     @Override
+    @SystemServiceLog
     public int changeTaskUser(int taskId, int userId) {
         return taskMapper.changeHolder(taskId, userId);
     }
@@ -108,6 +112,7 @@ public class TaskServiceImpl implements TaskService {
      * @param userId
      */
     @Override
+    @SystemServiceLog
     public PageInfo<TaskEntity> getTasks(int userId, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum, pageSize);
         List<TaskEntity> taskEntities = taskMapper.getRemindTaskForUser(userId);
@@ -122,11 +127,13 @@ public class TaskServiceImpl implements TaskService {
      * @param pageNum
      */
     @Override
+    @SystemServiceLog
     public TaskForm getTaskDetail(int userId, Integer pageSize, Integer pageNum) {
         return null;
     }
 
     @Override
+    @SystemServiceLog
     public int updateTask(TaskForm taskForm, int userId) {
         return taskMapper.update(taskForm.toTask());
     }
@@ -138,6 +145,7 @@ public class TaskServiceImpl implements TaskService {
      * @return String类型的变量flag 初始化值为空 flag的值为成功 表示添加成功 其他值表示添加失败
      */
     @Override
+    @SystemServiceLog
     public String addTag(TagInsertForm tagInsertForm) {
         return null;
     }
@@ -150,6 +158,7 @@ public class TaskServiceImpl implements TaskService {
      * @return PageInfo对象
      */
     @Override
+    @SystemServiceLog
     public PageInfo<TagEntity> selectTagList(Integer pageNum, Integer pageSize) {
         return null;
     }

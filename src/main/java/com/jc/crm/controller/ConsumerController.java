@@ -3,6 +3,7 @@ package com.jc.crm.controller;
 import com.github.pagehelper.PageInfo;
 import com.jc.crm.config.Result;
 import com.jc.crm.config.ResultStatus;
+import com.jc.crm.config.logger.ControllerServiceLog;
 import com.jc.crm.form.AddressForm;
 import com.jc.crm.form.consumer.ConsumerForm;
 import com.jc.crm.model.Consumer;
@@ -34,6 +35,7 @@ public class ConsumerController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @PostMapping
+    @ControllerServiceLog
     public Result addConsumers(@Validated @RequestBody ConsumerForm consumerForm,
                                BindingResult result,
                                @RequestAttribute Integer uid){
@@ -64,6 +66,7 @@ public class ConsumerController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @GetMapping("list")
+    @ControllerServiceLog
     public Result searchStage(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                               @RequestParam(value = "pageSize", defaultValue = "6") Integer pageSize,
                               @RequestParam (value = "keyword", defaultValue = "")String keyword,
@@ -91,6 +94,7 @@ public class ConsumerController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @PutMapping
+    @ControllerServiceLog
     public Result updateConsumers(@Validated @RequestBody ConsumerForm consumerForm,
                                BindingResult result,
                                @RequestAttribute Integer uid){
@@ -121,6 +125,7 @@ public class ConsumerController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @PutMapping("delete")
+    @ControllerServiceLog
     public Result deleteCompetitors(@Validated @RequestAttribute Integer uid,
                                         @RequestParam (value = "cid")Integer cid) {
         System.out.println(cid+"....................");

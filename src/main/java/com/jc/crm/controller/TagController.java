@@ -3,6 +3,7 @@ package com.jc.crm.controller;
 import com.github.pagehelper.PageInfo;
 import com.jc.crm.config.Result;
 import com.jc.crm.config.ResultStatus;
+import com.jc.crm.config.logger.ControllerServiceLog;
 import com.jc.crm.form.tag.TagInsertForm;
 import com.jc.crm.model.TagEntity;
 import com.jc.crm.service.tag.TagServiceImpl;
@@ -35,6 +36,7 @@ public class TagController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @PostMapping
+    @ControllerServiceLog
     public Result addTag(@Validated @RequestBody TagInsertForm tagInsertForm, BindingResult result) {
         String flag;
         String mess1 = "成功";
@@ -63,6 +65,7 @@ public class TagController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @GetMapping
+    @ControllerServiceLog
     public Result searchCompetitors(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                     @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
         PageInfo<TagEntity> pageInfo;

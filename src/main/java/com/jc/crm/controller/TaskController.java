@@ -3,6 +3,7 @@ package com.jc.crm.controller;
 import com.github.pagehelper.PageInfo;
 import com.jc.crm.config.Result;
 import com.jc.crm.config.ResultStatus;
+import com.jc.crm.config.logger.ControllerServiceLog;
 import com.jc.crm.form.task.TaskForm;
 import com.jc.crm.model.TaskEntity;
 import com.jc.crm.service.task.TaskService;
@@ -34,6 +35,7 @@ public class TaskController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
+    @ControllerServiceLog
     public Result create(@Validated @RequestBody TaskForm taskForm, BindingResult result, @RequestAttribute("uid")Integer uid) {
         if (result.hasErrors()) {
             return Result.fail(ResultStatus.FAIL, result.getAllErrors().get(0).getDefaultMessage());
@@ -49,6 +51,7 @@ public class TaskController {
             @ApiImplicitParam(name = "Authorization", paramType = "header"),
             @ApiImplicitParam(name = "taskForm", dataTypeClass = TaskForm.class)
     })
+    @ControllerServiceLog
     public Result update(@Validated @RequestBody TaskForm form, BindingResult result, @RequestAttribute("uid") Integer uid) {
         if (result.hasErrors()) {
             return Result.fail(ResultStatus.FAIL, result.getAllErrors().get(0).getDefaultMessage());
@@ -63,6 +66,7 @@ public class TaskController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
+    @ControllerServiceLog
     public Result delete(@RequestParam("taskId")Integer taskId, @RequestAttribute("uid") Integer uid) {
         if (taskService.removeTask(taskId, uid)>0){
             return Result.success(null);
@@ -71,6 +75,7 @@ public class TaskController {
         }
     }
     @GetMapping("{uid}/{pageNum}/{pageSize}")
+    @ControllerServiceLog
     public Result<PageInfo<TaskEntity>> get(@PathVariable("uid") int uid, @PathVariable("pageNum")Integer pageNum,@PathVariable("pageSize")Integer pageSize) {
         PageInfo<TaskEntity> taskEntities = taskService.getTasks(uid,pageSize,pageNum);
         if (taskEntities!=null) {

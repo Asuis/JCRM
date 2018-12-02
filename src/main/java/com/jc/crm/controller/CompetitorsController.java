@@ -3,6 +3,7 @@ package com.jc.crm.controller;
 import com.github.pagehelper.PageInfo;
 import com.jc.crm.config.Result;
 import com.jc.crm.config.ResultStatus;
+import com.jc.crm.config.logger.ControllerServiceLog;
 import com.jc.crm.form.competitors.CompetitorsDeleteForm;
 import com.jc.crm.form.competitors.CompetitorsInsertForm;
 import com.jc.crm.form.competitors.CompetitorsSelectVo;
@@ -40,6 +41,7 @@ public class CompetitorsController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @PostMapping
+    @ControllerServiceLog
     public Result addCompetitors(@Validated @RequestBody CompetitorsInsertForm competitorsInsertForm,
                                  BindingResult result, @RequestAttribute Integer uid) {
         String flag;
@@ -69,6 +71,7 @@ public class CompetitorsController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @PutMapping
+    @ControllerServiceLog
     public Result updateCompetitors(@Validated @RequestBody CompetitorsUpdateForm competitorsUpdateForm,
                                     BindingResult result, @RequestAttribute Integer uid) {
         String flag;
@@ -106,6 +109,7 @@ public class CompetitorsController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @PutMapping("delete")
+    @ControllerServiceLog
     public Result deleteCompetitors(@Validated @RequestBody CompetitorsDeleteForm competitorsDeleteForm, @RequestAttribute Integer uid) {
         String flag;
         String mess1 = "成功";
@@ -139,6 +143,7 @@ public class CompetitorsController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @PostMapping("add")
+    @ControllerServiceLog
     public Result attachCompetitorsTag(@RequestBody CompetitorsTagLinkInsertForm competitorsTagLinkInsertForm,
                                        @RequestAttribute Integer uid) {
         String flag;
@@ -173,6 +178,7 @@ public class CompetitorsController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @DeleteMapping
+    @ControllerServiceLog
     public Result removeCompetitorsTag(@RequestBody CompetitorsTagLinkDeleteForm competitorsTagLinkDeleteForm,
                                        @RequestAttribute Integer uid) {
         String flag;
@@ -203,6 +209,7 @@ public class CompetitorsController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @GetMapping
+    @ControllerServiceLog
     public Result searchCompetitors(@RequestParam(value = "keyword", required = false) String keyword,
                                     @RequestAttribute Integer uid,
                                     @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
@@ -229,6 +236,7 @@ public class CompetitorsController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @GetMapping("search")
+    @ControllerServiceLog
     public Result searchCompetitorsByMyself(@RequestAttribute Integer uid,
                                     @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                     @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {

@@ -1,6 +1,7 @@
 package com.jc.crm.controller;
 
 import com.jc.crm.config.Result;
+import com.jc.crm.config.logger.ControllerServiceLog;
 import io.swagger.annotations.Api;
 import com.github.pagehelper.PageInfo;
 import com.jc.crm.config.ResultStatus;
@@ -35,6 +36,7 @@ public class BusinessOpportunityController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @PostMapping
+    @ControllerServiceLog
     public Result addOpportunity(@Validated @RequestBody BusinessOpportunityInsertForm businessOpportunityInsertForm,
                                  BindingResult result, @RequestAttribute Integer uid) {
         String flag;
@@ -72,6 +74,7 @@ public class BusinessOpportunityController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @PutMapping
+    @ControllerServiceLog
     public Result updateOpportunity(@Validated @RequestBody BusinessOpportunityUpdateForm businessOpportunityUpdateForm,
                                     BindingResult result, @RequestAttribute Integer uid) {
         String flag;
@@ -109,6 +112,7 @@ public class BusinessOpportunityController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @PutMapping("partial")
+    @ControllerServiceLog
     public Result updateOpportunityPartial(@Validated @RequestBody BusinessOpportunityUpdatePartialForm businessOpportunityUpdatePartialForm,
                                     BindingResult result, @RequestAttribute Integer uid) {
         String flag;
@@ -142,6 +146,7 @@ public class BusinessOpportunityController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @PutMapping("delete")
+    @ControllerServiceLog
     public Result deleteBusinessOpportunity(@Validated @RequestBody BusinessOpportunityDeleteForm businessOpportunityDeleteForm, @RequestAttribute Integer uid) {
         String flag;
         String mess1 = "成功";
@@ -175,6 +180,7 @@ public class BusinessOpportunityController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @PostMapping("source")
+    @ControllerServiceLog
     public Result addOpportunitySource(@Validated @RequestBody BusinessOpportunitySourceInsertForm businessOpportunitySourceInsertForm,
                                  BindingResult result, @RequestAttribute Integer uid) {
         String flag;
@@ -208,6 +214,7 @@ public class BusinessOpportunityController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @PutMapping("source")
+    @ControllerServiceLog
     public Result updateOpportunitySource(@Validated @RequestBody BusinessOpportunitySourceUpdateForm businessOpportunitySourceUpdateForm,
                                            BindingResult result, @RequestAttribute Integer uid) {
         String flag;
@@ -245,6 +252,7 @@ public class BusinessOpportunityController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @PostMapping("application")
+    @ControllerServiceLog
     public Result addOpportunityApplication(@Validated @RequestBody BusinessOpportunityApplicationInsertForm businessOpportunityApplicationInsertForm,
                                  BindingResult result, @RequestAttribute Integer uid) {
         String flag;
@@ -282,6 +290,7 @@ public class BusinessOpportunityController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @PutMapping("agree")
+    @ControllerServiceLog
     public Result agreeOpportunityApplication(@RequestBody BusinessOpportunityAgreeApplicationForm businessOpportunityAgreeApplicationForm,
                                           @RequestAttribute Integer uid) {
         String flag;
@@ -313,6 +322,7 @@ public class BusinessOpportunityController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @PutMapping("reject")
+    @ControllerServiceLog
     public Result rejectOpportunityApplication(@Validated @RequestBody BusinessOpportunityRejectApplicationForm businessOpportunityRejectApplicationForm,
                                                BindingResult result, @RequestAttribute Integer uid) {
         String flag;
@@ -347,6 +357,7 @@ public class BusinessOpportunityController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @GetMapping("stage")
+    @ControllerServiceLog
     public Result searchStage(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                     @RequestParam(value = "pageSize", defaultValue = "6") Integer pageSize) {
         PageInfo<BusinessOpportunityStageSelectVo> pageInfo;
@@ -371,6 +382,7 @@ public class BusinessOpportunityController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @GetMapping("source")
+    @ControllerServiceLog
     public Result searchSource(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                               @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
         PageInfo<BusinessOpportunitySourceSelectVo> pageInfo;
@@ -395,6 +407,7 @@ public class BusinessOpportunityController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @GetMapping("reason")
+    @ControllerServiceLog
     public Result searchLossReason(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
         PageInfo<BusinessOpportunityLossReasonSelectVo> pageInfo;
@@ -419,6 +432,7 @@ public class BusinessOpportunityController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @GetMapping("status")
+    @ControllerServiceLog
     public Result searchSourceStatus(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                    @RequestParam(value = "pageSize", defaultValue = "4") Integer pageSize) {
         PageInfo<BusinessOpportunitySourceStatusSelectVo> pageInfo;
@@ -443,6 +457,7 @@ public class BusinessOpportunityController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @GetMapping("type")
+    @ControllerServiceLog
     public Result searchSourceType(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                      @RequestParam(value = "pageSize", defaultValue = "9") Integer pageSize) {
         PageInfo<BusinessOpportunitySourceTypeSelectVo> pageInfo;
@@ -467,6 +482,7 @@ public class BusinessOpportunityController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @GetMapping("searchSource")
+    @ControllerServiceLog
     public Result searchSourceByKeyWord(@RequestParam(value = "keyword", required = false) String keyword,
                                     @RequestAttribute Integer uid,
                                     @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
@@ -493,6 +509,7 @@ public class BusinessOpportunityController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @GetMapping("searchOpp")
+    @ControllerServiceLog
     public Result searchOppByKeyWord(@RequestParam(value = "keyword", required = false) String keyword,
                                         @RequestAttribute Integer uid,
                                         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
@@ -519,6 +536,7 @@ public class BusinessOpportunityController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @GetMapping("searchRecord")
+    @ControllerServiceLog
     public Result searchRecordByKeyWord(@RequestParam(value = "keyword", required = false) String keyword,
                                         @RequestAttribute Integer uid,
                                         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
@@ -545,6 +563,7 @@ public class BusinessOpportunityController {
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
     @GetMapping("chart")
+    @ControllerServiceLog
     public Result searchAccountMoneyByTime(@RequestParam(value = "startTime", required = false) String startTime,
                                            @RequestParam(value = "endTime", required = false) String endTime,
                                            @RequestParam(value = "businessOppId", required = false) Integer businessOppId,
