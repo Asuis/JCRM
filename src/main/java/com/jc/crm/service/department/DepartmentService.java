@@ -1,7 +1,7 @@
 package com.jc.crm.service.department;
 
 import com.jc.crm.model.UserEntity;
-import com.jc.crm.service.department.vo.UserDepartmentVO;
+import com.jc.crm.service.department.vo.UserDepartmentVO;` `
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
