@@ -41,6 +41,7 @@ public class BusinessOpportunityController {
         String mess1 = "成功";
         String mess2 = "已存在";
         String mess3 = "不存在";
+        String mess4 = "权限不足";
         if (result.hasErrors()) {
             return Result.fail(ResultStatus.FAIL, result.getFieldError().toString());
         }
@@ -58,6 +59,9 @@ public class BusinessOpportunityController {
         }
         if (flag.equals(mess3)) {
             return Result.fail(ResultStatus.NOT_FOUND, "该市场来源或阶段不存在");
+        }
+        if (flag.equals(mess4)) {
+            return Result.fail(ResultStatus.NOT_FOUND, "权限不足，无法添加商业机会");
         } else {
             return Result.fail(ResultStatus.FAIL, "失败");
         }
@@ -522,6 +526,33 @@ public class BusinessOpportunityController {
         PageInfo<BusinessRecordSelectVo> pageInfo;
         try {
             pageInfo = businessOpportunityService.selectRecordListByKeyWord(keyword, uid,pageNum, pageSize);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.fail(ResultStatus.EXCEPTION, "发生异常：e.getMessage()");
+        }
+        if (pageInfo.getTotal() != 0) {
+            return Result.success(pageInfo);
+        }
+        if (pageInfo.getTotal() == 0) {
+            return Result.fail(ResultStatus.NOT_INFO, "查询信息为空");
+        } else {
+            return Result.fail(ResultStatus.FAIL, "失败");
+        }
+    }
+
+    @ApiOperation(value = "根据时间查询机会价值变化信息", response = Result.class)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", paramType = "header")
+    })
+    @GetMapping("chart")
+    public Result searchAccountMoneyByTime(@RequestParam(value = "startTime", required = false) String startTime,
+                                           @RequestParam(value = "endTime", required = false) String endTime,
+                                           @RequestParam(value = "businessOppId", required = false) Integer businessOppId,
+                                           @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                           @RequestParam(value = "pageSize", defaultValue = "7") Integer pageSize) {
+        PageInfo<BusinessOpportunityAccountMoneyVo> pageInfo;
+        try {
+            pageInfo = businessOpportunityService.selectAccountMoneyListByTime(startTime, endTime, businessOppId, pageNum, pageSize);
         } catch (Exception e) {
             e.printStackTrace();
             return Result.fail(ResultStatus.EXCEPTION, "发生异常：e.getMessage()");

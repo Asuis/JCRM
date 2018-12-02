@@ -91,24 +91,18 @@ public interface CompetitorMapper {
     /**
      * 根据关键字和登录的用户ID多表关联动态模糊查询竞争对手列表信息
      * @param keyword 关键字
-     * @param uid 登录用户ID
+     * @param uidList 有权限的用户ID列表
      * @return CompetitorsSelectVo类的泛型集合
      * */
     @SelectProvider(type = CompetitorSqlProvider.class, method = "queryList")
-    List<CompetitorsSelectVo> selectByKeyWord(@Param("keyword") String keyword, @Param("uid") Integer uid);
+    List<CompetitorsSelectVo> selectByKeyWord(@Param("keyword") String keyword, @Param("uidList")List<Integer> uidList);
 
     /**
      * 根据登录的用户ID多表关联查询该用户编辑的竞争对手列表信息
      * @param uid 登录用户ID
      * @return CompetitorsSelectVo类的泛型集合
      * */
-    @Select("SELECT * FROM competitors c \n" +
-            "INNER JOIN department_user_link l \n" +
-            "ON c.holder = l.user_id \n" +
-            "INNER JOIN department d \n" +
-            "ON d.department_id = l.department_id \n" +
-            " WHERE c.holder = #{holder} \n" +
-            "AND l.is_actived = 1 ORDER BY c.competitor_id ASC")
+    @Select("SELECT * FROM competitors WHERE holder = #{holder} ORDER BY competitor_id ASC")
     List<CompetitorsSelectVo> selectByHolder(Integer uid);
 
     /**

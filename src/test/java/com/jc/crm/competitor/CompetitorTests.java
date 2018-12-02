@@ -21,10 +21,13 @@ public class CompetitorTests {
     @Test
     public void test() {
         try {
-            PageInfo<CompetitorsSelectVo> pageInfo = competitorsService.selectListByKeyWord("华", 1, 1,5);
+            PageInfo<CompetitorsSelectVo> pageInfo = competitorsService.selectListByKeyWord("", 28, 1,5);
             logger.info(pageInfo.toString());
+            logger.info(pageInfo.getTotal()+"");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+
 }

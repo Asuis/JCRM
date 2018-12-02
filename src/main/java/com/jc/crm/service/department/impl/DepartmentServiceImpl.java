@@ -34,8 +34,20 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
+    public List<Integer> getIdsByUser(Integer uid) {
+        UserDepartmentVO departmentVO = departmentMapper.getDepartmentDetailByUser(uid);
+        if(departmentVO==null) {
+            return null;
+        }
+        return departmentMapper.getDepartmentUserByDepartmentId(departmentVO.getDepartmentId(), departmentVO.getEid());
+    }
+
+    @Override
     public boolean isHaveAuth(Integer uid, Integer cuid) {
         UserDepartmentVO departmentVO = departmentMapper.getDepartmentDetailByUser(uid);
+        if(departmentVO==null) {
+            return false;
+        }
         return departmentMapper.isHaveAuth(departmentVO.getWeight(),departmentVO.getDepartmentId(),departmentVO.getEid(),cuid) > 0;
     }
 }

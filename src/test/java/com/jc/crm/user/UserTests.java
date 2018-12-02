@@ -28,6 +28,10 @@ public class UserTests {
         logger.info(a+"");
     }
     @Test
+    public void getDepartmentUsers(){
+        logger.info(departmentService.getIdsByUser(27).toString());
+    }
+    @Test
     public void loginTests() {
 //        userService.login("727443530@qq.com", "Mysql123456");
     }

@@ -20,9 +20,9 @@ public interface BusinessOpportunityMapper {
      * @param businessOpportunityEntity 商业机会表(business_opp)实体类
      * @return int类型的变量
      * */
-    @Insert("INSERT INTO business_opp(opp_name, description, opp_stage_id, opp_source_id, opp_account_money_id, " +
+    @Insert("INSERT INTO business_opp(opp_name, description, opp_stage_id, opp_source_id, " +
             "holder, executor, important_level, roi_analysis_completed, budget_confirmed, is_completed, is_deleted, possibility, next_step, " +
-            "ex_1, deadline, ctime, utime, cid) VALUES(#{oppName},#{description},#{oppStageId},#{oppSourceId},#{oppAccountMoneyId}," +
+            "ex_1, deadline, ctime, utime, cid) VALUES(#{oppName},#{description},#{oppStageId},#{oppSourceId}," +
             "#{holder},#{executor},#{importantLevel},#{roiAnalysisCompleted},#{budgetConfirmed},#{isCompleted},#{isDeleted},#{possibility},#{nextStep}," +
             "#{ex1},#{deadline},#{ctime},#{utime},#{cid})")
     @Options(useGeneratedKeys = true, keyProperty = "businessOppId")
@@ -42,8 +42,8 @@ public interface BusinessOpportunityMapper {
      * 添加商业机会价值信息
      * @param businessOpportunityAccountMoneyEntity 商业机会价值表(business_opp_account_money)实体类
      * */
-    @Insert("INSERT INTO business_opp_account_money(account_money, description, ex_1, ctime, utime) " +
-            "VALUES(#{accountMoney},#{description},#{ex1},#{ctime},#{utime})")
+    @Insert("INSERT INTO business_opp_account_money(business_opp_id, account_money, description, ex_1, ctime, utime) " +
+            "VALUES(#{businessOppId},#{accountMoney},#{description},#{ex1},#{ctime},#{utime})")
     @Options(useGeneratedKeys = true, keyProperty = "oppAccountMoneyId")
     void insertAccountMoney(BusinessOpportunityAccountMoneyEntity businessOpportunityAccountMoneyEntity);
 
@@ -116,14 +116,15 @@ public interface BusinessOpportunityMapper {
     /**
      * 修改商业机会机会价格信息
      * @param businessOpportunityAccountMoneyEntity 商业机会价值表(business_opp_account_money)实体类
-     * */
+
     @Update("UPDATE business_opp_account_money SET account_money = #{accountMoney}, utime = #{utime} WHERE opp_account_money_id = #{oppAccountMoneyId}")
     void updateAccountMoney(BusinessOpportunityAccountMoneyEntity businessOpportunityAccountMoneyEntity);
+    */
 
     /**
      * 修改商业机会状态信息(0为未删除，1为已删除)
      * @param businessOpportunityEntity 商业机会表(business_opp)实体类
-
+     * @return int类型的变量
      * */
     @Update("UPDATE business_opp SET is_deleted = #{isDeleted}, utime = #{utime} WHERE business_opp_id = #{businessOppId} AND holder = #{holder}")
     int delete(BusinessOpportunityEntity businessOpportunityEntity);
@@ -145,10 +146,9 @@ public interface BusinessOpportunityMapper {
     /**
      * 删除状态为赢得的商业机会的重复信息
      * @param businessRecordEntity 商业机会赢得记录表(business_record)实体类
-     * @return int类型的变量
      * */
     @Delete("DELETE FROM business_record WHERE business_opp_id = #{businessOppId}")
-    int deleteRecord(BusinessRecordEntity businessRecordEntity);
+    void deleteRecord(BusinessRecordEntity businessRecordEntity);
 
     /**
      * 根据商业机会ID查询商业机会列表信息
@@ -240,6 +240,15 @@ public interface BusinessOpportunityMapper {
     BusinessRecordEntity selectRecordByOppId(Integer businessOppId);
 
     /**
+     * 根据商业机会ID查询商业机会价值列表信息
+     * @param businessOppId 商业机会ID
+     * @param accountMoney 商业机会价值
+     * @return BusinessOpportunityAccountMoneyEntity对象
+     * */
+    @Select("SELECT * FROM business_opp_account_money WHERE business_opp_id = #{businessOppId} AND account_money = #{accountMoney}")
+    BusinessOpportunityAccountMoneyEntity selectAccountMoneyByBusinessOppId(Integer businessOppId, String accountMoney);
+
+    /**
      * 查询商业机会阶段列表信息
      * @return BusinessOpportunityStageSelectVo类的泛型集合
      * */
@@ -285,29 +294,40 @@ public interface BusinessOpportunityMapper {
     /**
      * 根据关键字和登录的用户ID多表关联动态模糊查询市场来源列表信息
      * @param keyword 关键字
-     * @param uid 登录用户ID
+     * @param uidList 有权限的用户ID列表
      * @return BusinessOpportunitySourceEntity类的泛型集合
      * */
     @SelectProvider(type = BusinessOpportunitySqlProvider.class, method = "queryListOne")
-    List<BusinessOpportunitySourceEntity> selectSourceByKeyWord(@Param("keyword") String keyword, @Param("uid") Integer uid);
+    List<BusinessOpportunitySourceEntity> selectSourceByKeyWord(@Param("keyword") String keyword, @Param("uidList")List<Integer> uidList);
 
     /**
      * 根据关键字和登录的用户ID多表关联动态模糊查询喊申请信息的商业机会列表信息
      * @param keyword 关键字
-     * @param uid 登录用户ID
+     * @param uidList 有权限的用户ID列表
      * @return BusinessOpportunitySelectVo类的泛型集合
      * */
     @SelectProvider(type = BusinessOpportunitySqlProvider.class, method = "queryListTwo")
-    List<BusinessOpportunitySelectVo> selectOppByKeyWord(@Param("keyword") String keyword, @Param("uid") Integer uid);
+    List<BusinessOpportunitySelectVo> selectOppByKeyWord(@Param("keyword") String keyword, @Param("uidList")List<Integer> uidList);
 
     /**
-     * 根据关键字和登录的用户ID多表关联动态模糊查询喊申请信息的商业机会列表信息
+     * 根据关键字和登录的用户ID多表关联动态模糊查询阶段为赢得的的商业机会列表信息
      * @param keyword 关键字
-     * @param uid 登录用户ID
+     * @param uidList 有权限的用户ID列表
      * @return BusinessRecordEntity类的泛型集合
      * */
     @SelectProvider(type = BusinessOpportunitySqlProvider.class, method = "queryListThree")
-    List<BusinessRecordSelectVo> selectRecordByKeyWord(@Param("keyword") String keyword, @Param("uid") Integer uid);
+    List<BusinessRecordSelectVo> selectRecordByKeyWord(@Param("keyword") String keyword, @Param("uidList")List<Integer> uidList);
+
+    /**
+     * 根据商业机会ID和输入的时间段获得机会价值变化图表
+     * @param startTime 开始时间
+     * @param endTime 截止时间
+     * @param businessOppId 商业机会ID
+     * @return BusinessRecordEntity类的泛型集合
+     * */
+
+    @Select("SELECT * FROM business_opp_account_money WHERE (LEFT(ctime,10) BETWEEN  #{startTime} AND  #{endTime}) AND business_opp_id = #{businessOppId}")
+    List<BusinessOpportunityAccountMoneyVo> selectAccountMoneyByTime(@Param("startTime") String startTime, @Param("endTime") String endTime, @Param("businessOppId")Integer businessOppId);
 
 
 }
