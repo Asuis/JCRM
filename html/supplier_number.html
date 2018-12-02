@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title> 供应商数量分析</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="favicon.ico"> <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+
+    <link href="/css/animate.css" rel="stylesheet">
+    <link href="/css/style.css?v=4.1.0" rel="stylesheet">
+	<link href="/css/supplier_number.css" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+    <div class="row  border-bottom white-bg dashboard-header">
+
+
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h3 class="text-center" >总供货商数</h3>
+                        <div class="ibox-tools">
+
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="echarts-supplier-number">
+                        	<h1 class="text-center" id="supplier-all"> 265415616</h1>
+                        	<div class="text-right right-under-number"> 
+                        	</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+       
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>区域分布</h5>
+                        <div class="ibox-tools">
+
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                    	<div class="row">
+                    		<div class="echarts_area_distribution col-sm-12" id="echarts-bar-chart"></div>
+                    	</div>
+                        
+                    </div>
+                </div>
+            </div>
+		
+    <!-- 全局js -->
+    <script src="/js/plugins/jquery/jquery.min.js"></script>
+
+
+    
+    <!-- ECharts -->
+    <script src="/js/plugins/echarts/echarts.min.js"></script>
+<!--    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+    <script src="http://api.map.baidu.com/api?v=2.0&ak=f247cdb592eb43ebac6ccd27f796e2d2"></script>
+	<script src="/js/plugins/bmap/bmap.min.js"></script>-->
+    <script src="/js/plugins/bootstrap/bootstrap.min.js"></script>
+
+
+
+    <!-- ECharts demo data -->
+    <script src="/js/page/supplier_number.js"></script>
+
+    
+
+</body>
+
+</html>

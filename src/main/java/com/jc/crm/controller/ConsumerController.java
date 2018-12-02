@@ -17,6 +17,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 客户信息管理控制层
  * @author asuis
@@ -131,7 +134,7 @@ public class ConsumerController {
         System.out.println(cid+"....................");
         String flag;
         String mess1 = "成功";
-        String mess2 = "用户不存在";
+        String mess2 = "客户不存在";
         try {
             flag = consumerService.deleteConsumer(cid, uid);
         } catch (Exception e) {
@@ -142,9 +145,33 @@ public class ConsumerController {
             return Result.fail(ResultStatus.SUCCESS, "删除成功");
         }
         if (flag.equals(mess2)) {
-            return Result.fail(ResultStatus.NOT_FOUND, "用户不存在");
+            return Result.fail(ResultStatus.NOT_FOUND, "客户不存在");
         }else {
             return Result.fail(ResultStatus.FAIL, "删除失败");
+        }
+    }
+
+    @ApiOperation(value = "查询客户详细", response = Result.class)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", paramType = "header")
+    })
+    @GetMapping("detailed")
+    public Result searchStage(@RequestParam (value = "cid", defaultValue = "")Integer cid,
+                              @RequestAttribute Integer uid){
+        List<Object> list = new ArrayList<>();
+        try{
+            list = consumerService.selectDetailed(cid,uid);
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.fail(ResultStatus.EXCEPTION, "发生异常：e.getMessage()");
+        }
+        if (list.size() != 0){
+            return Result.success(list);
+        }
+        if (list.size() == 0){
+            return Result.fail(ResultStatus.NOT_INFO, "没有信息");
+        }else{
+            return Result.fail(ResultStatus.FAIL, "发生异常");
         }
     }
 }

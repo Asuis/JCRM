@@ -1,0 +1,46 @@
+
+// 取消使用 废弃
+[
+    {
+        "name": "分类1",
+        "amountList": [
+            {
+                "fDate": "2012",
+                "amount": 1242,
+                "children": {
+                    "name": "子分类1",
+                    "amount": 12344
+                }
+            },
+            {
+                "fDate": "2013",
+                "amount": 26456
+            }
+
+        ]
+    },
+    {
+        "name": "分类2",
+        "amountList": [
+            {
+                "fDate": "2012",
+                "amount": 4112,
+                "children": [
+                    {
+                        "name": "子分类5",
+                        "amount": 15646
+                    },
+                    {
+                        "name": "子分类6",
+                        "amount": 15646
+                    }
+                ]
+            },
+            {
+                "fDate": "2013",
+                "amount": 1245
+            }
+
+        ]
+    }
+]

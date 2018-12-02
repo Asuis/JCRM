@@ -69,9 +69,36 @@ public interface ConsumerMapper {
             "</script>")
     List<ConsumerForm> selectAll(@Param(value="keyword")String keyword);
 
+    /**
+     * 查询客户列表信息列表
+     *  @param cid 客户id
+     * if(keyword=空) 查全部
+     * @return Consumer对象
+     * */
+    @Select("SELECT * FROM consumer WHERE cid = #{cid} LIMIT 1")
+    List<Map<String, Object>> selectDetailed(@Param(value="cid")Integer cid);
+
     @Delete("update consumer set state=-1 " +
             "where cid=#{cid}")
     int delete(Integer cid);
 
+    /**
+     * 查询客户地区分布
+     * @return Consumer对象
+     * */
+    @Select("SELECT\n" +
+            "\tad.sumConsumer AS 'sumConsumer',\n" +
+            "  ad.area AS 'area'\n" +
+            "FROM\n" +
+            "\t(SELECT \n" +
+            "\t\tCOUNT(*) AS 'sumConsumer',\n" +
+            "\t\tprovince AS 'area',\n" +
+            "\t\taddress_id\n" +
+            "\tFROM\n" +
+            "\t\taddress\n" +
+            "\tGROUP BY province) AS ad\n" +
+            "\tLEFT OUTER JOIN consumer AS co\n" +
+            "\tON ad.address_id = co.address")
+    List<Map<String,Object>> selectArea();
 
 }

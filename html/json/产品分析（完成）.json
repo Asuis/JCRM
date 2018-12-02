@@ -1,0 +1,28 @@
+[
+    {
+        "fCustName": "客户1",
+        "amountList": [
+            {
+                "fDate": "2014",
+                "amount": 2315
+            },
+            {
+                "fDate": "2015",
+                "amount": 3451
+            }
+        ]
+    },
+    {
+        "fCustName": "客户2",
+        "amountList": [
+            {
+                "fDate": "2014",
+                "amount": 123
+            },
+            {
+                "fDate": "2015",
+                "amount": 111
+            }
+        ]
+    }
+]

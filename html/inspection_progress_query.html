@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link href="/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="/css/style.css?v=4.1.0" rel="stylesheet">
+    <link rel="stylesheet" href="/css/common.css">
+    <style>
+        .btn-primary {
+            color: #fff;
+            background-color: #337ab7;
+            border-color: #2e6da4;
+        }
+    </style>
+    <title>检验综合报告查询</title>
+</head>
+<body>
+    <div class="m-box">
+        <div class="m-heading">
+            <h4>检验综合报告查询</h4>
+        </div>
+        <div class="m-content">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group form-inline inline" style="display: inline-block; margin-right: 20px;">
+                        <label for="">检验品：</label>
+                        <select class="form-control" style="width: 200px">
+                            <option selected>产品</option>
+                            <option>半成品</option>
+                            <option>原料</option>
+                        </select>
+                        <select class="form-control" style="width: 200px" placeholder="产品类型">
+                            <option>类型一</option>
+                            <option>类型二</option>
+                            <option>类型三</option>
+                        </select>
+                        <select class="form-control" style="width: 200px" placeholder="产品名称">
+                            <option>名称一</option>
+                            <option>名称二</option>
+                            <option>名称三</option>
+                        </select>
+                    </div>
+                    <div class="form-group form-inline inline" style="display: inline-block; margin-right: 20px;">
+                        <label for="inspection-progress-datapicker">时间：</label>
+                        <input id="inspection-progress-datapicker" style="width: 100px" type="text" class="form-control datepicker" readonly style="width: 300px">
+                    </div>
+                    <div class="form-group form-inline inline" style="display: inline-block;">
+                        <label for="">合同号：</label>
+                        <input type="text" class="form-control" style="width: 300px">
+                    </div>
+                    <button type="button" class="btn btn-primary" style="display: inline-block">查询</button>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div style="background-color: #fff;">
+                            <div class="ibox-content timeline" style="margin-top: 20px">
+                                <div class="timeline-item">
+                                    <div class="row">
+                                        <div class="col-xs-3 date">
+                                            2018/11/17
+                                            <br>
+                                        </div>
+                                        <div class="col-xs-7 content no-top-border">
+                                            <p class="m-b-xs"><strong>进度2</strong>
+                                            </p>
+                                            <p>开始移交检验室2进行化学成分分析</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="row">
+                                        <div class="col-xs-3 date">
+                                            2018/11/16
+                                            <br>
+                                        </div>
+                                        <div class="col-xs-7 content">
+                                            <p class="m-b-xs"><strong>进度1</strong>
+                                            </p>
+                                            <p>开始移交检验室1进行化学成分分析</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/js/plugins/jquery/jquery.min.js"></script>
+    <script src="/js/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+    <script src="/js/page/inspection-progress-query.js"></script>
+</body>
+</html>

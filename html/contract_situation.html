@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/plugins/bootstrap-table/bootstrap-table.css">
+    <link rel="stylesheet" href="/css/common.css">
+
+</head>
+<body>
+    <div class="m-box" style="border: solid 1px #ccc; margin: 10px; padding: 10px">
+        <div class="m-heading">合同查看</div>
+        <div class="m-content">
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">所有合同</a></li>
+                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">未完成</a></li>
+                <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">已完成</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content" style="margin: 10px 0">
+                <div role="tabpanel" class="tab-pane active" id="home">
+                    <table id="table"></table>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="profile">..2.</div>
+                <div role="tabpanel" class="tab-pane" id="messages">.3..</div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+<script src="/js/plugins/jquery/jquery.min.js"></script>
+<script src="/js/plugins/bootstrap/bootstrap.min.js"></script>
+<script src="/js/plugins/bootstrap-table/bootstrap-table.js"></script>
+
+<script>
+    $('#table').bootstrapTable({
+        columns: [
+            {
+                field: 'id',
+                title: '合同编号'
+            }, {
+                field: 'name',
+                title: '合同开始时间'
+            }, {
+                field: 'price',
+                title: '合同结束时间'
+            }, {
+                field: 'price',
+                title: '客户名称/供应商名称'
+            }, {
+                field: 'price',
+                title: '地址'
+            }, {
+                field: 'price',
+                title: '联系方式'
+            }, {
+                field: 'price',
+                title: '合同状态'
+            }
+        ],
+        data: [{
+            id: 1,
+            name: 'Item 1',
+            price: '$1'
+        }, {
+            id: 2,
+            name: 'Item 2',
+            price: '$2'
+        }],
+        striped:true,
+        onClickRow:(row, $element)=>{
+            window.location.href = "./complete_progress.html";
+        }
+    });
+    
+</script>
+</html>

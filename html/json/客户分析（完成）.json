@@ -1,0 +1,28 @@
+   [
+    {
+        "itemName": "产品1",
+        "amountList": [
+            {
+                "fDate": "2014",
+                "fAmount": 2315
+            },
+            {
+                "fDate": "2015",
+                "fAmount": 3451
+            }
+        ]
+    },
+    {
+        "itemName": "产品2",
+        "amountList": [
+            {
+                "fDate": "2014",
+                "fAmount": 123
+            },
+            {
+                "fDate": "2015",
+                "fAmount": 111
+            }
+        ]
+    }
+]

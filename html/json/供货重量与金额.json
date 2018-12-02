@@ -1,0 +1,28 @@
+//供货重量与金额
+[
+	{
+		"name": "asdasd", //供货商名称
+		"supplyList": [
+			{  //当前年各个月份的重量与金额
+			"amount": 2000, //金额
+			"month": 2,  //月
+			"weight": 230  //重量
+			},
+			{
+			"amount": 1000,
+			"month": 11,
+			"weight": 120
+			}
+		]
+	},
+	{
+		"name": "xasxa",
+		"supplyList": [
+			{
+			"amount": 2800,
+			"month": 11,
+			"weight": 220
+			}
+		]
+	}
+]

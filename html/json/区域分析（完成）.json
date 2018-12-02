@@ -1,0 +1,28 @@
+[
+    {
+        "fName": "华北",
+        "orderAmount": [
+            {
+                "fDate": 1,
+                "fAmount": 513
+            },
+            {
+                "fDate": 2,
+                "fAmount": 513
+            }
+        ]
+    },
+    {
+        "fName": "西北",
+        "orderAmount": [
+            {
+                "fDate": 1,
+                "fAmount": 513
+            },
+            {
+                "fDate": 2,
+                "fAmount": 513
+            }
+        ]
+    }
+]

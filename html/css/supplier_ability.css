@@ -1,0 +1,17 @@
+.echarts_one_row{
+	height: 500px;
+}
+.ibox-tools a {
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 5px;
+    color: #0099FF;
+}
+.supplier-logistics{
+	width: 30%;
+	height: auto;
+	margin: auto 0;
+	margin-left: 10%;
+	margin-top: -10px;
+	float: left;
+}

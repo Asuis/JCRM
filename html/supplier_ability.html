@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>供应商供货能力分析</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="favicon.ico"> <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+
+    <link href="/css/animate.css" rel="stylesheet">
+    <!-- style.css 2088行存在样式冲突 导致日期组件自动换行 此处特记  lcp 11/17-->
+    <link href="/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="/css/supplier_ability.css" rel="stylesheet">
+    <link href="/css/plugins/bootstrap-select/bootstrap-select.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/plugins/datapicker/datepicker3.css">
+    <link rel="stylesheet" href="/css/common.css">
+</head>
+
+<body class="gray-bg">
+
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-7">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>供货额度分析</h5>
+                        <div class="ibox-tools">
+			                <div class="form-group form-inline">
+			                    <label for="order-amount-weight-datetimepicker">选择时间：</label>
+			                    <div id="order-amount-weight-datetimepicker" class="input-group date-picker input-daterange inline" >
+			                        <input id="order-amount-weight-datetimepicker-start" class="form-control input-sm datepicker" style="width: 100px" readonly type="text">
+			                        <div class="input-group-addon">-</div>
+			                        <input id="order-amount-weight-datetimepicker-end" class="form-control input-sm datepicker" style="width: 100px" readonly type="text">
+			                    </div>
+			                </div>  
+			             </div>    
+                    </div>
+                    <div class="ibox-content">
+                        <div class="echarts_one_row" id="echarts-scatter-chart"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>供货重量与金额</h5>
+                        
+	                    <div class="supplier-logistics">
+		                        	<select class="selectpicker formData form-control " id=""   name="roleid" multiple data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true">
+										<optgroup label="供应商" id="supplier_select">
+											<option value="1">1</option>
+											<option value="2">2</option>
+											<option value="3">3</option>
+										</optgroup>
+									</select>                    	
+	                    </div>                          
+                        <div class="ibox-tools">
+                        	
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+
+                        <div class="echarts_one_row" id="echarts-line-chart"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-7">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>平均交货周期分析</h5>
+	                    <div class="supplier-logistics">
+		                        	<select class="selectpicker formData form-control " id=""   name="roleid" multiple data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true">
+										<optgroup label="供应商" id="">
+											<option value="1">1</option>
+											<option value="2">2</option>
+											<option value="3">3</option>
+										</optgroup>
+									</select>                    	
+	                    </div>                             
+                        <div class="ibox-tools">
+                        </div>                        	
+                    </div>
+                  
+                    <div class="ibox-content">
+                        <div class="echarts_one_row" id="echarts-bar-chart"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class="ibox float-e-margins ">
+                    <div class="ibox-title ">
+                    		<h5>供应物流分析</h5>
+                    		<div class="supplier-logistics">
+	                        	<select class="selectpicker formData form-control " id=""  name="roleid" multiple data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true">
+									<optgroup label="供应商" id="">
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+									</optgroup>
+								</select>                    	
+                    		</div>    
+
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                	物料
+                            </a>
+                            <a class="action"  href="graph_flot.html#">
+                                	供应商
+                            </a> 
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+
+                        <div class="echarts_one_row" id="echarts-point-chart"></div>
+                    </div>
+                </div>
+            </div>
+        </div>        
+    </div>   
+
+
+    <!-- 全局js -->
+    <script src="/js/plugins/jquery/jquery.min.js"></script>
+    <script src="/js/plugins/bootstrap/bootstrap.min.js"></script>
+    <!-- bootstrap-select -->
+    <script src="/js/plugins/bootstrap-select/bootstrap-select.js"></script>
+
+    <!-- ECharts -->
+    <script src="/js/plugins/echarts/echarts.min.js"></script>
+	<!--bootstrap-datepicker-->
+    <script src="/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+    <!-- 自定义js -->
+    <script src="/js/content.js?v=1.0.0"></script>
+
+	<script src="/js/page/supplier_ability.js"></script>
+
+
+    
+    
+
+</body>
+
+</html>

@@ -1,0 +1,67 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+body {
+    padding: 10px;
+    background-color: #f3f3f4;
+}
+.m-box{
+    border-top: 2px solid #e7eaec;
+    margin-bottom: 25px;
+    background-color: #FFF;
+}
+.m-heading{
+    position: relative;
+    padding: 15px 0 15px 10px;
+    border-bottom: 1px solid #e7eaec;
+}
+.m-heading > h4{
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color:#676a6c;
+}
+.m-toolbox {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+.m-toolbox > *:not(.input-group) {
+    display: inline-block;
+}
+.m-toolbox a {
+    text-decoration: none
+}
+.m-content {
+    padding: 20px 15px;
+}
+
+.datepicker {
+    cursor: pointer;
+    text-align: center;
+    background-color: #FFF !important;
+}
+
+.border-box {
+    background: #fff !important;
+    border: solid 1px #ccc;
+    margin: 10px;
+    padding: 10px;
+}
+.border-box .box-heading {
+    padding: 10px;
+    font-size: 18px;
+    font-weight: 700;
+    color:#676a6c;
+    border-bottom: solid 1px #ccc;
+}
+.border-box .box-body {
+    margin: 10px 0px;
+}
+/*hyh*/
+.chart-toolbox {
+    position: absolute;
+    right:10px;
+    top: 7px;
+}
