@@ -10,6 +10,8 @@ import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +26,9 @@ import java.util.Map;
  */
 @Component
 public class JwtUtils {
+
+    private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
+
     private static final long EXPIRATIONTIME = 432000000;
     // 5天
     private static final String SECRET = "JC++Key";
@@ -72,8 +77,11 @@ public class JwtUtils {
                 .isSigned(jwt);
     }
     public static UserEntity getUsernameFromToken (String token) {
+        logger.info("开始解析token");
         String msg = token.split("\\.")[1];
+        logger.info("获取身份信息" + msg);
         String data = Base64Utils.decode(msg);
+        logger.info("解码:" + data);
         JSONObject jsonObject = JSON.parseObject(data);
         if (!jsonObject.containsKey("sub")) {
             throw new RuntimeException("token格式不正确");

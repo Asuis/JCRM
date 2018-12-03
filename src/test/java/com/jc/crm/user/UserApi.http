@@ -14,3 +14,8 @@ Content-Type: application/json
 }
 
 ###
+
+GET http://localhost:8080/api/user/currentUser
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI3Mjc0NDM1MzBAcXEuY29tIiwiYXV0aG9yaXR5IjpbInVzZXIiXSwiZXhwIjoxNTQ0MTk0NDUxfQ.7djP6THnQluD0Yq-l4nuXP7NpduADi2OawhhyTFM8DIij-CrJGqmBDTO4j_QvJLG
+###

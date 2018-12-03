@@ -8,14 +8,19 @@ import com.jc.crm.config.logger.SystemServiceLog;
 import com.jc.crm.form.account.RegisterForm;
 import com.jc.crm.form.account.UserUpdateForm;
 import com.jc.crm.mapper.ContactMapper;
+import com.jc.crm.mapper.DepartmentMapper;
 import com.jc.crm.mapper.EnterpriseMapper;
 import com.jc.crm.mapper.UserMapper;
+import com.jc.crm.model.TagEntity;
 import com.jc.crm.model.UserEntity;
+import com.jc.crm.service.department.vo.UserDepartmentVO;
 import com.jc.crm.service.user.*;
 import com.jc.crm.service.user.exception.UserAlreadyRegisterException;
 import com.jc.crm.service.user.exception.UserIsLockedException;
 import com.jc.crm.service.user.exception.UserNotFoundException;
 import com.jc.crm.service.user.exception.UserNotRightPassException;
+import com.jc.crm.service.user.vo.GeographicVO;
+import com.jc.crm.service.user.vo.UserDetailVO;
 import com.jc.crm.utils.Base64Utils;
 import com.jc.crm.utils.MD5Utils;
 import com.jc.crm.utils.TimeUtils;
@@ -38,11 +43,13 @@ public class UserServiceImpl implements UserService {
     private final EnterpriseMapper enterpriseMapper;
     private final ContactMapper contactMapper;
 
+    private final DepartmentMapper departmentMapper;
     @Autowired
-    public UserServiceImpl(UserMapper userMapper, EnterpriseMapper enterpriseMapper, ContactMapper contactMapper) {
+    public UserServiceImpl(UserMapper userMapper, EnterpriseMapper enterpriseMapper, ContactMapper contactMapper, DepartmentMapper departmentMapper) {
         this.userMapper = userMapper;
         this.enterpriseMapper = enterpriseMapper;
         this.contactMapper = contactMapper;
+        this.departmentMapper = departmentMapper;
     }
 
     @Override
@@ -120,5 +127,80 @@ public class UserServiceImpl implements UserService {
     public List<String> getRoles(Integer uid) {
 
         return null;
+    }
+    /**
+     * {
+     *     name: 'Serati Ma',
+     *     avatar: 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png',
+     *     userid: '00000001',
+     *     email: 'antdesign@alipay.com',
+     *     signature: '海纳百川，有容乃大',
+     *     title: '交互专家',
+     *     group: '蚂蚁金服－某某某事业群－某某平台部－某某技术部－UED',
+     *     tags: [
+     *       {
+     *         key: '0',
+     *         label: '很有想法的',
+     *       },
+     *       {
+     *         key: '1',
+     *         label: '专注设计',
+     *       },
+     *       {
+     *         key: '2',
+     *         label: '辣~',
+     *       },
+     *       {
+     *         key: '3',
+     *         label: '大长腿',
+     *       },
+     *       {
+     *         key: '4',
+     *         label: '川妹子',
+     *       },
+     *       {
+     *         key: '5',
+     *         label: '海纳百川',
+     *       },
+     *     ],
+     *     notifyCount: 12,
+     *     unreadCount: 11,
+     *     country: 'China',
+     *     geographic: {
+     *       province: {
+     *         label: '浙江省',
+     *         key: '330000',
+     *       },
+     *       city: {
+     *         label: '杭州市',
+     *         key: '330100',
+     *       },
+     *     },
+     *     address: '西湖区工专路 77 号',
+     *     phone: '0752-268888888',
+     *   }
+     * */
+    @Override
+    public UserDetailVO getCurrentUserDetails(UserEntity user) {
+        UserDetailVO userDetailVO = new UserDetailVO();
+        userDetailVO.setAvatar(user.getAvatar());
+        userDetailVO.setEmail(user.getEmail());
+        userDetailVO.setName(user.getUsername());
+
+        userDetailVO.setUserid(String.valueOf(user.getUid()));
+        UserDepartmentVO departmentVO = departmentMapper.getDepartmentDetailByUser(user.getUid());
+        userDetailVO.setGroup(departmentVO.getDepartmentName());
+        userDetailVO.setTitle(departmentVO.getPost());
+
+        List<TagEntity> tags = userMapper.queryUserTags(user.getUid());
+        userDetailVO.setTags(tags);
+
+        //获取通知信息 todo
+        userDetailVO.setNotifyCount(0);
+        userDetailVO.setUnreadCount(0);
+
+        //获取address
+        userDetailVO.setGeographic(new GeographicVO("浙江省","杭州市"));
+        return userDetailVO;
     }
 }

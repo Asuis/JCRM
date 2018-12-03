@@ -5,11 +5,13 @@ import com.jc.crm.config.ResultStatus;
 import com.jc.crm.config.logger.ControllerServiceLog;
 import com.jc.crm.form.account.RegisterForm;
 import com.jc.crm.form.account.UserLoginForm;
+import com.jc.crm.model.UserEntity;
 import com.jc.crm.service.user.*;
 import com.jc.crm.service.user.exception.UserAlreadyRegisterException;
 import com.jc.crm.service.user.exception.UserIsLockedException;
 import com.jc.crm.service.user.exception.UserNotFoundException;
 import com.jc.crm.service.user.exception.UserNotRightPassException;
+import com.jc.crm.service.user.vo.UserDetailVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -119,5 +121,11 @@ public class UserController {
             e.printStackTrace();
         }
         return null;
+    }
+    @GetMapping("currentUser")
+    @ApiOperation("获取当前用户个人信息")
+    public Result getCurrentUser(@RequestAttribute("user")UserEntity user){
+        UserDetailVO userDetailVO = userService.getCurrentUserDetails(user);
+        return Result.success(userDetailVO);
     }
 }

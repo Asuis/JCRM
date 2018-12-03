@@ -1,6 +1,7 @@
 package com.jc.crm.mapper;
 
 import com.jc.crm.model.RoleEntity;
+import com.jc.crm.model.TagEntity;
 import com.jc.crm.model.UserEntity;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
@@ -32,4 +33,6 @@ public interface UserMapper {
             "WHERE x_auth_role.role_id = auth_role_user_link.role_id AND " +
             "uid = #{uid}")
     List<String> getRoles(Integer uid);
+    @Select("SELECT tag.tag_name, tag.tag_id FROM tag, tag_user_link WHERE tag.tag_id = tag_user_link.tag_id AND tag_user_link.uid = #{uid}")
+    List<TagEntity> queryUserTags(Integer uid);
 }
