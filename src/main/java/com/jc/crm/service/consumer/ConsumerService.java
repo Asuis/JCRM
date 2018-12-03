@@ -6,6 +6,8 @@ import com.jc.crm.form.consumer.ConsumerForm;
 import com.jc.crm.mapper.AddressEntityMapper;
 import com.jc.crm.model.Consumer;
 
+import java.util.List;
+
 /**
  * 客户管理业务逻辑定义层接口
  * @author kkhud  2018/11/26 0026.
@@ -30,7 +32,22 @@ public interface ConsumerService {
      * */
     PageInfo<ConsumerForm> selectListByKeyWord(String keyword, Integer uid, Integer pageNum, Integer pageSize);
 
+    /*删除客户
+    * @param cid 客户id
+    * */
     String deleteConsumer(Integer cid,Integer uid);
 
+    /*更新客户信息
+    * @param consumerForm 更新客户实体类对象
+    * */
     String updataConsumer(ConsumerForm consumerForm,Integer uid);
+
+    /*查询单个客户详细信息
+    * @param cid 客户id
+    * */
+    List<Object> selectDetailed(Integer cid, Integer uid);
+
+     /*查询客户地区分布
+    * */
+     String selectArea(Integer uid);
 }
