@@ -1,6 +1,7 @@
 package com.jc.crm.controller;
 
 import com.jc.crm.config.Result;
+import com.jc.crm.config.ResultStatus;
 import com.jc.crm.config.logger.ControllerServiceLog;
 import com.jc.crm.form.enterprise.EnterpriseForm;
 import com.jc.crm.service.enterprise.EnterpriseService;
@@ -36,8 +37,14 @@ public class EnterpriseController {
     @PostMapping
     @ControllerServiceLog
     public Result create(@RequestBody @Validated EnterpriseForm form, BindingResult result, @RequestAttribute("uid")Integer uid) {
-
-        return null;
+        if (result.hasErrors()) {
+            return Result.fail(ResultStatus.FAIL, result.getAllErrors().get(0).getDefaultMessage());
+        }
+        if (enterpriseService.bindEnterpriseForAdmin(form, uid)>0) {
+            return Result.success(null);
+        } else {
+            return Result.fail(ResultStatus.FAIL, "绑定失败");
+        }
     }
     @ApiOperation(value = "修改企业信息，仅admin")
     @ApiImplicitParams({
