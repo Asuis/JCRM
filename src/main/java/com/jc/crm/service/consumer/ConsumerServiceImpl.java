@@ -78,6 +78,20 @@ public class ConsumerServiceImpl implements ConsumerService{
         return "成功";
     }
 
+    /*发展潜在客户*/
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public String updataOfficial(Integer cid,Integer uid){
+        String flag = "";
+        if (consumerMapper.selectByCid(cid) != null){
+            consumerMapper.updataOfficial(cid);
+            flag = "成功";
+        }else{
+            flag = "异常";
+        }
+        return flag;
+    }
+
     /* 查看 & 查找 权限内的 客户信息列表
     * @param keyword 客户名称
     * if(keyword=空) 查全部
@@ -85,7 +99,19 @@ public class ConsumerServiceImpl implements ConsumerService{
     @Override
     public PageInfo<ConsumerForm> selectListByKeyWord(String keyword, Integer uid, Integer pageNum, Integer pageSize){
 //        PageHelper.startPage(pageNum,pageSize);
-        List<ConsumerForm> list = consumerMapper.selectAll(keyword);
+        List<ConsumerForm> list = consumerMapper.selectOfficial(keyword);
+        PageInfo<ConsumerForm> pageInfo = new PageInfo<>(list);
+        return pageInfo;
+    }
+
+    /* 查看 & 查找 潜在客户信息列表（和客户查询分开写，方便查看）
+    * @param keyword 客户名称
+    * if(keyword=空) 查全部
+    * */
+    @Override
+    public PageInfo<ConsumerForm> selectListByKeyWord2(String keyword, Integer uid, Integer pageNum, Integer pageSize){
+//        PageHelper.startPage(pageNum,pageSize);
+        List<ConsumerForm> list = consumerMapper.selectNofficial(keyword);
         PageInfo<ConsumerForm> pageInfo = new PageInfo<>(list);
         return pageInfo;
     }

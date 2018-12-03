@@ -68,7 +68,7 @@ public class ConsumerController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
-    @GetMapping("list")
+    @GetMapping("listOfficial")
     @ControllerServiceLog
     public Result searchStage(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                               @RequestParam(value = "pageSize", defaultValue = "6") Integer pageSize,
@@ -77,6 +77,34 @@ public class ConsumerController {
         PageInfo<ConsumerForm> pageInfo;
         try{
             pageInfo = consumerService.selectListByKeyWord(keyword, pageNum, pageSize,uid);
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.fail(ResultStatus.EXCEPTION, "发生异常：e.getMessage()");
+        }
+        if (pageInfo.getTotal() != 0){
+            return Result.success(pageInfo);
+        }
+        if (pageInfo.getTotal() == 0){
+            return Result.fail(ResultStatus.NOT_INFO, "NULL");
+        }else{
+            return Result.fail(ResultStatus.FAIL, "FALSE");
+        }
+
+    }
+
+    @ApiOperation(value = "查询潜在客户", response = Result.class)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", paramType = "header")
+    })
+    @GetMapping("listNofficial")
+    @ControllerServiceLog
+    public Result searchStage2(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                              @RequestParam(value = "pageSize", defaultValue = "6") Integer pageSize,
+                              @RequestParam (value = "keyword", defaultValue = "")String keyword,
+                              @RequestAttribute Integer uid){
+        PageInfo<ConsumerForm> pageInfo;
+        try{
+            pageInfo = consumerService.selectListByKeyWord2(keyword, pageNum, pageSize,uid);
         }catch (Exception e){
             e.printStackTrace();
             return Result.fail(ResultStatus.EXCEPTION, "发生异常：e.getMessage()");
@@ -118,6 +146,34 @@ public class ConsumerController {
         }
         if (flag.equals(msg2)){
             return Result.fail(ResultStatus.EXISTED, "信息不已存在");
+        }else{
+            return Result.fail(ResultStatus.FAIL, "操作失败");
+        }
+    }
+
+    @ApiOperation(value = "发展潜在客户", response = Result.class)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", paramType = "header")
+    })
+    @PutMapping
+    @ControllerServiceLog
+    public Result updateOfficial(@Validated @RequestBody Integer cid,
+                                  BindingResult result,
+                                  @RequestAttribute Integer uid){
+        String flag;
+        String msg1 = "成功";
+        String msg2 = "异常";
+        if (result.hasErrors()) {
+            return Result.fail(ResultStatus.FAIL, result.getFieldError().toString());
+        }
+        try{
+            flag = consumerService.updataOfficial(cid,uid);
+        }catch (Exception e) {
+            e.printStackTrace();
+            return Result.fail(ResultStatus.EXCEPTION, "发生异常：e.getMessage()");
+        }
+        if (flag.equals(msg1)) {
+            return Result.fail(ResultStatus.SUCCESS, "修改成功");
         }else{
             return Result.fail(ResultStatus.FAIL, "操作失败");
         }
