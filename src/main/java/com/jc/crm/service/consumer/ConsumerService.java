@@ -31,6 +31,8 @@ public interface ConsumerService {
      * @return PageInfo对象
      * */
     PageInfo<ConsumerForm> selectListByKeyWord(String keyword, Integer uid, Integer pageNum, Integer pageSize);
+    /* 潜在客户 区别客户 方便查看 */
+    PageInfo<ConsumerForm> selectListByKeyWord2(String keyword, Integer uid, Integer pageNum, Integer pageSize);
 
     /*删除客户
     * @param cid 客户id
@@ -41,6 +43,9 @@ public interface ConsumerService {
     * @param consumerForm 更新客户实体类对象
     * */
     String updataConsumer(ConsumerForm consumerForm,Integer uid);
+
+    /*发展潜在客户 -> 正式客户 */
+    String updataOfficial(Integer cid,Integer uid);
 
     /*查询单个客户详细信息
     * @param cid 客户id
