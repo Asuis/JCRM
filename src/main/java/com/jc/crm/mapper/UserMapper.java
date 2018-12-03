@@ -35,4 +35,6 @@ public interface UserMapper {
     List<String> getRoles(Integer uid);
     @Select("SELECT tag.tag_name, tag.tag_id FROM tag, tag_user_link WHERE tag.tag_id = tag_user_link.tag_id AND tag_user_link.uid = #{uid}")
     List<TagEntity> queryUserTags(Integer uid);
+    @Insert("INSERT INTO auth_role_user_link(role_id, uid) VALUES((SELECT role_id FROM x_auth_role WHERE role_name = #{roleName}),#{uid})")
+    int insertRoleForUser(@Param("uid") Integer uid, @Param("roleName") String roleName);
 }

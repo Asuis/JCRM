@@ -2,6 +2,7 @@ package com.jc.crm.service.user;
 
 import com.jc.crm.form.account.RegisterForm;
 import com.jc.crm.model.UserEntity;
+import com.jc.crm.utils.Base64Utils;
 import com.jc.crm.utils.MD5Utils;
 import io.jsonwebtoken.security.Keys;
 
@@ -20,14 +21,16 @@ public class UserFactory {
     };
     public static UserEntity create(RegisterForm registerForm) {
         UserEntity userEntity = new UserEntity();
-        userEntity.setUsername(registerForm.getEmail());
-        userEntity.setEmail(registerForm.getEmail());
+        userEntity.setUsername(registerForm.getMail());
+        userEntity.setEmail(registerForm.getMail());
         userEntity.setPass(MD5Utils.encode(registerForm.getPass()));
         userEntity.setAvatar(AVATARS[new Random().nextInt(4)]);
         //生成salt
+        long rand = new Random().nextLong();
+        rand = rand>0?rand:-rand;
         userEntity.setSalt(
                 new String(
-                        Keys.hmacShaKeyFor((userEntity.getPass()+ new Random().nextLong()).getBytes()).getEncoded(), Charset.defaultCharset()));
+                        Keys.hmacShaKeyFor((Base64Utils.encode(userEntity.getPass()) + rand).getBytes()).getEncoded(), Charset.defaultCharset()));
         return userEntity;
     }
 }

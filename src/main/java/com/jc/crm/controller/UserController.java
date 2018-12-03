@@ -68,7 +68,7 @@ public class UserController {
         try {
             code = userService.register(form);
             if (code > 0) {
-                String token = userService.login(form.getEmail(), form.getPass());
+                String token = userService.login(form.getMail(), form.getPass());
                 return Result.success(token);
             } else {
                 return Result.fail(code, "未知错误");

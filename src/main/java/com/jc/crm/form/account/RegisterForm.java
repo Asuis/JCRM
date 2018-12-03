@@ -10,19 +10,51 @@ import javax.validation.constraints.Size;
  */
 public class RegisterForm {
     @Email(message = "message.email不是邮箱格式")
-    private String email;
+    @NotBlank(message = "mail不能为空")
+    private String mail;
     @NotBlank(message = "密码为空")
     @Size(min = 8, max = 32, message = "密码长度要求在8-32位之间")
     @Pattern(regexp = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,32}$", message = "密码不能全部由字母和数字组成")
     private String pass;
-    private String verifyCode;
+    private String confirm;
+    private String prefix;
+    private String mobile;
+    private String captcha;
 
-    public String getEmail() {
-        return email;
+    public String getMail() {
+        return mail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public String getConfirm() {
+        return confirm;
+    }
+
+    public void setConfirm(String confirm) {
+        this.confirm = confirm;
+    }
+
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public void setCaptcha(String captcha) {
+        this.captcha = captcha;
     }
 
     public String getPass() {
@@ -33,20 +65,20 @@ public class RegisterForm {
         this.pass = pass;
     }
 
-    public String getVerifyCode() {
-        return verifyCode;
+    public String getCaptcha() {
+        return captcha;
     }
 
-    public void setVerifyCode(String verifyCode) {
-        this.verifyCode = verifyCode;
+    public void setcaptcha(String captcha) {
+        this.captcha = captcha;
     }
 
     @Override
     public String toString() {
         return "RegisterForm{" +
-                "email='" + email + '\'' +
+                "mail='" + mail + '\'' +
                 ", pass='" + pass + '\'' +
-                ", verifyCode='" + verifyCode + '\'' +
+                ", captcha='" + captcha + '\'' +
                 '}';
     }
 }

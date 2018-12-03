@@ -78,7 +78,11 @@ public class JwtUtils {
     }
     public static UserEntity getUsernameFromToken (String token) {
         logger.info("开始解析token");
-        String msg = token.split("\\.")[1];
+        String messages[] = token.split("\\.");
+        if (messages.length!=3) {
+            return null;
+        }
+        String msg = messages[1];
         logger.info("获取身份信息" + msg);
         String data = Base64Utils.decode(msg);
         logger.info("解码:" + data);

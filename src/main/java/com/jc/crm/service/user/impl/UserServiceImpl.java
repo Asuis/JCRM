@@ -15,6 +15,7 @@ import com.jc.crm.model.TagEntity;
 import com.jc.crm.model.UserEntity;
 import com.jc.crm.service.department.vo.UserDepartmentVO;
 import com.jc.crm.service.user.*;
+import com.jc.crm.service.user.constant.UserRole;
 import com.jc.crm.service.user.exception.UserAlreadyRegisterException;
 import com.jc.crm.service.user.exception.UserIsLockedException;
 import com.jc.crm.service.user.exception.UserNotFoundException;
@@ -58,13 +59,14 @@ public class UserServiceImpl implements UserService {
         UserEntity user = UserFactory.create(registerForm);
 
         //判断账号是否已经注册
-        if (userMapper.getByEmail(registerForm.getEmail()) != null) {
+        if (userMapper.getByEmail(registerForm.getMail()) != null) {
             throw  new UserAlreadyRegisterException("账号已经注册");
         }
 
         if (userMapper.insert(user)!=1) {
             throw new SystemException("系统繁忙请稍后再试");
         }
+        userMapper.insertRoleForUser(user.getUid(), UserRole.USER);
         logger.info("生成User:" + user.toString());
         return user.getUid();
     }
@@ -189,8 +191,10 @@ public class UserServiceImpl implements UserService {
 
         userDetailVO.setUserid(String.valueOf(user.getUid()));
         UserDepartmentVO departmentVO = departmentMapper.getDepartmentDetailByUser(user.getUid());
-        userDetailVO.setGroup(departmentVO.getDepartmentName());
-        userDetailVO.setTitle(departmentVO.getPost());
+        if (departmentVO!=null) {
+            userDetailVO.setGroup(departmentVO.getDepartmentName());
+            userDetailVO.setTitle(departmentVO.getPost());
+        }
 
         List<TagEntity> tags = userMapper.queryUserTags(user.getUid());
         userDetailVO.setTags(tags);
