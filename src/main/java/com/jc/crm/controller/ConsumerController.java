@@ -155,7 +155,7 @@ public class ConsumerController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
-    @PutMapping
+    @PutMapping("toOfficial")
     @ControllerServiceLog
     public Result updateOfficial(@Validated @RequestBody Integer cid,
                                   BindingResult result,
