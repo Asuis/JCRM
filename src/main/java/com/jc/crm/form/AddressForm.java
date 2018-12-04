@@ -61,6 +61,7 @@ public class AddressForm {
     public void setEx1(String ex1) {
         this.ex1 = ex1;
     }
+
     public AddressEntity toAddress() {
         AddressEntity addressEntity = new AddressEntity();
         addressEntity.setCity(this.getCity());

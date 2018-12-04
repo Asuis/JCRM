@@ -1,11 +1,16 @@
 package com.jc.crm.form.contacts;
 
 import com.jc.crm.form.AddressForm;
+import com.jc.crm.model.ContactsEntity;
+import com.jc.crm.utils.TimeUtils;
+
+import java.util.Date;
 
 /**
  * @author asuis
  */
 public class ContactForm {
+    private Integer contactId;
     private String contactName;
     private String phone;
     private String email;
@@ -13,13 +18,20 @@ public class ContactForm {
     private String firstName;
     private String title;
     private Integer pid;
-    /**
-     * 座机
-     * */
+    /**座机*/
     private String telephone;
     private String post;
     private AddressForm address;
     private String department;
+    private int consumerId;
+
+    public Integer getContactId() {return contactId;}
+
+    public void setContactId(Integer contactId) {this.contactId = contactId;}
+
+    public int getConsumerId() {return consumerId;}
+
+    public void setConsumerId(int consumerId) {this.consumerId = consumerId;}
 
     public String getContactName() {
         return contactName;
@@ -107,5 +119,37 @@ public class ContactForm {
 
     public void setDepartment(String department) {
         this.department = department;
+    }
+
+    public ContactsEntity toContact(Integer addressId) {
+        ContactsEntity contactsEntity = new ContactsEntity();
+        contactsEntity.setContactName(this.contactName);
+        contactsEntity.setPhoneNumber(this.phone);
+        contactsEntity.setEmail(this.email);
+        contactsEntity.setFirstName(this.firstName);
+        contactsEntity.setTitle(this.title);
+        contactsEntity.setPid(this.pid);
+        contactsEntity.setPost(this.post);
+        contactsEntity.setDepartment(this.department);
+        contactsEntity.setConsumerId(this.consumerId);
+        contactsEntity.setAddressId(addressId);
+
+        return contactsEntity;
+    }
+
+    public ContactsEntity toContactUpdata(Integer cid) {
+        ContactsEntity contactsEntity = new ContactsEntity();
+        contactsEntity.setConsumerId(cid);
+        contactsEntity.setContactName(this.getContactName());
+        contactsEntity.setPhoneNumber(this.getPhone());
+        contactsEntity.setEmail(this.getEmail());
+        contactsEntity.setFirstName(this.getFirstName());
+        contactsEntity.setTitle(this.getTitle());
+        contactsEntity.setPid(this.getPid());
+        contactsEntity.setPost(this.getPost());
+        contactsEntity.setDepartment(this.getDepartment());
+        contactsEntity.setConsumerId(this.getConsumerId());
+
+        return contactsEntity;
     }
 }

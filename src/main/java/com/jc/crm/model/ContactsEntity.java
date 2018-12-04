@@ -1,6 +1,10 @@
 package com.jc.crm.model;
 
-public class ContactEntity {
+/**
+ * Created by Administrator on 2018/12/4 0004.
+ */
+
+public class ContactsEntity {
     private int contactId;
     private String contactName;
     private String phoneNumber;
@@ -11,10 +15,21 @@ public class ContactEntity {
     private int pid;
     private String telephone;
     private String post;
-    private AddressEntity address;
+    private Integer addressId;
     private String department;
     private int holder;
-    private ConsumerEntity consumer;
+    private int consumerId;
+
+
+    public Integer getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Integer addressId) {
+        this.addressId = addressId;
+    }
+
+
 
     public int getContactId() {
         return contactId;
@@ -96,14 +111,6 @@ public class ContactEntity {
         this.post = post;
     }
 
-    public AddressEntity getAddress() {
-        return address;
-    }
-
-    public void setAddress(AddressEntity address) {
-        this.address = address;
-    }
-
     public String getDepartment() {
         return department;
     }
@@ -120,11 +127,9 @@ public class ContactEntity {
         this.holder = holder;
     }
 
-    public ConsumerEntity getConsumer() {
-        return consumer;
-    }
+    public int getConsumerId() {return consumerId;}
 
-    public void setConsumer(ConsumerEntity consumer) {
-        this.consumer = consumer;
-    }
+    public void setConsumerId(int consumerId) {this.consumerId = consumerId;}
+
 }
+

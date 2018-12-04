@@ -1,4 +1,4 @@
-package com.jc.crm.service.consumer;
+package com.jc.crm.service.consumer.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -12,6 +12,7 @@ import com.jc.crm.mapper.AddressEntityMapper;
 import com.jc.crm.mapper.ConsumerMapper;
 import com.jc.crm.model.AddressEntity;
 import com.jc.crm.model.Consumer;
+import com.jc.crm.service.consumer.ConsumerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +24,7 @@ import java.util.*;
  * @author kkhhdu on 2018/11/26
  */
 @Service
-public class ConsumerServiceImpl implements ConsumerService{
+public class ConsumerServiceImpl implements ConsumerService {
 
     @Autowired
     private final ConsumerMapper consumerMapper;
@@ -34,11 +35,12 @@ public class ConsumerServiceImpl implements ConsumerService{
     }
 
 
-    /*添加客户信息*/
+    /*添加客户 / 潜在客户 信息*/
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public String addConsumers(ConsumerForm consumerForm, Integer uid) {
+    public String addConsumers(ConsumerForm consumerForm,Integer uid) {
         Consumer consumer = new Consumer();
+//        consumerForm.setIsOfficial(isoff);//正式客户 1 / 潜在客户 0；  集成在consumerForm里面
         AddressEntity addressEntity = new AddressEntity();
         addressEntity.setCity(consumerForm.getAddress().getCity());
         addressEntity.setCountry(consumerForm.getAddress().getCountry());

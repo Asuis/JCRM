@@ -4,10 +4,8 @@ import com.github.pagehelper.PageInfo;
 import com.jc.crm.config.Result;
 import com.jc.crm.config.ResultStatus;
 import com.jc.crm.config.logger.ControllerServiceLog;
-import com.jc.crm.form.AddressForm;
 import com.jc.crm.form.consumer.ConsumerForm;
-import com.jc.crm.model.Consumer;
-import com.jc.crm.service.consumer.ConsumerServiceImpl;
+import com.jc.crm.service.consumer.impl.ConsumerServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -157,15 +155,11 @@ public class ConsumerController {
     })
     @PutMapping("toOfficial")
     @ControllerServiceLog
-    public Result updateOfficial(@Validated @RequestBody Integer cid,
-                                  BindingResult result,
+    public Result updateOfficial(@Validated @RequestParam (value = "cid",defaultValue = "")Integer cid,
                                   @RequestAttribute Integer uid){
         String flag;
         String msg1 = "成功";
-        String msg2 = "异常";
-        if (result.hasErrors()) {
-            return Result.fail(ResultStatus.FAIL, result.getFieldError().toString());
-        }
+        System.out.println(cid+".................................");
         try{
             flag = consumerService.updataOfficial(cid,uid);
         }catch (Exception e) {
@@ -186,7 +180,7 @@ public class ConsumerController {
     @PutMapping("delete")
     @ControllerServiceLog
     public Result deleteCompetitors(@Validated @RequestAttribute Integer uid,
-                                        @RequestParam (value = "cid")Integer cid) {
+                                        @RequestParam (value = "cid", defaultValue = "")Integer cid) {
         System.out.println(cid+"....................");
         String flag;
         String mess1 = "成功";
