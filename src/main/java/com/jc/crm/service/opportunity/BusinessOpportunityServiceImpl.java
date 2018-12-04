@@ -52,7 +52,6 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
         businessOpportunityEntity.setOppStageId(businessOpportunityInsertForm.getOppStageId());
         businessOpportunityEntity.setEx1(businessOpportunityInsertForm.getOppEx1());
         businessOpportunityEntity.setOppSourceId(businessOpportunityInsertForm.getOppSourceId());
-
         BusinessOpportunityAccountMoneyEntity businessOpportunityAccountMoneyEntity = new BusinessOpportunityAccountMoneyEntity();
         businessOpportunityAccountMoneyEntity.setAccountMoney(businessOpportunityInsertForm.getAccountMoney());
         BusinessOpportunitySourceEntity businessOpportunitySourceEntity = new BusinessOpportunitySourceEntity();

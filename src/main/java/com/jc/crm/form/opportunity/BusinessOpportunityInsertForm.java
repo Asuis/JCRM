@@ -39,8 +39,6 @@ public class BusinessOpportunityInsertForm {
 
     private Integer isCompleted;
 
-    private Integer isDeleted;
-
     private Integer possibility;
 
     @NotBlank(message = "下一步要做什么的内容不能为空")
@@ -112,10 +110,6 @@ public class BusinessOpportunityInsertForm {
     public Integer getIsCompleted() { return isCompleted; }
 
     public void setIsCompleted(Integer isCompleted) { this.isCompleted = isCompleted; }
-
-    public Integer getIsDeleted() { return isDeleted; }
-
-    public void setIsDeleted(Integer isDeleted) { this.isDeleted = isDeleted; }
 
     public Integer getPossibility() {
         return possibility;
