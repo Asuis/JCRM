@@ -49,6 +49,18 @@ public class Consumer implements Serializable {
 
     private Integer staffNum;
 
+    /* 潜在0 / 正式客户1  */
+    private Integer isOfficial;
+
+    public Integer getIsOfficial() {
+        return isOfficial;
+    }
+
+    public void setIsOfficial(Integer isOfficial) {
+        this.isOfficial = isOfficial;
+    }
+
+
     private static final long serialVersionUID = 1L;
 
     public Integer getCid() {

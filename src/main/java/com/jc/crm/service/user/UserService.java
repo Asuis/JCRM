@@ -2,10 +2,12 @@ package com.jc.crm.service.user;
 
 import com.jc.crm.form.account.RegisterForm;
 import com.jc.crm.form.account.UserUpdateForm;
+import com.jc.crm.model.UserEntity;
 import com.jc.crm.service.user.exception.UserAlreadyRegisterException;
 import com.jc.crm.service.user.exception.UserIsLockedException;
 import com.jc.crm.service.user.exception.UserNotFoundException;
 import com.jc.crm.service.user.exception.UserNotRightPassException;
+import com.jc.crm.service.user.vo.UserDetailVO;
 
 import java.util.List;
 
@@ -50,4 +52,6 @@ public interface UserService {
      * @return 用户权限
      * */
     List<String> getRoles(Integer uid);
+
+    UserDetailVO getCurrentUserDetails(UserEntity user);
 }

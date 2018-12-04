@@ -24,7 +24,6 @@ public class EnterpriseForm {
     @NotNull
     @Valid
     private AddressForm address;
-    @NotNull
     private Integer admin;
     @Size(max = 2048)
     private String ex1;

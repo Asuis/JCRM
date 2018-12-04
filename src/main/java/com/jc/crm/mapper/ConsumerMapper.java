@@ -18,10 +18,10 @@ public interface ConsumerMapper {
      * @return int类型的变量
      * */
     @Insert("INSERT INTO consumer" +
-            "(pid,consumer_name,website,description,industry,address,contact_id,ctime,utime,state,staff_num) " +
+            "(pid,consumer_name,website,description,industry,address,contact_id,ctime,utime,state,staff_num,is_official) " +
             "VALUES" +
             "(#{pid},#{consumerName},#{website},#{description},#{industry},#{address}," +
-            "#{contactId},#{ctime},#{utime},#{state},#{staffNum})")
+            "#{contactId},#{ctime},#{utime},#{state},#{staffNum},#{isOfficial})")
     @Options(useGeneratedKeys = true, keyProperty = "cid", keyColumn = "cid")
     int insert(Consumer consumer);
 
@@ -31,10 +31,19 @@ public interface ConsumerMapper {
      * @return int类型的变量
      * */
     @Update("update consumer set pid=#{pid},consumer_name=#{consumerName},website=#{website},description=#{description}," +
-            "industry=#{industry},utime=#{utime},state=#{state},staff_num=#{staffNum} " +
+            "industry=#{industry},utime=#{utime},state=#{state},staff_num=#{staffNum},is_official=#{isOfficial} " +
             "where cid=#{cid}")
     @Options(useGeneratedKeys = true, keyProperty = "address", keyColumn = "address")
     int updata(Consumer consumer);
+
+    /**
+     * 发展潜在客户
+     * @param cid 潜在客户id
+     * */
+    @Update("update consumer set is_official= 1 " +
+            "where cid=#{cid}")
+    @Options(useGeneratedKeys = true, keyProperty = "address", keyColumn = "address")
+    int updataOfficial(Integer cid);
 
     /**
      * 查询客户列表信息 根据客户名称
@@ -61,17 +70,61 @@ public interface ConsumerMapper {
      * @return Consumer对象
      * */
     @Select("<script>" +
-            "SELECT * FROM consumer\n" +
+            "SELECT * FROM consumer " +
+            "WHERE is_official = 1\n " +
             "    <if test=\"keyword != ''\">\n" +
-            "    WHERE consumer_name LIKE \"%\"#{keyword}\"%\"\n" +
+            "    AND consumer_name LIKE \"%\"#{keyword}\"%\"\n" +
             "    </if>\n" +
             "    GROUP BY consumer_name " +
             "</script>")
-    List<ConsumerForm> selectAll(@Param(value="keyword")String keyword);
+    List<ConsumerForm> selectOfficial(@Param(value="keyword")String keyword);
+
+    /**
+     * 查询潜在客户列表信息列表
+     *  @param keyword 潜在信息（暂定名称-可优化）
+     * if(keyword=空) 查全部
+     * @return Consumer对象
+     * */
+    @Select("<script>" +
+            "SELECT * FROM consumer " +
+            "WHERE is_official = 0\n " +
+            "    <if test=\"keyword != ''\">\n" +
+            "    AND consumer_name LIKE \"%\"#{keyword}\"%\"\n" +
+            "    </if>\n" +
+            "    GROUP BY consumer_name " +
+            "</script>")
+    List<ConsumerForm> selectNofficial(@Param(value="keyword")String keyword);
+
+    /**
+     * 查询客户列表信息列表
+     *  @param cid 客户id
+     * if(keyword=空) 查全部
+     * @return Consumer对象
+     * */
+    @Select("SELECT * FROM consumer WHERE cid = #{cid} LIMIT 1")
+    List<Map<String, Object>> selectDetailed(@Param(value="cid")Integer cid);
 
     @Delete("update consumer set state=-1 " +
             "where cid=#{cid}")
     int delete(Integer cid);
 
+    /**
+     * 查询客户地区分布
+     * @return Consumer对象
+     * */
+    @Select("SELECT\n" +
+            "\tad.sumConsumer AS 'sumConsumer',\n" +
+            "  ad.area AS 'area'\n" +
+            "FROM\n" +
+            "\t(SELECT \n" +
+            "\t\tCOUNT(*) AS 'sumConsumer',\n" +
+            "\t\tprovince AS 'area',\n" +
+            "\t\taddress_id\n" +
+            "\tFROM\n" +
+            "\t\taddress\n" +
+            "\tGROUP BY province) AS ad\n" +
+            "\tLEFT OUTER JOIN consumer AS co\n" +
+            "\tON ad.address_id = co.address")
+    List<Map<String,Object>> selectArea();
 
 }

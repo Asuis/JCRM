@@ -17,7 +17,7 @@ import java.util.Date;
  */
 public class ConsumerForm {
     /***
-     * 潜在客户来源】】】】】】】
+     * 客户来源
      * */
     private Integer cid;
 
@@ -36,7 +36,16 @@ public class ConsumerForm {
     private int state;
     private int staffNum;
     private ContactForm contact;
+    /* 潜在0 / 正式客户1  */
+    private Integer isOfficial;
 
+    public Integer getIsOfficial() {
+        return isOfficial;
+    }
+
+    public void setIsOfficial(Integer isOfficial) {
+        this.isOfficial = isOfficial;
+    }
 
     public Integer getCid() {
         return cid;
@@ -121,6 +130,7 @@ public class ConsumerForm {
         Date now = TimeUtils.getNowTime();
         consumer.setCtime(now);
         consumer.setUtime(now);
+        consumer.setIsOfficial(this.getIsOfficial());
         return consumer;
     }
     public Consumer toConsumerUpdata(Integer cid) {
@@ -133,6 +143,7 @@ public class ConsumerForm {
         consumer.setStaffNum(this.getStaffNum());
         Date now = TimeUtils.getNowTime();
         consumer.setUtime(now);
+        consumer.setIsOfficial(this.getIsOfficial());
         return consumer;
     }
 }

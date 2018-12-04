@@ -1,9 +1,15 @@
 package com.jc.crm.mapper;
 
+import com.jc.crm.bean.Address;
+import com.jc.crm.form.AddressForm;
 import com.jc.crm.model.AddressEntity;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @author asuis
@@ -34,4 +40,12 @@ public interface AddressEntityMapper {
             "address_id=#{addressId}" )
     @Options(useGeneratedKeys = true, keyColumn = "address_id", keyProperty = "addressId")
     int update(AddressEntity addressEntity);
+
+    /**
+     * 查询地址
+     * @param aid 地址id
+     * @return code > 0 查询成功
+     * */
+    @Select("SELECT * FROM address WHERE address_id = #{aid}")
+    AddressEntity selectAddress(@Param(value = "aid")Integer aid);
 }

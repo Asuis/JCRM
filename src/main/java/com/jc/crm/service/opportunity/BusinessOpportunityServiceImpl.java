@@ -2,6 +2,7 @@ package com.jc.crm.service.opportunity;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.jc.crm.config.logger.SystemServiceLog;
 import com.jc.crm.form.opportunity.*;
 import com.jc.crm.mapper.BusinessOpportunityMapper;
 import com.jc.crm.mapper.DepartmentMapper;
@@ -36,6 +37,7 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @SystemServiceLog
     public String addBusinessOpportunity(BusinessOpportunityInsertForm businessOpportunityInsertForm, Integer uid) {
         BusinessOpportunityEntity businessOpportunityEntity = new BusinessOpportunityEntity();
         businessOpportunityEntity.setOppName(businessOpportunityInsertForm.getOppName());
@@ -117,6 +119,7 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @SystemServiceLog
     public String updateBusinessOpportunity(BusinessOpportunityUpdateForm businessOpportunityUpdateForm, Integer uid){
         Date day = new Date();
         BusinessOpportunityEntity businessOpportunityEntity = new BusinessOpportunityEntity();
@@ -198,6 +201,7 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @SystemServiceLog
     public String updateBusinessOpportunityPartial(BusinessOpportunityUpdatePartialForm businessOpportunityUpdatePartialForm, Integer uid) {
         Date day = new Date();
         BusinessOpportunityEntity businessOpportunityEntity = new BusinessOpportunityEntity();
@@ -261,6 +265,7 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
     }
 
     @Override
+    @SystemServiceLog
     public String deleteBusinessOpportunity(BusinessOpportunityDeleteForm businessOpportunityDeleteForm, Integer uid) {
         BusinessOpportunityEntity businessOpportunityEntity = new BusinessOpportunityEntity();
         businessOpportunityEntity.setIsDeleted(businessOpportunityDeleteForm.getIsDeleted());
@@ -298,6 +303,7 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
     }
 
     @Override
+    @SystemServiceLog
     public String addBusinessOpportunitySource(BusinessOpportunitySourceInsertForm businessOpportunitySourceInsertForm, Integer uid) {
 
         BusinessOpportunitySourceEntity businessOpportunitySourceEntity = new BusinessOpportunitySourceEntity();
@@ -348,6 +354,7 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
     }
 
     @Override
+    @SystemServiceLog
     public String updateBusinessOpportunitySource(BusinessOpportunitySourceUpdateForm businessOpportunitySourceUpdateForm, Integer uid) {
         BusinessOpportunitySourceEntity businessOpportunitySourceEntity = new BusinessOpportunitySourceEntity();
         businessOpportunitySourceEntity.setSourceName(businessOpportunitySourceUpdateForm.getSourceName());
@@ -410,6 +417,7 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
     }
 
     @Override
+    @SystemServiceLog
     public String addBusinessOpportunityApplication(BusinessOpportunityApplicationInsertForm businessOpportunityApplicationInsertForm, Integer uid) {
         BusinessOpportunityApplicationEntity businessOpportunityApplicationEntity = new BusinessOpportunityApplicationEntity();
         businessOpportunityApplicationEntity.setAccountMoney(businessOpportunityApplicationInsertForm.getAccountMoney());
@@ -458,6 +466,7 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @SystemServiceLog
     public String agreeBusinessOpportunityApplication(BusinessOpportunityAgreeApplicationForm businessOpportunityAgreeApplicationForm, Integer uid) {
         BusinessOpportunityApplicationEntity businessOpportunityApplicationEntity = new BusinessOpportunityApplicationEntity();
         businessOpportunityApplicationEntity.setOppApplicationId(businessOpportunityAgreeApplicationForm.getOppApplicationId());
@@ -519,6 +528,7 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
     }
 
     @Override
+    @SystemServiceLog
     public String rejectBusinessOpportunityApplication(BusinessOpportunityRejectApplicationForm businessOpportunityRejectApplicationForm, Integer uid) {
         BusinessOpportunityApplicationEntity businessOpportunityApplicationEntity = new BusinessOpportunityApplicationEntity();
         businessOpportunityApplicationEntity.setOppApplicationId(businessOpportunityRejectApplicationForm.getOppApplicationId());
@@ -567,6 +577,7 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
     }
 
     @Override
+    @SystemServiceLog
     public PageInfo<BusinessOpportunityStageSelectVo> selectStageList(Integer pageNum, Integer pageSize) {
         System.out.println("获得商业机会阶段信息列表");
         PageHelper.startPage(pageNum,pageSize);
@@ -577,6 +588,7 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
     }
 
     @Override
+    @SystemServiceLog
     public PageInfo<BusinessOpportunitySourceSelectVo> selectSourceList(Integer pageNum, Integer pageSize) {
         System.out.println("获得商业机会市场来源信息列表");
         PageHelper.startPage(pageNum,pageSize);
@@ -587,6 +599,7 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
     }
 
     @Override
+    @SystemServiceLog
     public PageInfo<BusinessOpportunityLossReasonSelectVo> selectLossReasonList(Integer pageNum, Integer pageSize) {
         System.out.println("获得商业机会丢失原因信息列表");
         PageHelper.startPage(pageNum,pageSize);
@@ -597,6 +610,7 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
     }
 
     @Override
+    @SystemServiceLog
     public PageInfo<BusinessOpportunitySourceStatusSelectVo> selectSourceStatusList(Integer pageNum, Integer pageSize) {
         System.out.println("获得商业机会市场来源状态信息列表");
         PageHelper.startPage(pageNum,pageSize);
@@ -607,6 +621,7 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
     }
 
     @Override
+    @SystemServiceLog
     public PageInfo<BusinessOpportunitySourceTypeSelectVo> selectSourceTypeList(Integer pageNum, Integer pageSize) {
         System.out.println("获得商业机会市场来源类别信息列表");
         PageHelper.startPage(pageNum,pageSize);
@@ -617,6 +632,7 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
     }
 
     @Override
+    @SystemServiceLog
     public PageInfo<BusinessOpportunitySourceEntity> selectSourceListByKeyWord(String keyword, Integer uid, Integer pageNum, Integer pageSize) {
         System.out.println("开始查询市场来源信息");
         List<Integer> uidList = departmentService.getIdsByUser(uid);
@@ -631,6 +647,7 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
     }
 
     @Override
+    @SystemServiceLog
     public PageInfo<BusinessOpportunitySelectVo> selectOppListByKeyWord(String keyword, Integer uid, Integer pageNum, Integer pageSize) {
         System.out.println("开始查询含申请信息的商业机会信息");
         List<Integer> uidList = departmentService.getIdsByUser(uid);
@@ -651,6 +668,7 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
     }
 
     @Override
+    @SystemServiceLog
     public PageInfo<BusinessRecordSelectVo> selectRecordListByKeyWord(String keyword, Integer uid, Integer pageNum, Integer pageSize) {
         System.out.println("开始查询机会完成记录信息");
         List<Integer> uidList = departmentService.getIdsByUser(uid);
@@ -665,6 +683,7 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
     }
 
     @Override
+    @SystemServiceLog
     public PageInfo<BusinessOpportunityAccountMoneyVo> selectAccountMoneyListByTime(String startTime, String endTime, Integer businessOppId, Integer pageNum, Integer pageSize) {
         System.out.println("开始查询该商业机会的价格变化");
         PageHelper.startPage(pageNum,pageSize);
