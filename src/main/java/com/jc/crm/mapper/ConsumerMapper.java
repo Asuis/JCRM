@@ -51,11 +51,11 @@ public interface ConsumerMapper {
      * @return Consumer对象
      * */
     @Select("SELECT * FROM consumer " +
-            "where consumer_name = #{consumerName}")
+            "where consumer_name = #{consumerName} AND state >= 0")
     Consumer selectConsumeByName(String consumerName);
 
     /**
-     * 查询客户列表信息 根据用户名称
+     * 查询客户信息 根据用户名称
      * @param cid 关键字
      * @return Consumer对象
      * */
@@ -67,11 +67,13 @@ public interface ConsumerMapper {
      * 查询客户列表信息列表
      *  @param keyword 客户名称
      * if(keyword=空) 查全部
+     * is_official = 1 代表正式客户
+     * state >= 0 表示 客户存在 <0
      * @return Consumer对象
      * */
     @Select("<script>" +
             "SELECT * FROM consumer " +
-            "WHERE is_official = 1\n " +
+            "WHERE is_official = 1 AND state >= 0\n " +
             "    <if test=\"keyword != ''\">\n" +
             "    AND consumer_name LIKE \"%\"#{keyword}\"%\"\n" +
             "    </if>\n" +
@@ -83,11 +85,13 @@ public interface ConsumerMapper {
      * 查询潜在客户列表信息列表
      *  @param keyword 潜在信息（暂定名称-可优化）
      * if(keyword=空) 查全部
+     * is_official = 1 代表潜在客户
+     * state >= 0 表示 客户存在 <0
      * @return Consumer对象
      * */
     @Select("<script>" +
             "SELECT * FROM consumer " +
-            "WHERE is_official = 0\n " +
+            "WHERE is_official = 0 AND state >= 0\n " +
             "    <if test=\"keyword != ''\">\n" +
             "    AND consumer_name LIKE \"%\"#{keyword}\"%\"\n" +
             "    </if>\n" +
@@ -96,7 +100,7 @@ public interface ConsumerMapper {
     List<ConsumerForm> selectNofficial(@Param(value="keyword")String keyword);
 
     /**
-     * 查询客户列表信息列表
+     * 查询客户详细信息列表
      *  @param cid 客户id
      * if(keyword=空) 查全部
      * @return Consumer对象
@@ -112,19 +116,16 @@ public interface ConsumerMapper {
      * 查询客户地区分布
      * @return Consumer对象
      * */
-    @Select("SELECT\n" +
-            "\tad.sumConsumer AS 'sumConsumer',\n" +
-            "  ad.area AS 'area'\n" +
+    @Select("SELECT \n" +
+            "COUNT(*) AS 'sumConsumer',\n" +
+            "province AS 'area'\n" +
             "FROM\n" +
-            "\t(SELECT \n" +
-            "\t\tCOUNT(*) AS 'sumConsumer',\n" +
-            "\t\tprovince AS 'area',\n" +
-            "\t\taddress_id\n" +
-            "\tFROM\n" +
-            "\t\taddress\n" +
-            "\tGROUP BY province) AS ad\n" +
-            "\tLEFT OUTER JOIN consumer AS co\n" +
-            "\tON ad.address_id = co.address")
+            "address ad\n" +
+            "LEFT OUTER JOIN consumer AS co\n" +
+            "ON ad.address_id = co.address\n" +
+            "WHERE \n" +
+            "state >= 0\n" +
+            "GROUP BY province")
     List<Map<String,Object>> selectArea();
 
 }
