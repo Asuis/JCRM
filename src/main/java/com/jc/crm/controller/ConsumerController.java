@@ -118,7 +118,7 @@ public class ConsumerController {
 
     }
 
-    @ApiOperation(value = "更新客户", response = Result.class)
+    @ApiOperation(value = "更新客户/潜在客户", response = Result.class)
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })
@@ -173,7 +173,7 @@ public class ConsumerController {
         }
     }
 
-    @ApiOperation(value = "删除客户", response = Result.class)
+    @ApiOperation(value = "删除客户/潜在客户", response = Result.class)
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", paramType = "header")
     })

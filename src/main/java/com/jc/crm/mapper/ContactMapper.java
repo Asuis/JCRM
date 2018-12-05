@@ -75,4 +75,13 @@ public interface ContactMapper {
             "</script>")
     List<ContactForm> selectBelon(@Param(value="keyword")String keyword,@Param(value="cid")Integer cid);
 
+    /*
+    * 删除 联系人
+    * @param contactId 联系人id
+    * 这里以改变状态 代替删除
+    * holder 作为联系人状态的变化 存在 1 / 删除 -1
+     */
+    @Delete("update contacts set holder = -1 " +
+            "where consumer_id = #{contactId}")
+    int deleteById(Integer contactId);
 }

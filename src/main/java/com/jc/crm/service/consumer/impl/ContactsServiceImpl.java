@@ -82,9 +82,24 @@ public class ContactsServiceImpl implements ContactsService {
     * */
     @Override
     public PageInfo<ContactForm> selectListByKeyWord(String keyword, Integer cid,Integer uid){
-        System.out.println(cid+"..................");
+        // System.out.println(cid+"..................");
         List<ContactForm> list = contactMapper.selectBelon(keyword,cid);
         PageInfo<ContactForm> pageInfo = new PageInfo<>(list);
         return pageInfo;
+    }
+
+    /* 删除 权限内的 联系人信息列表
+    * @param contactId 联系人id
+    * */
+    @Override
+    public String deleteContact(Integer contactId,Integer uid){
+        String flag = "";
+        if (contactId != null){
+            contactMapper.deleteById(contactId);
+            flag = "成功";
+        }else{
+            flag = "异常";
+        }
+        return flag;
     }
 }
