@@ -119,8 +119,9 @@ public class UserController {
             Files.write(upload.toPath(), bytes);
         } catch (IOException e) {
             e.printStackTrace();
+            return Result.fail(ResultStatus.FAIL, "上传失败");
         }
-        return null;
+        return Result.success(null);
     }
     @GetMapping("currentUser")
     @ApiOperation("获取当前用户个人信息")

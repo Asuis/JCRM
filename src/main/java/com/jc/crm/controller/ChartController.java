@@ -4,7 +4,7 @@ import com.jc.crm.config.Result;
 import com.jc.crm.config.ResultStatus;
 import com.jc.crm.config.logger.ControllerServiceLog;
 import com.jc.crm.form.consumer.ConsumerForm;
-import com.jc.crm.service.consumer.ConsumerServiceImpl;
+import com.jc.crm.service.consumer.impl.ConsumerServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
