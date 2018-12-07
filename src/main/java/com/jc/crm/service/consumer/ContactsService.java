@@ -30,7 +30,7 @@ public interface ContactsService {
     /*删除联系人
     * @param contactId 联系人id
     * */
-//    String deleteConsumer(Integer contactId,Integer uid);
+    String deleteContact(Integer contactId,Integer uid);
 
     /*更新联系人信息
     * @param consumerForm 更新客户实体类对象

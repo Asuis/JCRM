@@ -51,7 +51,7 @@ public interface ContactMapper {
     ContactsEntity selectContactsName(String contactsName);
 
     /**
-     * 查询客户列表信息 根据客户名称
+     * 查询联系人列表信息 根据客户名称
      * @param contactId 客户名称
      * @return Consumer对象
      * */
@@ -67,7 +67,7 @@ public interface ContactMapper {
      * */
     @Select("<script>" +
             "SELECT * FROM contacts " +
-            "WHERE consumer_id = #{cid}\n " +
+            "WHERE consumer_id = #{cid} AND holder >= 0\n " +
             "    <if test=\"keyword != ''\">\n" +
             "    AND consumer_name LIKE \"%\"#{keyword}\"%\"\n" +
             "    </if>\n" +
@@ -75,4 +75,13 @@ public interface ContactMapper {
             "</script>")
     List<ContactForm> selectBelon(@Param(value="keyword")String keyword,@Param(value="cid")Integer cid);
 
+    /*
+    * 删除 联系人
+    * @param contactId 联系人id
+    * 这里以改变状态 代替删除
+    * holder 作为联系人状态的变化 存在 0 / 删除 -1
+     */
+    @Delete("update contacts set holder = -1 " +
+            "where contact_id = #{contactId}")
+    int deleteById(Integer contactId);
 }

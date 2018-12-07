@@ -113,6 +113,27 @@ public class ContactsController {
         }else{
             return Result.fail(ResultStatus.FAIL, "FALSE");
         }
+    }
 
+    @ApiOperation(value="删除联系人", response = Result.class)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", paramType = "header")
+    })
+    @PutMapping("delConstct")
+    @ControllerServiceLog
+    public Result delConstct(@Validated @RequestParam (value = "contactId",defaultValue = "")Integer contactId,
+                                @RequestAttribute Integer uid){
+        String flag;
+        try{
+            flag = contactsService.deleteContact(contactId,uid);
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.fail(ResultStatus.EXCEPTION, "发生异常：e.getMessage()");
+        }
+        if (flag.equals("成功")){
+            return Result.fail(ResultStatus.SUCCESS,"删除成功");
+        }else {
+            return  Result.fail(ResultStatus.FAIL,"操作失败");
+        }
     }
 }
