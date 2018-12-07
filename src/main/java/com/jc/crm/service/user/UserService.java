@@ -1,5 +1,6 @@
 package com.jc.crm.service.user;
 
+import com.jc.crm.form.account.AccountListSubmitForm;
 import com.jc.crm.form.account.RegisterForm;
 import com.jc.crm.form.account.UserUpdateForm;
 import com.jc.crm.model.UserEntity;
@@ -54,4 +55,8 @@ public interface UserService {
     List<String> getRoles(Integer uid);
 
     UserDetailVO getCurrentUserDetails(UserEntity user);
+
+    int updateUserAvatar(Integer uid, String fileName);
+
+    int registerFormList(AccountListSubmitForm accountListSubmitForm, Integer eid);
 }

@@ -1,6 +1,7 @@
 package com.jc.crm.service.department.impl;
 
 import com.jc.crm.mapper.DepartmentMapper;
+import com.jc.crm.model.DepartmentEntity;
 import com.jc.crm.model.UserEntity;
 import com.jc.crm.service.department.DepartmentService;
 import com.jc.crm.service.department.vo.UserDepartmentVO;
@@ -49,5 +50,32 @@ public class DepartmentServiceImpl implements DepartmentService {
             return false;
         }
         return departmentMapper.isHaveAuth(departmentVO.getWeight(),departmentVO.getDepartmentId(),departmentVO.getEid(),cuid) > 0;
+    }
+
+    /**
+     * 获取uid部门及其子部门
+     *
+     * @param uid
+     * @param eid
+     */
+    @Override
+    public List<DepartmentEntity> queryDepartment(Integer uid, Integer eid) {
+        //todo
+        return null;
+    }
+
+    /**
+     * 查询企业所有部门
+     *
+     * @param eid
+     */
+    @Override
+    public List<DepartmentEntity> findAllDepartment(Integer eid) {
+        return null;
+    }
+
+    @Override
+    public int updateDepartment() {
+        return 0;
     }
 }

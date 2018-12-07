@@ -1,0 +1,31 @@
+# For a quick start check out our HTTP Requests collection (Tools|HTTP Client|Open HTTP Requests Collection).
+#
+# Following HTTP Request Live Templates are available:
+# * 'gtrp' and 'gtr' create a GET request with or without query parameters;
+# * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
+# * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
+
+GET http://localhost:8080/api/manager/user?pageSize=10&pageNum=0
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI3Mjc0NDM1MzBAcXEuY29tIiwiYXZhdGFyIjoiMjctMTU0NDAyNTIxMzcxNC5wbmciLCJhdXRob3JpdHkiOlsidXNlciJdLCJleHAiOjE1NDQ2MTAxMjN9.TLGugfqA_SPMpUHS1hcSHA8xsbQADG5ibhJL1AZr_HoVRbiZsQ_azbcTHl2AkAoF
+###
+
+PUT http://localhost:8080/api/manager/user
+Content-Type: application/json
+
+{
+  "address": {
+    "city": "string",
+    "country": "string",
+    "ex1": "string",
+    "province": "string",
+    "street": "string",
+    "zipCode": "string"
+  },
+  "departmentId": 4,
+  "phone": 15988440973,
+  "signature": "string",
+  "username": "string"
+}
+
+###

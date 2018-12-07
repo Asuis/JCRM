@@ -75,4 +75,10 @@ public interface DepartmentMapper {
 
     @Select("SELECT * FROM department_user_link WHERE user_id = #{userId}")
     DepartmentUserLinkEntity selectByUid(int userId);
+
+    @Select("SELECT * FROM department WHERE eid = #{eid} AND struct IS NULL")
+    DepartmentEntity getDepartments(Integer eid);
+    
+    @Select("SELECT * FROM department WHRER eid = #{eid} AND struct LIKE CONCAT('%',#{departmentId},'%')")
+    List<DepartmentEntity> getDepartmentByStruct();
 }

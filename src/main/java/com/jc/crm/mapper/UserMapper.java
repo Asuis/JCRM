@@ -1,5 +1,6 @@
 package com.jc.crm.mapper;
 
+import com.jc.crm.form.account.UserUpdateForm;
 import com.jc.crm.model.RoleEntity;
 import com.jc.crm.model.TagEntity;
 import com.jc.crm.model.UserEntity;
@@ -8,10 +9,13 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+/**
+ * @author asuis
+ */
 @Repository
 public interface UserMapper {
-    @Select("SELECT * FROM user")
-    List<UserEntity> getUserList();
+    @Select("SELECT * FROM user WHERE eid = #{eid} AND uid != #{uid}")
+    List<UserEntity> getUserList(@Param("eid") Integer eid, @Param("uid") Integer uid);
     @Insert("INSERT INTO user(username, pass, email, phone, salt, contact_id, eid, avatar) VALUES(#{username},#{pass},#{email},#{phone},#{salt},#{contactId},#{eid},#{avatar})")
     @Options(useGeneratedKeys = true, keyProperty = "uid", keyColumn = "uid")
     int insert(UserEntity userEntity);
@@ -37,4 +41,9 @@ public interface UserMapper {
     List<TagEntity> queryUserTags(Integer uid);
     @Insert("INSERT INTO auth_role_user_link(role_id, uid) VALUES((SELECT role_id FROM x_auth_role WHERE role_name = #{roleName}),#{uid})")
     int insertRoleForUser(@Param("uid") Integer uid, @Param("roleName") String roleName);
+    @Update("UPDATE user SET avatar = #{fileName} WHERE uid = #{uid}")
+    int updateUserAvatar(@Param("uid") Integer uid, @Param("fileName") String fileName);
+
+    @Update("UPDATE user set username = #{username}, signature = #{signature}, phone = #{phone} WHERE uid = #{uid}")
+    int updateSimpleUser(UserUpdateForm form);
 }
