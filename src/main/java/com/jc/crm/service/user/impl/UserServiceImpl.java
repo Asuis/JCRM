@@ -5,12 +5,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.jc.crm.auth.JwtUtils;
 import com.jc.crm.config.exception.SystemException;
 import com.jc.crm.config.logger.SystemServiceLog;
+import com.jc.crm.dao.AddressMapper;
+import com.jc.crm.form.account.AccountListSubmitForm;
 import com.jc.crm.form.account.RegisterForm;
 import com.jc.crm.form.account.UserUpdateForm;
-import com.jc.crm.mapper.ContactMapper;
-import com.jc.crm.mapper.DepartmentMapper;
-import com.jc.crm.mapper.EnterpriseMapper;
-import com.jc.crm.mapper.UserMapper;
+import com.jc.crm.mapper.*;
+import com.jc.crm.model.AddressEntity;
 import com.jc.crm.model.TagEntity;
 import com.jc.crm.model.UserEntity;
 import com.jc.crm.service.department.vo.UserDepartmentVO;
@@ -30,11 +30,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * @author asuis
+ */
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -43,14 +47,16 @@ public class UserServiceImpl implements UserService {
 
     private final EnterpriseMapper enterpriseMapper;
     private final ContactMapper contactMapper;
+    private final AddressEntityMapper addressMapper;
 
     private final DepartmentMapper departmentMapper;
     @Autowired
-    public UserServiceImpl(UserMapper userMapper, EnterpriseMapper enterpriseMapper, ContactMapper contactMapper, DepartmentMapper departmentMapper) {
+    public UserServiceImpl(UserMapper userMapper, EnterpriseMapper enterpriseMapper, ContactMapper contactMapper, DepartmentMapper departmentMapper, AddressEntityMapper addressMapper) {
         this.userMapper = userMapper;
         this.enterpriseMapper = enterpriseMapper;
         this.contactMapper = contactMapper;
         this.departmentMapper = departmentMapper;
+        this.addressMapper = addressMapper;
     }
 
     @Override
@@ -117,6 +123,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public int updateUserDetail(UserUpdateForm updateForm, int uid) {
 
+//        userMapper.update();
+//        addressMapper.update();
+//        departmentMapper.update();
         return -1;
     }
 
@@ -206,5 +215,26 @@ public class UserServiceImpl implements UserService {
         //获取address
         userDetailVO.setGeographic(new GeographicVO("浙江省","杭州市"));
         return userDetailVO;
+    }
+
+    @Override
+    public int updateUserAvatar(Integer uid, String fileName) {
+        return userMapper.updateUserAvatar(uid, fileName);
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public int registerFormList(AccountListSubmitForm accountListSubmitForm, Integer eid) {
+        int flag = 1;
+        for (RegisterForm register: accountListSubmitForm.getData()) {
+            int uid = register(register);
+            if (uid<=0) {
+                flag = 0;
+            }
+            if (userMapper.bindEnterprise(uid, eid)<=0){
+                flag = 0;
+            }
+        }
+        return flag;
     }
 }

@@ -5,16 +5,19 @@ import com.jc.crm.config.ResultStatus;
 import com.jc.crm.config.logger.ControllerServiceLog;
 import com.jc.crm.form.account.RegisterForm;
 import com.jc.crm.form.account.UserLoginForm;
+import com.jc.crm.form.account.UserUpdateForm;
 import com.jc.crm.model.UserEntity;
 import com.jc.crm.service.user.*;
+import com.jc.crm.service.user.dto.QiniuUploadToken;
 import com.jc.crm.service.user.exception.UserAlreadyRegisterException;
 import com.jc.crm.service.user.exception.UserIsLockedException;
 import com.jc.crm.service.user.exception.UserNotFoundException;
 import com.jc.crm.service.user.exception.UserNotRightPassException;
 import com.jc.crm.service.user.vo.UserDetailVO;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import com.jc.crm.utils.TimeUtils;
+import com.jc.crm.utils.UUIDUtil;
+import com.jc.crm.utils.UploadUtils;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ResourceUtils;
 import org.springframework.validation.BindingResult;
@@ -26,6 +29,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 
 @Api
 @RestController
@@ -97,14 +101,24 @@ public class UserController {
     }
     @PutMapping
     @ControllerServiceLog
-    public Result<String> update() {
+    public Result<String> update(@RequestBody UserUpdateForm form, @RequestAttribute("user")UserEntity user) {
+        userService.updateUserDetail(form,user.getUid());
         return null;
     }
     @PostMapping(value = "avatar", consumes = "multipart/*", headers = "content-type=multipart/form-data")
     @ApiOperation("个人头像")
-    public Result uploadAvatar(@ApiParam(value = "上传的头像文件", required = true)@RequestParam("avatar")MultipartFile file) throws FileNotFoundException {
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", paramType = "header"),
+    })
+    public Result uploadAvatar(@ApiParam(value = "上传的头像文件", required = true)@RequestParam("avatar")MultipartFile file, @RequestAttribute("uid")Integer uid) throws FileNotFoundException {
         if (file.isEmpty()) {
             return Result.fail(ResultStatus.FAIL, "收到文件为空");
+        }
+        //todo 判断图片
+        String fileName = file.getOriginalFilename();
+        String suffix = fileName.substring(fileName.lastIndexOf('.'));
+        if (!(suffix.equals(".png")||suffix.equals(".jpg")||suffix.equals(".jpeg"))) {
+            return Result.fail(ResultStatus.FAIL, "请上传图片格式");
         }
         File path = new File(ResourceUtils.getURL("classpath:").getPath());
         if (!path.exists()) {
@@ -114,19 +128,37 @@ public class UserController {
         if (!upload.exists()) {
             upload.mkdirs();
         }
+
+        fileName = uid + "-" + TimeUtils.getTimeStamp() + suffix;
+        if (userService.updateUserAvatar(uid, fileName)<=0){
+            return Result.fail(ResultStatus.FAIL, "系统繁忙,请稍后再试");
+        }
         try {
             byte[] bytes = file.getBytes();
-            Files.write(upload.toPath(), bytes);
+            Files.write(new File(upload.getAbsolutePath(), fileName).toPath(), bytes);
         } catch (IOException e) {
             e.printStackTrace();
             return Result.fail(ResultStatus.FAIL, "上传失败");
         }
-        return Result.success(null);
+        return Result.success(fileName);
     }
     @GetMapping("currentUser")
     @ApiOperation("获取当前用户个人信息")
     public Result getCurrentUser(@RequestAttribute("user")UserEntity user){
         UserDetailVO userDetailVO = userService.getCurrentUserDetails(user);
         return Result.success(userDetailVO);
+    }
+    @GetMapping("/logo/token")
+    @ApiOperation("logo上传")
+    public Result<QiniuUploadToken> getUploadToken(@RequestAttribute("user")UserEntity user, @RequestParam("file_name") String fileName) {
+        Result<QiniuUploadToken> result = new Result<>();
+        String file = "user_"+user.getUid()+"/"+ UUIDUtil.get8UUID()+fileName.substring(fileName.lastIndexOf('.'));
+        String to = UploadUtils.getQiniuUploadToken(file);
+        QiniuUploadToken token1 = new QiniuUploadToken();
+        token1.setToken(to);
+        token1.setKey(file);
+        result.setData(token1);
+        result.setCode(ResultStatus.SUCCESS);
+        return result;
     }
 }

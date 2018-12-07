@@ -32,7 +32,6 @@ public class UserEntity {
 
     public UserEntity(UserUpdateForm form, Integer addressId, Integer contactId) {
         this.setUsername(form.getUsername());
-        this.setEmail(form.getEmail());
         this.setAddressId(addressId);
         this.setContactId(contactId);
     }

@@ -57,6 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js",
                         "/webjars/**",
+                        "/images/**",
                         "/swagger-resources/**",
                         "/*/api-docs").permitAll()
                 .antMatchers(HttpMethod.POST,

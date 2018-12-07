@@ -19,3 +19,18 @@ GET http://localhost:8080/api/user/currentUser
 Accept: application/json
 Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI3Mjc0NDM1MzBAcXEuY29tIiwiYXV0aG9yaXR5IjpbInVzZXIiXSwiZXhwIjoxNTQ0MTk0NDUxfQ.7djP6THnQluD0Yq-l4nuXP7NpduADi2OawhhyTFM8DIij-CrJGqmBDTO4j_QvJLG
 ###
+
+POST http://localhost:8080/api/user/login
+Content-Type: application/json
+
+{
+  "username": "727443530@qq.com",
+  "password": "Mysql123456"
+}
+
+###
+
+GET http://localhost:8080/api/manager/user?pageSize=10&pageNum=0
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI3Mjc0NDM1MzBAcXEuY29tIiwiYXZhdGFyIjoiMjctMTU0NDAyNTIxMzcxNC5wbmciLCJhdXRob3JpdHkiOlsidXNlciJdLCJleHAiOjE1NDQ2MTAxMjN9.TLGugfqA_SPMpUHS1hcSHA8xsbQADG5ibhJL1AZr_HoVRbiZsQ_azbcTHl2AkAoF
+###

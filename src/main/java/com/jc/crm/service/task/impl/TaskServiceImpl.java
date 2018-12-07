@@ -58,9 +58,9 @@ public class TaskServiceImpl implements TaskService {
                 throw new RuntimeException("商业机会-任务关联添加失败");
             }
         }
-        if (form.getConsumberId()!=null) {
+        if (form.getConsumerId()!=null) {
 
-            if (taskMapper.insertTaskConsumer(taskId, form.getConsumberId())<0) {
+            if (taskMapper.insertTaskConsumer(taskId, form.getConsumerId())<0) {
                 throw new RuntimeException("任务所有者-关联添加失败");
             }
         }

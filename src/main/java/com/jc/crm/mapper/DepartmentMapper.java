@@ -48,7 +48,7 @@ public interface DepartmentMapper {
             "WHERE `user`.uid = department_user_link.user_id\n" +
             "AND department.department_id =  department_user_link.department_id\n" +
             "AND (department.struct like CONCAT('%',#{departmentId},'%') OR (department.department_id = 1 AND department_user_link.weight <= #{weight}))" +
-            "AND eid = #{eid}\n" +
+            "AND department.eid = #{eid}\n" +
             "GROUP BY uid")
     List<UserDepartmentVO> getDepartmentUserByDepartmentIdAndWeight(@Param("weight") int weight,@Param("departmentId") Integer departmentId, @Param("eid") Integer eid);
 
@@ -61,7 +61,7 @@ public interface DepartmentMapper {
             "WHERE `user`.uid = department_user_link.user_id \n" +
             "AND department.department_id =  department_user_link.department_id\n" +
             "AND (department.struct like CONCAT('%',#{departmentId},'%') OR (department.department_id = #{departmentId}))" +
-            "AND eid = #{eid}\n" +
+            "AND department.eid = #{eid}\n" +
             "ORDER BY uid ASC")
     List<Integer> getDepartmentUserByDepartmentId(@Param("departmentId") Integer departmentId, @Param("eid") Integer eid);
     @Select("SELECT COUNT(`user`.uid) FROM \n" +
@@ -70,9 +70,15 @@ public interface DepartmentMapper {
             "department_user_link\n" +
             "WHERE `user`.uid = department_user_link.user_id\n" +
             "AND department.department_id =  department_user_link.department_id\n" +
-            "AND (department.struct like CONCAT('%',#{departmentId},'%') OR (department.department_id = #{departmentId} AND department_user_link.weight <= #{weight})) AND eid = #{eid} AND `user`.uid = #{uid}")
+            "AND (department.struct like CONCAT('%',#{departmentId},'%') OR (department.department_id = #{departmentId} AND department_user_link.weight <= #{weight})) AND department.eid = #{eid} AND `user`.uid = #{uid}")
     int isHaveAuth(@Param("weight") int weight,@Param("departmentId") Integer departmentId, @Param("eid") Integer eid, @Param("uid")Integer uid);
 
     @Select("SELECT * FROM department_user_link WHERE user_id = #{userId}")
     DepartmentUserLinkEntity selectByUid(int userId);
+
+    @Select("SELECT * FROM department WHERE eid = #{eid} AND struct IS NULL")
+    DepartmentEntity getDepartments(Integer eid);
+    
+    @Select("SELECT * FROM department WHRER eid = #{eid} AND struct LIKE CONCAT('%',#{departmentId},'%')")
+    List<DepartmentEntity> getDepartmentByStruct();
 }
