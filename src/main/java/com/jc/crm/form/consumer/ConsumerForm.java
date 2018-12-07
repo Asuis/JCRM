@@ -30,6 +30,7 @@ public class ConsumerForm {
     private Integer holderId;
     private String website;
 
+    private String description;
     @NotNull(message = "客户地址不能为空")
     //@Valid
     private AddressForm address;
@@ -119,6 +120,10 @@ public class ConsumerForm {
         this.contact = contact;
     }
 
+    public String getDescription() {return description;}
+
+    public void setDescription(String description) {this.description = description;}
+
     public Consumer toConsumer(Integer addressId) {
         Consumer consumer = new Consumer();
         consumer.setPid(this.getPid());
@@ -126,6 +131,7 @@ public class ConsumerForm {
         consumer.setWebsite(this.getWebsite());
         consumer.setAddressId(addressId);
         consumer.setState(0);
+        consumer.setDescription(this.getDescription());
         consumer.setStaffNum(this.getStaffNum());
         Date now = TimeUtils.getNowTime();
         consumer.setCtime(now);
@@ -140,6 +146,7 @@ public class ConsumerForm {
         consumer.setConsumerName(this.getConsumerName());
         consumer.setWebsite(this.getWebsite());
         consumer.setState(0);
+        consumer.setDescription(this.getDescription());
         consumer.setStaffNum(this.getStaffNum());
         Date now = TimeUtils.getNowTime();
         consumer.setUtime(now);
