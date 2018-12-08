@@ -43,4 +43,6 @@ public interface DepartmentService {
      * 获取用户所在的所有小组、部门
      */
     List<UserDepartmentVO> getUserDepartment(Integer uid, Integer eid);
+
+    DepartmentEntity getDepartmentDetail(Integer departmentId);
 }

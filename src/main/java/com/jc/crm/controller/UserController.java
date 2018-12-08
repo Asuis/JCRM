@@ -18,6 +18,7 @@ import com.jc.crm.utils.TimeUtils;
 import com.jc.crm.utils.UUIDUtil;
 import com.jc.crm.utils.UploadUtils;
 import io.swagger.annotations.*;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ResourceUtils;
 import org.springframework.validation.BindingResult;
@@ -160,5 +161,12 @@ public class UserController {
         result.setData(token1);
         result.setCode(ResultStatus.SUCCESS);
         return result;
+    }
+
+    @PostMapping("tag")
+    @ApiOperation("标签添加")
+    public Result addTag(@RequestAttribute("user")UserEntity user, @RequestParam("tag") String tagName) {
+        //todo
+        return null;
     }
 }

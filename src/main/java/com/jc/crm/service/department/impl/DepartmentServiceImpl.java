@@ -164,5 +164,10 @@ public class DepartmentServiceImpl implements DepartmentService {
         return departmentMapper.queryUserDepartmentVOByUid(uid, eid);
     }
 
+    @Override
+    public DepartmentEntity getDepartmentDetail(Integer departmentId) {
+        return departmentMapper.getDepartmentEntityById(departmentId);
+    }
+
 
 }

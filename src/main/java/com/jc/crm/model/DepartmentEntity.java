@@ -1,5 +1,7 @@
 package com.jc.crm.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 /**
  * @author asuis
  */
@@ -8,6 +10,7 @@ public class DepartmentEntity {
     private Integer pid;
     private Integer eid;
     private String description;
+    @JSONField(serialize = false)
     private String struct;
     private String departmentName;
 

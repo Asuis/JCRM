@@ -7,6 +7,7 @@ import com.jc.crm.form.department.DepartmentUpdateForm;
 import com.jc.crm.model.DepartmentEntity;
 import com.jc.crm.model.UserEntity;
 import com.jc.crm.service.department.DepartmentService;
+import com.jc.crm.service.department.vo.DepartmentMemberVO;
 import com.jc.crm.service.department.vo.UserDepartmentVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -102,7 +103,21 @@ public class DepartmentController {
     }
     @GetMapping("/users/{departmentId}")
     public Result getDepartmentUsers(@RequestAttribute("user") UserEntity user, @PathVariable Integer departmentId) {
-        departmentService.getIdsByUser()
-        return null;
+        List<DepartmentMemberVO> list = departmentService.getIdsByUser(user.getUid());
+        if (list!=null) {
+            return Result.success(list);
+        }
+        return Result.fail(ResultStatus.FAIL, "系统繁忙，请稍后再试");
+    }
+    @GetMapping("/detail/{departmentId}")
+    @ApiOperation("获取部门详细信息")
+    public Result getDetail(@RequestAttribute("user") UserEntity user, @PathVariable Integer departmentId) {
+        //todo 权限设置
+        DepartmentEntity departmentEntity = departmentService.getDepartmentDetail(departmentId);
+        if (departmentEntity!=null) {
+            return Result.success(departmentEntity);
+        } else {
+            return Result.fail(ResultStatus.NOT_FOUND, "该部门不存在");
+        }
     }
 }
