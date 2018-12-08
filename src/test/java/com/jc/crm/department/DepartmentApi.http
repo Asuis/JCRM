@@ -5,29 +5,32 @@
 # * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
 # * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
 
-GET http://localhost:8080/api/manager/user?pageSize=10&pageNum=0
+GET http://localhost:8080/api/department/
 Accept: application/json
 Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI3Mjc0NDM1MzBAcXEuY29tIiwiYXZhdGFyIjoiMjctMTU0NDAyNTIxMzcxNC5wbmciLCJhdXRob3JpdHkiOlsidXNlciJdLCJleHAiOjE1NDQ2MTAxMjN9.TLGugfqA_SPMpUHS1hcSHA8xsbQADG5ibhJL1AZr_HoVRbiZsQ_azbcTHl2AkAoF
+
 ###
 
-PUT http://localhost:8080/api/manager/user
+PUT http://localhost:8080/api/department
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI3Mjc0NDM1MzBAcXEuY29tIiwiYXZhdGFyIjoiMjctMTU0NDAyNTIxMzcxNC5wbmciLCJhdXRob3JpdHkiOlsidXNlciJdLCJleHAiOjE1NDQ2MTAxMjN9.TLGugfqA_SPMpUHS1hcSHA8xsbQADG5ibhJL1AZr_HoVRbiZsQ_azbcTHl2AkAoF
 
 {
-  "address": {
-    "city": "string",
-    "country": "string",
-    "ex1": "string",
-    "province": "string",
-    "street": "string",
-    "zipCode": "string"
-  },
-  "uid": 28,
-  "departmentId": 4,
-  "phone": 15988440973,
-  "signature": "string",
-  "username": "string"
+  "departmentId": 1,
+  "departmentName": "财务部",
+  "description": "。。。。"
+}
+
+###
+
+POST http://localhost:8080/api/department
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI3Mjc0NDM1MzBAcXEuY29tIiwiYXZhdGFyIjoiMjctMTU0NDAyNTIxMzcxNC5wbmciLCJhdXRob3JpdHkiOlsidXNlciJdLCJleHAiOjE1NDQ2MTAxMjN9.TLGugfqA_SPMpUHS1hcSHA8xsbQADG5ibhJL1AZr_HoVRbiZsQ_azbcTHl2AkAoF
+
+{
+  "departmentName": "会计E组",
+  "description": "eeeeee",
+  "pid": 2
 }
 
 ###

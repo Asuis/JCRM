@@ -1,15 +1,21 @@
 package com.jc.crm.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.jc.crm.form.account.UserUpdateForm;
 
 import java.util.Date;
 
+/**
+ * @author asuis
+ */
 public class UserEntity {
     public int uid;
     public String username;
     private String avatar;
     private String email;
+    @JSONField(serialize = false)
     private String pass;
+    @JSONField(serialize = false)
     private String salt;
     private Integer contactId;
     private Integer addressId;

@@ -8,6 +8,7 @@ import com.jc.crm.mapper.BusinessOpportunityMapper;
 import com.jc.crm.mapper.DepartmentMapper;
 import com.jc.crm.model.*;
 import com.jc.crm.service.department.DepartmentService;
+import com.jc.crm.service.department.vo.DepartmentMemberVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -635,7 +636,7 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
     @SystemServiceLog
     public PageInfo<BusinessOpportunitySourceEntity> selectSourceListByKeyWord(String keyword, Integer uid, Integer pageNum, Integer pageSize) {
         System.out.println("开始查询市场来源信息");
-        List<Integer> uidList = departmentService.getIdsByUser(uid);
+        List<DepartmentMemberVO> uidList = departmentService.getIdsByUser(uid);
         if(keyword == null){
             System.out.println("关键字为空");
         }
@@ -650,7 +651,7 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
     @SystemServiceLog
     public PageInfo<BusinessOpportunitySelectVo> selectOppListByKeyWord(String keyword, Integer uid, Integer pageNum, Integer pageSize) {
         System.out.println("开始查询含申请信息的商业机会信息");
-        List<Integer> uidList = departmentService.getIdsByUser(uid);
+        List<DepartmentMemberVO> uidList = departmentService.getIdsByUser(uid);
         if(keyword == null){
             System.out.println("关键字为空");
         }
@@ -671,7 +672,7 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
     @SystemServiceLog
     public PageInfo<BusinessRecordSelectVo> selectRecordListByKeyWord(String keyword, Integer uid, Integer pageNum, Integer pageSize) {
         System.out.println("开始查询机会完成记录信息");
-        List<Integer> uidList = departmentService.getIdsByUser(uid);
+        List<DepartmentMemberVO> uidList = departmentService.getIdsByUser(uid);
         if(keyword == null){
             System.out.println("关键字为空");
         }

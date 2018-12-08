@@ -1,5 +1,6 @@
 package com.jc.crm.service.department.vo;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.jc.crm.model.UserEntity;
 
 /**
@@ -8,9 +9,20 @@ import com.jc.crm.model.UserEntity;
  */
 public class UserDepartmentVO extends UserEntity {
     private String post;
+    @JSONField(serialize = false)
     private Integer weight;
     private Integer departmentId;
     private String departmentName;
+
+    @Override
+    public String toString() {
+        return "UserDepartmentVO{" +
+                "post='" + post + '\'' +
+                ", weight=" + weight +
+                ", departmentId=" + departmentId +
+                ", departmentName='" + departmentName + '\'' +
+                '}';
+    }
 
     public Integer getWeight() {
         return weight;

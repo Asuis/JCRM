@@ -1,7 +1,6 @@
 package com.jc.crm.form.user;
 
 import com.jc.crm.form.AddressForm;
-import com.jc.crm.service.department.DepartmentService;
 
 /**
  * @author asuis
@@ -12,7 +11,7 @@ public class UpdateUserForm {
     private String username;
     private String signature;
     private Integer departmentId;
-    private Integer phone;
+    private String phone;
     private AddressForm address;
 
     public Integer getUid() {
@@ -47,11 +46,11 @@ public class UpdateUserForm {
         this.departmentId = departmentId;
     }
 
-    public Integer getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Integer phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 

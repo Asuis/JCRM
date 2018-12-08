@@ -1,6 +1,7 @@
 package com.jc.crm.mapper;
 
 import com.jc.crm.form.account.UserUpdateForm;
+import com.jc.crm.form.user.UpdateUserForm;
 import com.jc.crm.model.RoleEntity;
 import com.jc.crm.model.TagEntity;
 import com.jc.crm.model.UserEntity;
@@ -44,6 +45,12 @@ public interface UserMapper {
     @Update("UPDATE user SET avatar = #{fileName} WHERE uid = #{uid}")
     int updateUserAvatar(@Param("uid") Integer uid, @Param("fileName") String fileName);
 
-    @Update("UPDATE user set username = #{username}, signature = #{signature}, phone = #{phone} WHERE uid = #{uid}")
-    int updateSimpleUser(UserUpdateForm form);
+    @Update("UPDATE user SET username = #{username}, signature = #{signature}, phone = #{phone} WHERE uid = #{uid}")
+    int updateSimpleUser(UpdateUserForm form);
+
+    @Select("SELECT * FROM `user` WHERE uid = #{uid}")
+    UserEntity getByUid(Integer uid);
+
+    @Update("UPDATE `user` SET contact_id = #{contactId} WHERE uid = #{uid}")
+    int updateContactForUid(@Param("contactId") Integer contactId,@Param("uid") Integer uid);
 }

@@ -13,7 +13,15 @@ public class AddressForm {
     private String street;
     private String zipCode;
     private String ex1;
-
+    public AddressEntity toAddress(Integer addressId) {
+        AddressEntity addressEntity = new AddressEntity();
+        addressEntity.setZipCode(zipCode);
+        addressEntity.setStreet(street);
+        addressEntity.setProvince(province);
+        addressEntity.setCountry(country);
+        addressEntity.setEx1(ex1);
+        return toAddress();
+    }
     public String getCountry() {
         return country;
     }
