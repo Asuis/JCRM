@@ -1,5 +1,6 @@
 package com.jc.crm.mapper;
 
+import com.alibaba.fastjson.JSONArray;
 import com.jc.crm.form.opportunity.*;
 import com.jc.crm.mapper.provider.BusinessOpportunitySqlProvider;
 import com.jc.crm.model.*;
@@ -7,6 +8,7 @@ import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 商业机会数据访问层接口
@@ -330,4 +332,13 @@ public interface BusinessOpportunityMapper {
     List<BusinessOpportunityAccountMoneyVo> selectAccountMoneyByTime(@Param("startTime") String startTime, @Param("endTime") String endTime, @Param("businessOppId")Integer businessOppId);
 
 
+    @Select("SELECT\n" +
+            "    SUM(account_money) AS 'sum',\n" +
+            "    MONTH(ctime) AS 'month'\n" +
+            "    FROM\n" +
+            "            business_opp_account_money\n" +
+            "    WHERE YEAR(ctime) = Year(CurDate())\n" +
+            "    GROUP BY\n" +
+            "    MONTH(ctime)")
+    List<Map<String,Object>> selectAccountM();
 }

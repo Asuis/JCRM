@@ -151,7 +151,7 @@ public class ConsumerServiceImpl implements ConsumerService {
     /*查看客户地区分布
     * */
     @Override
-    public String selectArea(Integer uid){
+    public JSONArray selectArea(Integer uid){
         List<Map<String,Object>> list = consumerMapper.selectArea();
         List<HashMap<String,Object>> returnList = new ArrayList<HashMap<String, Object>>();
         int i = 0;
@@ -167,7 +167,8 @@ public class ConsumerServiceImpl implements ConsumerService {
         JSONMap.put("sumConsumer",dataArr);
         returnList.add((HashMap<String, Object>) JSONMap);
         JSONArray jsonList = JSONArray.parseArray(JSON.toJSONString(returnList));
-        // System.out.println(JSON.toJSONString(jsonList));
-        return JSON.toJSONString(jsonList);
+        System.out.println(JSON.toJSONString(jsonList));
+//        return JSON.toJSONString(jsonList);
+        return jsonList;
     }
 }
