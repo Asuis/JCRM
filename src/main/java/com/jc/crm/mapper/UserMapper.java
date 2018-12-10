@@ -2,6 +2,7 @@ package com.jc.crm.mapper;
 
 import com.jc.crm.form.account.UserUpdateForm;
 import com.jc.crm.form.user.UpdateUserForm;
+import com.jc.crm.mapper.provider.UserSqlProvider;
 import com.jc.crm.model.RoleEntity;
 import com.jc.crm.model.TagEntity;
 import com.jc.crm.model.UserEntity;
@@ -15,12 +16,12 @@ import java.util.List;
  */
 @Repository
 public interface UserMapper {
-    @Select("SELECT * FROM user WHERE eid = #{eid} AND uid != #{uid}")
-    List<UserEntity> getUserList(@Param("eid") Integer eid, @Param("uid") Integer uid);
+    @SelectProvider(type = UserSqlProvider.class, method = "queryUsers")
+    List<UserEntity> getUserList(@Param("keyword")String keyword, @Param("eid") Integer eid, @Param("uid") Integer uid);
     @Insert("INSERT INTO user(username, pass, email, phone, salt, contact_id, eid, avatar) VALUES(#{username},#{pass},#{email},#{phone},#{salt},#{contactId},#{eid},#{avatar})")
     @Options(useGeneratedKeys = true, keyProperty = "uid", keyColumn = "uid")
     int insert(UserEntity userEntity);
-    @Update("UPDATE user set username = #{username}, pass = #{pass}, email = #{email}, phone = #{phone}, salt = #{salt}, contact_id = #{contactId}, eid = #{eid}, weight = #{weight}")
+    @Update("UPDATE user set username = #{username}, pass = #{pass}, email = #{email}, phone = #{phone}, salt = #{salt}, contact_id = #{contactId}, eid = #{eid}")
     int update(UserEntity userEntity);
     @Update("UPDATE user SET last_login = #{loginTime} WHERE uid = #{uid}")
     int updateLoginTime(@Param("loginTime") Date loginTime, @Param("uid")int uid);

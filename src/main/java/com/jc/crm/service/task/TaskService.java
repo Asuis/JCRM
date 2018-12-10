@@ -3,7 +3,10 @@ package com.jc.crm.service.task;
 import com.github.pagehelper.PageInfo;
 import com.jc.crm.form.task.TaskForm;
 import com.jc.crm.model.TaskEntity;
+import com.jc.crm.query.TaskQuery;
 import com.jc.crm.service.tag.TagService;
+import com.jc.crm.service.task.vo.TaskDetail;
+import com.jc.crm.service.task.vo.TaskSimpleVO;
 
 /**
  * @author asuis
@@ -28,7 +31,9 @@ public interface TaskService extends TagService {
     /**
      * 获取单个任务详细信息
      * */
-    TaskForm getTaskDetail(int userId, Integer pageSize, Integer pageNum);
+    TaskDetail getTaskDetail(Integer taskId);
 
     int updateTask(TaskForm taskForm, int userId);
+
+    PageInfo<TaskSimpleVO> queryTasks(TaskQuery query, Integer uid);
 }

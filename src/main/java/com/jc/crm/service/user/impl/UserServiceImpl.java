@@ -61,9 +61,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @SystemServiceLog(description = "return uid ")
-    public int register(RegisterForm registerForm) throws UserAlreadyRegisterException {
+    public int register(RegisterForm registerForm, Integer eid) throws UserAlreadyRegisterException {
         UserEntity user = UserFactory.create(registerForm);
-
+        if (eid!=null) {
+            user.setEid(eid);
+        }
         //判断账号是否已经注册
         if (userMapper.getByEmail(registerForm.getMail()) != null) {
             throw  new UserAlreadyRegisterException("账号已经注册");
@@ -227,11 +229,8 @@ public class UserServiceImpl implements UserService {
     public int registerFormList(AccountListSubmitForm accountListSubmitForm, Integer eid) {
         int flag = 1;
         for (RegisterForm register: accountListSubmitForm.getData()) {
-            int uid = register(register);
+            int uid = register(register, eid);
             if (uid<=0) {
-                flag = 0;
-            }
-            if (userMapper.bindEnterprise(uid, eid)<=0){
                 flag = 0;
             }
         }

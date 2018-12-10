@@ -1,7 +1,13 @@
 package com.jc.crm.mapper;
 
 import com.jc.crm.form.task.RepeatSettingForm;
+import com.jc.crm.mapper.provider.TaskSqlProvider;
 import com.jc.crm.model.TaskEntity;
+import com.jc.crm.query.TaskQuery;
+import com.jc.crm.service.task.vo.RepeatSettingVO;
+import com.jc.crm.service.task.vo.TaskDetail;
+import com.jc.crm.service.task.vo.TaskSimpleVO;
+import com.jc.crm.service.user.vo.UserSimpleVO;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -68,4 +74,14 @@ public interface TaskMapper {
 
     @Update("UPDATE task SET repeat_setting_id = #{repeatId} WHERE task_id = #{taskId}")
     int updateReapetSettingId(Integer repeatId, Integer taskId);
+
+    @SelectProvider(type = TaskSqlProvider.class, method = "query")
+    List<TaskSimpleVO> query(TaskQuery query);
+    @Select("SELECT task.task_id, task.avatar, task.theme, task.start_time, task.deadline, task.description, task.state, task.priority, tasks_business_opp_link.opp_id, tasks_consumer_link.consumer_id FROM task LEFT JOIN tasks_business_opp_link ON task.task_id = tasks_business_opp_link.task_id LEFT JOIN tasks_consumer_link ON task.task_id = tasks_consumer_link.task_id WHERE task.task_id = #{taskId}")
+    TaskDetail getTaskDetailsByTaskId(Integer taskId);
+    @Select("SELECT * FROM tasks_repeat_setting WHERE task_id = #{taskId}")
+    RepeatSettingVO getRepeatSettingVOByTaskId(Integer taskId);
+
+    @Select("SELECT `user`.uid, `user`.avatar, `user`.username FROM `user`,task,tasks_holder_link WHERE `user`.uid = tasks_holder_link.holder_id AND tasks_holder_link.task_id = task.task_id AND task.task_id = #{taskId}")
+    List<UserSimpleVO> getHoldersByTaskId(Integer taskId);
 }

@@ -21,7 +21,7 @@ public interface UserService {
      * @param registerForm 注册表单
      * @return 是否注册成功 成功>0 200成功 失败<=0 -1失败
      * **/
-    int register(RegisterForm registerForm) throws UserAlreadyRegisterException;
+    int register(RegisterForm registerForm, Integer eid) throws UserAlreadyRegisterException;
     /**
      * @param username 用户名
      * @param pass 密码

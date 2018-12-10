@@ -18,6 +18,7 @@ public class TaskForm {
     private String theme;
     private Integer businessOppId;
     private Integer consumerId;
+    @Size(min = 1)
     private List<Integer> holders;
     @Future
     @JSONField(format="yyyy-MM-dd HH:mm:ss")

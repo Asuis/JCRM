@@ -71,7 +71,7 @@ public class UserController {
         }
         int code = ResultStatus.FAIL;
         try {
-            code = userService.register(form);
+            code = userService.register(form, null);
             if (code > 0) {
                 String token = userService.login(form.getMail(), form.getPass());
                 return Result.success(token);
@@ -151,6 +151,9 @@ public class UserController {
     }
     @GetMapping("/logo/token")
     @ApiOperation("logo上传")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", paramType = "header"),
+    })
     public Result<QiniuUploadToken> getUploadToken(@RequestAttribute("user")UserEntity user, @RequestParam("file_name") String fileName) {
         Result<QiniuUploadToken> result = new Result<>();
         String file = "user_"+user.getUid()+"/"+ UUIDUtil.get8UUID()+fileName.substring(fileName.lastIndexOf('.'));
@@ -165,6 +168,9 @@ public class UserController {
 
     @PostMapping("tag")
     @ApiOperation("标签添加")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", paramType = "header"),
+    })
     public Result addTag(@RequestAttribute("user")UserEntity user, @RequestParam("tag") String tagName) {
         //todo
         return null;

@@ -1,5 +1,7 @@
 package com.jc.crm.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.Date;
 
 /**
@@ -7,18 +9,31 @@ import java.util.Date;
  */
 public class TaskEntity {
     private Integer taskId;
+    private String avatar;
     private String theme;
     private String description;
     private Integer holderId;
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date deadline;
     private Integer repeatSettingId;
     private boolean isRepeat;
     private boolean isRemind;
     private int priority;
     private int state;
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date startTime;
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date ctime;
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date utime;
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 
     public Date getStartTime() {
         return startTime;

@@ -19,6 +19,8 @@ import com.jc.crm.service.user.UserManagerService;
 import com.jc.crm.service.user.UserService;
 import com.jc.crm.service.user.vo.UserDetailVO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -116,9 +118,12 @@ public class UserManagerController {
     }
     @GetMapping
     @ControllerServiceLog
-    public Result get(@RequestAttribute("user")UserEntity user, @RequestParam("pageSize")Integer pageSize, @RequestParam("pageNum")Integer pageNum) {
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", paramType = "header"),
+    })
+    public Result get(@RequestAttribute("user")UserEntity user, @RequestParam("pageSize")Integer pageSize, @RequestParam("pageNum")Integer pageNum, @RequestParam("keyword")String keyword) {
         PageHelper.startPage(pageNum, pageSize);
-        List<UserEntity> userEntities = userMapper.getUserList(user.getEid(), user.getUid());
+        List<UserEntity> userEntities = userMapper.getUserList(keyword, user.getEid(), user.getUid());
         if (userEntities!=null) {
             PageInfo<UserEntity> userEntityPageInfo = new PageInfo<>(userEntities);
             return Result.success(userEntityPageInfo);

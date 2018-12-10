@@ -33,3 +33,23 @@ GET http://localhost:8080/api/task/27/0/10
 Accept: application/json
 Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI3Mjc0NDM1MzBAcXEuY29tIiwiZXhwIjoxNTQzNTc3NzgzfQ.fwR6rPgupeoS8v2W5LlS407y3Oy60jlH0WJcskg-GE6g0D-WrCGAz3Mk577Aap-C
 ###
+
+GET http://localhost:8080/api/task/detail/14
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI3Mjc0NDM1MzBAcXEuY29tIiwiZXhwIjoxNTQzNTc3NzgzfQ.fwR6rPgupeoS8v2W5LlS407y3Oy60jlH0WJcskg-GE6g0D-WrCGAz3Mk577Aap-C
+
+###
+
+POST http://localhost:8080/api/task/query
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI3Mjc0NDM1MzBAcXEuY29tIiwiZXhwIjoxNTQzNTc3NzgzfQ.fwR6rPgupeoS8v2W5LlS407y3Oy60jlH0WJcskg-GE6g0D-WrCGAz3Mk577Aap-C
+
+{
+  "keyword": "x",
+  "me": true,
+  "orderBy": "start_time",
+  "pageNum": 10,
+  "pageSize": 0,
+  "state": 0
+}
+###

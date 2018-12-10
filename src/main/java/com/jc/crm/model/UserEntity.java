@@ -22,8 +22,10 @@ public class UserEntity {
     private String phone;
     private int isLock;
     private int eid;
-    private Date createTime;
-    private Date updateTime;
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date ctime;
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date utime;
 
     public String getAvatar() {
         return avatar;
@@ -120,20 +122,20 @@ public class UserEntity {
         this.isLock = isLock;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public Date getCtime() {
+        return ctime;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setCtime(Date ctime) {
+        this.ctime = ctime;
     }
 
-    public Date getUpdateTime() {
-        return updateTime;
+    public Date getUtime() {
+        return utime;
     }
 
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
+    public void setUtime(Date utime) {
+        this.utime = utime;
     }
 
     @Override
@@ -149,8 +151,8 @@ public class UserEntity {
                 ", phone='" + phone + '\'' +
                 ", isLock=" + isLock +
                 ", eid=" + eid +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
+                ", createTime=" + ctime +
+                ", updateTime=" + utime +
                 '}';
     }
 }
