@@ -23,7 +23,7 @@ public class CompetitorSqlProvider {
             if(uidList != null){
                 String where = "holder =" + uidList.get(0).getUid();
                 for (int i=1;i<uidList.size();i++) {
-                    where +=" OR holder = "+uidList.get(i);
+                    where +=" OR holder = "+uidList.get(i).getUid();
                 }
                 WHERE(where);
             }

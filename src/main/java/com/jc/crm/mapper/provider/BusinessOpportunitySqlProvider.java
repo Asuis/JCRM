@@ -72,7 +72,7 @@ public class BusinessOpportunitySqlProvider {
             if(uidList != null){
                 String where = "o.holder =" + uidList.get(0).getUid();
                 for (int i=1;i<uidList.size();i++) {
-                    where += " OR o.holder = " + uidList.get(i);
+                    where += " OR o.holder = " + uidList.get(i).getUid();
                 }
                 WHERE(where);
             }
