@@ -51,17 +51,14 @@ public interface DepartmentMapper {
             "GROUP BY uid")
     List<UserDepartmentVO> getDepartmentUserByDepartmentIdAndWeight(@Param("weight") int weight,@Param("departmentId") Integer departmentId, @Param("eid") Integer eid);
 
-    @Select("SELECT\n" +
-            " `user`.uid,`user`.username" +
-            "FROM\n" +
-            "`user`,\n" +
-            "department,\n" +
-            "department_user_link\n" +
-            "WHERE `user`.uid = department_user_link.user_id \n" +
-            "AND department.department_id =  department_user_link.department_id\n" +
-            "AND (department.struct like CONCAT('%',#{departmentId},'%') OR (department.department_id = #{departmentId}))" +
-            "AND department.eid = #{eid} AND department_user_link.is_actived = 1 " +
-            "ORDER BY uid ASC")
+    @Select("SELECT `user`.uid,`user`.username FROM `user`,\n" +
+            "            department,\n" +
+            "            department_user_link\n" +
+            "            WHERE `user`.uid = department_user_link.user_id\n" +
+            "            AND department.department_id =  department_user_link.department_id\n" +
+            "            AND (department.struct like CONCAT('%',#{departmentId},'%') OR (department.department_id = 1))\n" +
+            "            AND department.eid = #{eid} AND department_user_link.is_actived = 1 \n" +
+            "            ORDER BY uid ASC")
     List<DepartmentMemberVO> getDepartmentUserByDepartmentId(@Param("departmentId") Integer departmentId, @Param("eid") Integer eid);
     @Select("SELECT COUNT(`user`.uid) FROM \n" +
             "`user`,\n" +
