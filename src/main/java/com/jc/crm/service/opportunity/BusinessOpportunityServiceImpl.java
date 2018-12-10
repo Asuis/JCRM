@@ -1,5 +1,7 @@
 package com.jc.crm.service.opportunity;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jc.crm.config.logger.SystemServiceLog;
@@ -13,8 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * 商业机会业务逻辑实现层接口
@@ -692,5 +693,23 @@ public class BusinessOpportunityServiceImpl implements BusinessOpportunityServic
         PageInfo<BusinessOpportunityAccountMoneyVo> pageInfo = new PageInfo<>(list);
         System.out.println("查询成功");
         return pageInfo;
+    }
+
+//    商业机会金额 #业绩# 图标展示
+    @Override
+    @SystemServiceLog
+    public JSONArray selectAccountM() {
+        List<Map<String,Object>> list = businessOpportunityMapper.selectAccountM();
+        List<HashMap<String,Object>> returnList = new ArrayList<HashMap<String, Object>>();
+        for(Map<String,Object> map : list) {
+            Map<String, Object> JSONMap = new HashMap<String, Object>();
+            Double mo = ((Double) map.get("sum"))/100000;
+            JSONMap.put("money", mo);
+            JSONMap.put("month", map.get("month"));
+            returnList.add((HashMap<String, Object>) JSONMap);
+        }
+        JSONArray jsonList = JSONArray.parseArray(JSON.toJSONString(returnList));
+//        System.out.println(jsonList);
+        return jsonList;
     }
 }

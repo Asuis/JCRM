@@ -1,5 +1,6 @@
 package com.jc.crm.service.consumer;
 
+import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageInfo;
 import com.jc.crm.form.AddressForm;
 import com.jc.crm.form.consumer.ConsumerForm;
@@ -54,5 +55,5 @@ public interface ConsumerService {
 
      /*查询客户地区分布
     * */
-     String selectArea(Integer uid);
+     JSONArray selectArea(Integer uid);
 }
