@@ -68,13 +68,13 @@ public class ConsumerController {
     })
     @GetMapping("listOfficial")
     @ControllerServiceLog
-    public Result searchStage(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-                              @RequestParam(value = "pageSize", defaultValue = "6") Integer pageSize,
+    public Result searchStage(@RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
+                              @RequestParam(value = "pageSize", defaultValue = "8") Integer pageSize,
                               @RequestParam (value = "keyword", defaultValue = "")String keyword,
                               @RequestAttribute Integer uid){
         PageInfo<ConsumerForm> pageInfo;
         try{
-            pageInfo = consumerService.selectListByKeyWord(keyword, pageNum, pageSize,uid);
+            pageInfo = consumerService.selectListByKeyWord(keyword, uid, pageNum, pageSize);
         }catch (Exception e){
             e.printStackTrace();
             return Result.fail(ResultStatus.EXCEPTION, "发生异常：e.getMessage()");
@@ -96,13 +96,13 @@ public class ConsumerController {
     })
     @GetMapping("listNofficial")
     @ControllerServiceLog
-    public Result searchStage2(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-                              @RequestParam(value = "pageSize", defaultValue = "6") Integer pageSize,
+    public Result searchStage2(@RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
+                              @RequestParam(value = "pageSize", defaultValue = "8") Integer pageSize,
                               @RequestParam (value = "keyword", defaultValue = "")String keyword,
                               @RequestAttribute Integer uid){
         PageInfo<ConsumerForm> pageInfo;
         try{
-            pageInfo = consumerService.selectListByKeyWord2(keyword, pageNum, pageSize,uid);
+            pageInfo = consumerService.selectListByKeyWord2(keyword, uid, pageNum, pageSize);
         }catch (Exception e){
             e.printStackTrace();
             return Result.fail(ResultStatus.EXCEPTION, "发生异常：e.getMessage()");
