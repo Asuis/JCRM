@@ -11,7 +11,17 @@ import java.util.List;
  * */
 public class CompetitorsSelectVo extends CompetitorsEntity {
 
+    private String username;
+
     private List<TagVo> tagVoList;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public List<TagVo> getTagVoList() {
         return tagVoList;
