@@ -21,7 +21,7 @@ public class BusinessOpportunitySqlProvider {
             SELECT("*");
             FROM("business_opp_source" ) ;
             if(uidList != null){
-                String where = "holder =" + uidList.get(0);
+                String where = "holder =" + uidList.get(0).getUid();
                 for (int i=1;i<uidList.size();i++) {
                     where += " OR holder = " + uidList.get(i).getUid();
                 }
@@ -43,11 +43,12 @@ public class BusinessOpportunitySqlProvider {
     public String queryListTwo(@Param("keyword") String keyword, @Param("uidList") List<DepartmentMemberVO> uidList) {
         String sql = new SQL(){{
             SELECT("*");
-            FROM("business_opp" ) ;
+            FROM("business_opp o" ) ;
+            INNER_JOIN("user u ON o.holder = u.uid");
             if(uidList != null){
                 String where = "holder =" + uidList.get(0).getUid();
                 for (int i=1;i<uidList.size();i++) {
-                    where += " OR holder = " + uidList.get(i);
+                    where += " OR holder = " + uidList.get(i).getUid();
                 }
                 WHERE(where);
             }
