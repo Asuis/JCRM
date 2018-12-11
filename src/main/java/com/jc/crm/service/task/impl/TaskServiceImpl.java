@@ -10,11 +10,19 @@ import com.jc.crm.form.task.TaskForm;
 import com.jc.crm.mapper.TaskMapper;
 import com.jc.crm.model.TagEntity;
 import com.jc.crm.model.TaskEntity;
+import com.jc.crm.query.TaskQuery;
+import com.jc.crm.service.department.DepartmentService;
+import com.jc.crm.service.department.vo.DepartmentMemberVO;
 import com.jc.crm.service.task.TaskService;
+import com.jc.crm.service.task.vo.RepeatSettingVO;
+import com.jc.crm.service.task.vo.TaskDetail;
+import com.jc.crm.service.task.vo.TaskSimpleVO;
+import com.jc.crm.service.user.vo.UserSimpleVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,9 +34,12 @@ public class TaskServiceImpl implements TaskService {
 
     private final TaskMapper taskMapper;
 
+    private final DepartmentService departmentService;
+
     @Autowired
-    public TaskServiceImpl(TaskMapper taskMapper) {
+    public TaskServiceImpl(TaskMapper taskMapper, DepartmentService departmentService) {
         this.taskMapper = taskMapper;
+        this.departmentService = departmentService;
     }
 
     /**
@@ -58,9 +69,9 @@ public class TaskServiceImpl implements TaskService {
                 throw new RuntimeException("商业机会-任务关联添加失败");
             }
         }
-        if (form.getConsumberId()!=null) {
+        if (form.getConsumerId()!=null) {
 
-            if (taskMapper.insertTaskConsumer(taskId, form.getConsumberId())<0) {
+            if (taskMapper.insertTaskConsumer(taskId, form.getConsumerId())<0) {
                 throw new RuntimeException("任务所有者-关联添加失败");
             }
         }
@@ -122,20 +133,46 @@ public class TaskServiceImpl implements TaskService {
     /**
      * 获取单个任务详细信息
      *
-     * @param userId
-     * @param pageSize
-     * @param pageNum
+     * @param taskId
      */
     @Override
     @SystemServiceLog
-    public TaskForm getTaskDetail(int userId, Integer pageSize, Integer pageNum) {
-        return null;
+    public TaskDetail getTaskDetail(Integer taskId) {
+        TaskDetail taskDetail = taskMapper.getTaskDetailsByTaskId(taskId);
+        if (taskDetail!=null) {
+            List<UserSimpleVO> holders = taskMapper.getHoldersByTaskId(taskId);
+            taskDetail.setHolders(holders);
+            RepeatSettingVO repeatSettingVO = taskMapper.getRepeatSettingVOByTaskId(taskId);
+            taskDetail.setRepeatSettingDetails(repeatSettingVO);
+        }
+        return taskDetail;
     }
 
     @Override
     @SystemServiceLog
     public int updateTask(TaskForm taskForm, int userId) {
         return taskMapper.update(taskForm.toTask());
+    }
+
+    @Override
+    public PageInfo<TaskSimpleVO> queryTasks(TaskQuery query, Integer uid) {
+        List<Integer> uids = new ArrayList<>();
+        if (query.isMe()) {
+            //设置列表大小
+            uids.add(uid);
+            query.setUids(uids);
+        } else {
+            List<DepartmentMemberVO> members = departmentService.getIdsByUser(uid);
+            for (DepartmentMemberVO member: members) {
+                uids.add(member.getUid());
+            }
+        }
+        PageHelper.startPage(query.getPageNum(), query.getPageSize());
+        List<TaskSimpleVO> list = taskMapper.query(query);
+        if (list==null) {
+            return null;
+        }
+        return new PageInfo<>(list);
     }
 
     /**

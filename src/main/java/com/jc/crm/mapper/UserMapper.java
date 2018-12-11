@@ -1,5 +1,8 @@
 package com.jc.crm.mapper;
 
+import com.jc.crm.form.account.UserUpdateForm;
+import com.jc.crm.form.user.UpdateUserForm;
+import com.jc.crm.mapper.provider.UserSqlProvider;
 import com.jc.crm.model.RoleEntity;
 import com.jc.crm.model.TagEntity;
 import com.jc.crm.model.UserEntity;
@@ -8,14 +11,17 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+/**
+ * @author asuis
+ */
 @Repository
 public interface UserMapper {
-    @Select("SELECT * FROM user")
-    List<UserEntity> getUserList();
+    @SelectProvider(type = UserSqlProvider.class, method = "queryUsers")
+    List<UserEntity> getUserList(@Param("keyword")String keyword, @Param("eid") Integer eid, @Param("uid") Integer uid);
     @Insert("INSERT INTO user(username, pass, email, phone, salt, contact_id, eid, avatar) VALUES(#{username},#{pass},#{email},#{phone},#{salt},#{contactId},#{eid},#{avatar})")
     @Options(useGeneratedKeys = true, keyProperty = "uid", keyColumn = "uid")
     int insert(UserEntity userEntity);
-    @Update("UPDATE user set username = #{username}, pass = #{pass}, email = #{email}, phone = #{phone}, salt = #{salt}, contact_id = #{contactId}, eid = #{eid}, weight = #{weight}")
+    @Update("UPDATE user set username = #{username}, pass = #{pass}, email = #{email}, phone = #{phone}, salt = #{salt}, contact_id = #{contactId}, eid = #{eid}")
     int update(UserEntity userEntity);
     @Update("UPDATE user SET last_login = #{loginTime} WHERE uid = #{uid}")
     int updateLoginTime(@Param("loginTime") Date loginTime, @Param("uid")int uid);
@@ -37,4 +43,15 @@ public interface UserMapper {
     List<TagEntity> queryUserTags(Integer uid);
     @Insert("INSERT INTO auth_role_user_link(role_id, uid) VALUES((SELECT role_id FROM x_auth_role WHERE role_name = #{roleName}),#{uid})")
     int insertRoleForUser(@Param("uid") Integer uid, @Param("roleName") String roleName);
+    @Update("UPDATE user SET avatar = #{fileName} WHERE uid = #{uid}")
+    int updateUserAvatar(@Param("uid") Integer uid, @Param("fileName") String fileName);
+
+    @Update("UPDATE user SET username = #{username}, signature = #{signature}, phone = #{phone} WHERE uid = #{uid}")
+    int updateSimpleUser(UpdateUserForm form);
+
+    @Select("SELECT * FROM `user` WHERE uid = #{uid}")
+    UserEntity getByUid(Integer uid);
+
+    @Update("UPDATE `user` SET contact_id = #{contactId} WHERE uid = #{uid}")
+    int updateContactForUid(@Param("contactId") Integer contactId,@Param("uid") Integer uid);
 }

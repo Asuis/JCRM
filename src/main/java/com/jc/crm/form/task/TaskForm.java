@@ -1,5 +1,6 @@
 package com.jc.crm.form.task;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.jc.crm.model.TaskEntity;
 
 import javax.validation.Valid;
@@ -16,10 +17,13 @@ public class TaskForm {
     @Size(min = 1,max = 64)
     private String theme;
     private Integer businessOppId;
-    private Integer consumberId;
+    private Integer consumerId;
+    @Size(min = 1)
     private List<Integer> holders;
     @Future
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date deadline;
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date startTime;
     private String description;
 
@@ -42,12 +46,13 @@ public class TaskForm {
         return entity;
     }
 
-    public Integer getConsumberId() {
-        return consumberId;
+
+    public Integer getConsumerId() {
+        return consumerId;
     }
 
-    public void setConsumberId(Integer consumberId) {
-        this.consumberId = consumberId;
+    public void setConsumerId(Integer consumerId) {
+        this.consumerId = consumerId;
     }
 
     public Date getStartTime() {

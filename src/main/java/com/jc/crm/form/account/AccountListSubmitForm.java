@@ -7,5 +7,13 @@ import java.util.List;
 public class AccountListSubmitForm {
     @Size(min = 1)
     @Valid
-    List<AccountListSubmitForm> data;
+    List<RegisterForm> data;
+
+    public List<RegisterForm> getData() {
+        return data;
+    }
+
+    public void setData(List<RegisterForm> data) {
+        this.data = data;
+    }
 }

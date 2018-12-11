@@ -1,5 +1,6 @@
 package com.jc.crm.mapper.provider;
 
+import com.jc.crm.service.department.vo.DepartmentMemberVO;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 import org.slf4j.Logger;
@@ -15,14 +16,14 @@ public class BusinessOpportunitySqlProvider {
 
     private final static Logger logger = LoggerFactory.getLogger(BusinessOpportunitySqlProvider.class);
 
-    public String queryListOne(@Param("keyword") String keyword, @Param("uidList") List<Integer> uidList) {
+    public String queryListOne(@Param("keyword") String keyword, @Param("uidList") List<DepartmentMemberVO> uidList) {
         String sql = new SQL(){{
             SELECT("*");
             FROM("business_opp_source" ) ;
             if(uidList != null){
                 String where = "holder =" + uidList.get(0);
                 for (int i=1;i<uidList.size();i++) {
-                    where += " OR holder = " + uidList.get(i);
+                    where += " OR holder = " + uidList.get(i).getUid();
                 }
                 WHERE(where);
             }
@@ -39,12 +40,12 @@ public class BusinessOpportunitySqlProvider {
         return sql;
     }
 
-    public String queryListTwo(@Param("keyword") String keyword, @Param("uidList") List<Integer> uidList) {
+    public String queryListTwo(@Param("keyword") String keyword, @Param("uidList") List<DepartmentMemberVO> uidList) {
         String sql = new SQL(){{
             SELECT("*");
             FROM("business_opp" ) ;
             if(uidList != null){
-                String where = "holder =" + uidList.get(0);
+                String where = "holder =" + uidList.get(0).getUid();
                 for (int i=1;i<uidList.size();i++) {
                     where += " OR holder = " + uidList.get(i);
                 }
@@ -63,15 +64,15 @@ public class BusinessOpportunitySqlProvider {
         return sql;
     }
 
-    public String queryListThree(@Param("keyword") String keyword, @Param("uidList") List<Integer> uidList) {
+    public String queryListThree(@Param("keyword") String keyword, @Param("uidList") List<DepartmentMemberVO> uidList) {
         String sql = new SQL(){{
             SELECT("*");
             FROM("business_record r" ) ;
             INNER_JOIN(" business_opp o ON r.business_opp_id = o.business_opp_id");
             if(uidList != null){
-                String where = "o.holder =" + uidList.get(0);
+                String where = "o.holder =" + uidList.get(0).getUid();
                 for (int i=1;i<uidList.size();i++) {
-                    where += " OR o.holder = " + uidList.get(i);
+                    where += " OR o.holder = " + uidList.get(i).getUid();
                 }
                 WHERE(where);
             }

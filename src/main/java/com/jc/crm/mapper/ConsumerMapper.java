@@ -68,7 +68,7 @@ public interface ConsumerMapper {
      *  @param keyword 客户名称
      * if(keyword=空) 查全部
      * is_official = 1 代表正式客户
-     * state >= 0 表示 客户存在 <0
+     * state >= 0 表示 客户存在    <0 则不存在
      * @return Consumer对象
      * */
     @Select("<script>" +

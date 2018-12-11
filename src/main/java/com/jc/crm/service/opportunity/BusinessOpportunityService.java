@@ -1,5 +1,6 @@
 package com.jc.crm.service.opportunity;
 
+import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageInfo;
 import com.jc.crm.form.opportunity.*;
 import com.jc.crm.model.BusinessOpportunitySourceEntity;
@@ -162,4 +163,10 @@ public interface BusinessOpportunityService {
      * @return PageInfo对象
      * */
     PageInfo<BusinessOpportunityAccountMoneyVo> selectAccountMoneyListByTime(String startTime, String endTime, Integer businessOppId, Integer pageNum, Integer pageSize);
+
+    /**商业机会 业绩 展示
+     * 暂时不传参，默认显示12个月
+     * @return
+     */
+    JSONArray selectAccountM();
 }

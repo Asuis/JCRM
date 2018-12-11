@@ -16,6 +16,7 @@ import com.jc.crm.model.CompetitorsEntity;
 import com.jc.crm.model.CompetitorsTagLinkEntity;
 
 import com.jc.crm.service.department.DepartmentService;
+import com.jc.crm.service.department.vo.DepartmentMemberVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -234,7 +235,7 @@ public class CompetitorsServiceImpl implements CompetitorsService{
     @Override
     public PageInfo<CompetitorsSelectVo> selectListByKeyWord(String keyword, Integer uid, Integer pageNum, Integer pageSize){
         System.out.println("开始查询竞争对手信息");
-        List<Integer> uidList = departmentService.getIdsByUser(uid);
+        List<DepartmentMemberVO> uidList = departmentService.getIdsByUser(uid);
         if(keyword == null){
             System.out.println("关键字为空");
         }

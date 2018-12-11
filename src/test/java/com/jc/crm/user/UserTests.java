@@ -37,7 +37,7 @@ public class UserTests {
     }
     @Test
     public void registerTests() {
-
+        System.out.println(System.getProperty("os.name"));
     }
     @Test
     public void logoutTest() {

@@ -5,6 +5,7 @@ import com.jc.crm.form.tag.TagVo;
 import com.jc.crm.mapper.provider.CompetitorSqlProvider;
 import com.jc.crm.model.CompetitorsEntity;
 import com.jc.crm.model.CompetitorsTagLinkEntity;
+import com.jc.crm.service.department.vo.DepartmentMemberVO;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -95,7 +96,7 @@ public interface CompetitorMapper {
      * @return CompetitorsSelectVo类的泛型集合
      * */
     @SelectProvider(type = CompetitorSqlProvider.class, method = "queryList")
-    List<CompetitorsSelectVo> selectByKeyWord(@Param("keyword") String keyword, @Param("uidList")List<Integer> uidList);
+    List<CompetitorsSelectVo> selectByKeyWord(@Param("keyword") String keyword, @Param("uidList")List<DepartmentMemberVO> uidList);
 
     /**
      * 根据登录的用户ID多表关联查询该用户编辑的竞争对手列表信息

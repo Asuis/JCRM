@@ -1,5 +1,7 @@
 package com.jc.crm.form.task;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.Date;
 
 /**
@@ -11,6 +13,7 @@ public class RepeatSettingForm {
     private Integer taskId;
     private boolean isRepeat;
     private boolean isRecommend;
+    @JSONField(format = "YY:MM:DD HH:MM:SS.SSS")
     private Date remindTime;
     private int interval;
     private int repeatType;

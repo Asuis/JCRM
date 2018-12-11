@@ -1,12 +1,15 @@
 package com.jc.crm.mapper;
 
+import com.alibaba.fastjson.JSONArray;
 import com.jc.crm.form.opportunity.*;
 import com.jc.crm.mapper.provider.BusinessOpportunitySqlProvider;
 import com.jc.crm.model.*;
+import com.jc.crm.service.department.vo.DepartmentMemberVO;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 商业机会数据访问层接口
@@ -298,7 +301,7 @@ public interface BusinessOpportunityMapper {
      * @return BusinessOpportunitySourceEntity类的泛型集合
      * */
     @SelectProvider(type = BusinessOpportunitySqlProvider.class, method = "queryListOne")
-    List<BusinessOpportunitySourceEntity> selectSourceByKeyWord(@Param("keyword") String keyword, @Param("uidList")List<Integer> uidList);
+    List<BusinessOpportunitySourceEntity> selectSourceByKeyWord(@Param("keyword") String keyword, @Param("uidList")List<DepartmentMemberVO> uidList);
 
     /**
      * 根据关键字和登录的用户ID多表关联动态模糊查询喊申请信息的商业机会列表信息
@@ -307,7 +310,7 @@ public interface BusinessOpportunityMapper {
      * @return BusinessOpportunitySelectVo类的泛型集合
      * */
     @SelectProvider(type = BusinessOpportunitySqlProvider.class, method = "queryListTwo")
-    List<BusinessOpportunitySelectVo> selectOppByKeyWord(@Param("keyword") String keyword, @Param("uidList")List<Integer> uidList);
+    List<BusinessOpportunitySelectVo> selectOppByKeyWord(@Param("keyword") String keyword, @Param("uidList")List<DepartmentMemberVO> uidList);
 
     /**
      * 根据关键字和登录的用户ID多表关联动态模糊查询阶段为赢得的的商业机会列表信息
@@ -316,7 +319,7 @@ public interface BusinessOpportunityMapper {
      * @return BusinessRecordEntity类的泛型集合
      * */
     @SelectProvider(type = BusinessOpportunitySqlProvider.class, method = "queryListThree")
-    List<BusinessRecordSelectVo> selectRecordByKeyWord(@Param("keyword") String keyword, @Param("uidList")List<Integer> uidList);
+    List<BusinessRecordSelectVo> selectRecordByKeyWord(@Param("keyword") String keyword, @Param("uidList")List<DepartmentMemberVO> uidList);
 
     /**
      * 根据商业机会ID和输入的时间段获得机会价值变化图表
@@ -330,4 +333,13 @@ public interface BusinessOpportunityMapper {
     List<BusinessOpportunityAccountMoneyVo> selectAccountMoneyByTime(@Param("startTime") String startTime, @Param("endTime") String endTime, @Param("businessOppId")Integer businessOppId);
 
 
+    @Select("SELECT\n" +
+            "    SUM(account_money) AS 'sum',\n" +
+            "    MONTH(ctime) AS 'month'\n" +
+            "    FROM\n" +
+            "            business_opp_account_money\n" +
+            "    WHERE YEAR(ctime) = Year(CurDate())\n" +
+            "    GROUP BY\n" +
+            "    MONTH(ctime)")
+    List<Map<String,Object>> selectAccountM();
 }

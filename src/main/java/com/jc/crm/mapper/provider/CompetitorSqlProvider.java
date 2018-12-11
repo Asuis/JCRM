@@ -1,5 +1,6 @@
 package com.jc.crm.mapper.provider;
 
+import com.jc.crm.service.department.vo.DepartmentMemberVO;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 import org.slf4j.Logger;
@@ -15,14 +16,14 @@ public class CompetitorSqlProvider {
 
     private final static Logger logger = LoggerFactory.getLogger(CompetitorSqlProvider.class);
 
-    public String queryList(@Param("keyword") String keyword, @Param("uidList") List<Integer> uidList) {
+    public String queryList(@Param("keyword") String keyword, @Param("uidList") List<DepartmentMemberVO> uidList) {
         String sql = new SQL(){{
             SELECT("*");
             FROM("competitors" ) ;
             if(uidList != null){
-                String where = "holder =" + uidList.get(0);
+                String where = "holder =" + uidList.get(0).getUid();
                 for (int i=1;i<uidList.size();i++) {
-                    where +=" OR holder = "+uidList.get(i);
+                    where +=" OR holder = "+uidList.get(i).getUid();
                 }
                 WHERE(where);
             }

@@ -1,5 +1,6 @@
 package com.jc.crm.service.user;
 
+import com.jc.crm.form.account.AccountListSubmitForm;
 import com.jc.crm.form.account.RegisterForm;
 import com.jc.crm.form.account.UserUpdateForm;
 import com.jc.crm.model.UserEntity;
@@ -20,7 +21,7 @@ public interface UserService {
      * @param registerForm 注册表单
      * @return 是否注册成功 成功>0 200成功 失败<=0 -1失败
      * **/
-    int register(RegisterForm registerForm) throws UserAlreadyRegisterException;
+    int register(RegisterForm registerForm, Integer eid) throws UserAlreadyRegisterException;
     /**
      * @param username 用户名
      * @param pass 密码
@@ -54,4 +55,8 @@ public interface UserService {
     List<String> getRoles(Integer uid);
 
     UserDetailVO getCurrentUserDetails(UserEntity user);
+
+    int updateUserAvatar(Integer uid, String fileName);
+
+    int registerFormList(AccountListSubmitForm accountListSubmitForm, Integer eid);
 }
