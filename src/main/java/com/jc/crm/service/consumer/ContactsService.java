@@ -25,7 +25,7 @@ public interface ContactsService {
      * @param keyword 关键字  [关键字为空则显示全部]
      * @return PageInfo对象
      * */
-    PageInfo<ContactForm> selectListByKeyWord(String keyword, Integer cid,Integer uid);
+    PageInfo<ContactForm> selectListByKeyWord(String keyword, Integer cid,Integer uid,Integer pageNum,Integer pageSize);
 
     /*删除联系人
     * @param contactId 联系人id

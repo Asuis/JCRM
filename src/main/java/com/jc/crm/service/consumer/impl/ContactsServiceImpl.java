@@ -1,5 +1,6 @@
 package com.jc.crm.service.consumer.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jc.crm.form.consumer.ConsumerForm;
 import com.jc.crm.form.contacts.ContactForm;
@@ -81,8 +82,8 @@ public class ContactsServiceImpl implements ContactsService {
     * if(keyword=空) 查全部
     * */
     @Override
-    public PageInfo<ContactForm> selectListByKeyWord(String keyword, Integer cid,Integer uid){
-        // System.out.println(cid+"..................");
+    public PageInfo<ContactForm> selectListByKeyWord(String keyword, Integer cid,Integer uid,Integer pageNum,Integer pageSize){
+        PageHelper.startPage(pageNum,pageSize);
         List<ContactForm> list = contactMapper.selectBelon(keyword,cid);
         PageInfo<ContactForm> pageInfo = new PageInfo<>(list);
         return pageInfo;

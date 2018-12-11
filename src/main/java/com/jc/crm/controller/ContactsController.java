@@ -95,12 +95,15 @@ public class ContactsController {
     })
     @GetMapping
     @ControllerServiceLog
-    public Result searchContact(@RequestParam (value = "keyword", defaultValue = "")String keyword,
+    public Result searchContact(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                @RequestParam(value = "pageSize", defaultValue = "6") Integer pageSize,
+                                @RequestParam (value = "keyword", defaultValue = "")String keyword,
                                 @RequestParam (value = "cid", defaultValue = "")Integer cid,
                                 @RequestAttribute Integer uid){
+        System.out.println(keyword+"............");
         PageInfo<ContactForm> pageInfo;
         try{
-            pageInfo = contactsService.selectListByKeyWord(keyword,cid,uid);
+            pageInfo = contactsService.selectListByKeyWord(keyword,cid,uid,pageNum,pageSize);
         }catch (Exception e){
             e.printStackTrace();
             return Result.fail(ResultStatus.EXCEPTION, "发生异常：e.getMessage()");

@@ -100,7 +100,7 @@ public class ConsumerServiceImpl implements ConsumerService {
     * */
     @Override
     public PageInfo<ConsumerForm> selectListByKeyWord(String keyword, Integer uid, Integer pageNum, Integer pageSize){
-//        PageHelper.startPage(pageNum,pageSize);
+        PageHelper.startPage(pageNum,pageSize);
         List<ConsumerForm> list = consumerMapper.selectOfficial(keyword);
         PageInfo<ConsumerForm> pageInfo = new PageInfo<>(list);
         return pageInfo;
@@ -112,7 +112,7 @@ public class ConsumerServiceImpl implements ConsumerService {
     * */
     @Override
     public PageInfo<ConsumerForm> selectListByKeyWord2(String keyword, Integer uid, Integer pageNum, Integer pageSize){
-//        PageHelper.startPage(pageNum,pageSize);
+        PageHelper.startPage(pageNum,pageSize);
         List<ConsumerForm> list = consumerMapper.selectNofficial(keyword);
         PageInfo<ConsumerForm> pageInfo = new PageInfo<>(list);
         return pageInfo;
