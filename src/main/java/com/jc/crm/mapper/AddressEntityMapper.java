@@ -35,7 +35,7 @@ public interface AddressEntityMapper {
      * @return code > 0 更新成功
      * */
     @Insert("UPDATE address SET " +
-            "country=#{country}, province=#{province}, city=#{city}, street=#{street}, zip_code=#{zipCode}, ex_1=#{ex1}" +
+            "country=#{country}, province=#{province}, city=#{city}, street=#{street}" +
             "WHERE " +
             "address_id=#{addressId}" )
     @Options(useGeneratedKeys = true, keyColumn = "address_id", keyProperty = "addressId")
