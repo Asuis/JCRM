@@ -21,7 +21,7 @@ public class UserEntity {
     private Integer addressId;
     private String phone;
     private int isLock;
-    private int eid;
+    private Integer eid;
     @JSONField(format = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date ctime;
     @JSONField(format = "yyyy-MM-dd HH:mm:ss.SSS")
