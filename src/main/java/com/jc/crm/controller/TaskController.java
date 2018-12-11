@@ -97,6 +97,12 @@ public class TaskController {
     })
     @ControllerServiceLog
     public Result<PageInfo<TaskSimpleVO>> query(@RequestBody TaskQuery query, @RequestAttribute("uid")Integer uid) {
+        if (query.getPageNum()==null) {
+            query.setPageNum(0);
+        }
+        if (query.getPageSize()==null) {
+            query.setPageSize(10);
+        }
         PageInfo<TaskSimpleVO> pageInfo = taskService.queryTasks(query, uid);
         if (pageInfo!=null) {
             return Result.success(pageInfo);

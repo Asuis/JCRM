@@ -151,6 +151,8 @@ public class TaskServiceImpl implements TaskService {
     @Override
     @SystemServiceLog
     public int updateTask(TaskForm taskForm, int userId) {
+        //todo
+
         return taskMapper.update(taskForm.toTask());
     }
 
@@ -166,11 +168,16 @@ public class TaskServiceImpl implements TaskService {
             for (DepartmentMemberVO member: members) {
                 uids.add(member.getUid());
             }
+            query.setUids(uids);
         }
         PageHelper.startPage(query.getPageNum(), query.getPageSize());
         List<TaskSimpleVO> list = taskMapper.query(query);
         if (list==null) {
             return null;
+        }
+        for (TaskSimpleVO taskSimpleVO : list) {
+            List<UserSimpleVO> userSimple = taskMapper.getHoldersByTaskId(taskSimpleVO.getTaskId());
+            taskSimpleVO.setHolders(userSimple);
         }
         return new PageInfo<>(list);
     }

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.jc.crm.service.user.vo.UserSimpleVO;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author asuis
@@ -29,6 +30,15 @@ public class TaskSimpleVO {
     private Integer state;
     private Integer priority;
     private RepeatSettingVO repeatSetting;
+    private List<UserSimpleVO> holders;
+
+    public List<UserSimpleVO> getHolders() {
+        return holders;
+    }
+
+    public void setHolders(List<UserSimpleVO> holders) {
+        this.holders = holders;
+    }
 
     public Integer getOppId() {
         return oppId;

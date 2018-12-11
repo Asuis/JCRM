@@ -20,7 +20,7 @@ public class TaskSqlProvider {
             SELECT("task.task_id, task.avatar, task.theme, task.start_time, task.deadline, task.description, task.state, task.priority, " +
                     "tasks_business_opp_link.opp_id, tasks_consumer_link.consumer_id");
             FROM("task LEFT JOIN tasks_business_opp_link ON task.task_id = tasks_business_opp_link.task_id LEFT JOIN tasks_consumer_link ON task.task_id = tasks_consumer_link.task_id, tasks_holder_link ");
-            WHERE("tasks_holder_link.task_id = task.task_id");
+            WHERE("tasks_holder_link.task_id = task.task_id AND tasks_holder_link.state = 1");
             AND();
             WHERE("task.state = #{state}");
             if (query.getUids().size()>0) {

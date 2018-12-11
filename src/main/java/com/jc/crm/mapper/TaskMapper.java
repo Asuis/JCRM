@@ -37,9 +37,8 @@ public interface TaskMapper {
             "start_time = #{startTime}," +
             "is_remind = #{isRemind}," +
             "state = #{state}," +
-            "priority = #{priority} WHERE task_id = #{task_id}")
+            "priority = #{priority} WHERE task_id = #{taskId}")
     int update(TaskEntity taskEntity);
-
 
     @Delete("DELETE FROM task where task_id = #{id}")
     int delete(int id);
@@ -69,7 +68,7 @@ public interface TaskMapper {
     @Insert("INSERT INTO tasks_holder_link(holder_id, task_id) VALUES(#{holderId},#{taskId})")
     int insertTaskHolder(@Param("taskId")Integer taskId, @Param("holderId")Integer holderId);
 
-    @Select("SELECT * FROM task,tasks_holder_link WHERE holder_id = #{uid} AND tasks_holder_link.task_id = task.task_id")
+    @Select("SELECT * FROM task,tasks_holder_link WHERE holder_id = #{uid} AND tasks_holder_link.task_id = task.task_id AND tasks_holder_link.state = 1")
     List<TaskEntity> getRemindTaskForUser(Integer uid);
 
     @Update("UPDATE task SET repeat_setting_id = #{repeatId} WHERE task_id = #{taskId}")
@@ -82,6 +81,6 @@ public interface TaskMapper {
     @Select("SELECT * FROM tasks_repeat_setting WHERE task_id = #{taskId}")
     RepeatSettingVO getRepeatSettingVOByTaskId(Integer taskId);
 
-    @Select("SELECT `user`.uid, `user`.avatar, `user`.username FROM `user`,task,tasks_holder_link WHERE `user`.uid = tasks_holder_link.holder_id AND tasks_holder_link.task_id = task.task_id AND task.task_id = #{taskId}")
+    @Select("SELECT `user`.uid, `user`.avatar, `user`.username FROM `user`,task,tasks_holder_link WHERE `user`.uid = tasks_holder_link.holder_id AND tasks_holder_link.task_id = task.task_id AND task.task_id = #{taskId} AND tasks_holder_link.state = 1")
     List<UserSimpleVO> getHoldersByTaskId(Integer taskId);
 }
