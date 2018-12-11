@@ -19,7 +19,8 @@ public class CompetitorSqlProvider {
     public String queryList(@Param("keyword") String keyword, @Param("uidList") List<DepartmentMemberVO> uidList) {
         String sql = new SQL(){{
             SELECT("*");
-            FROM("competitors" ) ;
+            FROM("competitors c" ) ;
+            INNER_JOIN("user u ON c.holder = u.uid");
             if(uidList != null){
                 String where = "holder =" + uidList.get(0).getUid();
                 for (int i=1;i<uidList.size();i++) {

@@ -26,6 +26,16 @@ public class BusinessRecordSelectVo {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date ctime;
 
+    private String username;
+    
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public Integer getOppRecordId() {
         return oppRecordId;
     }

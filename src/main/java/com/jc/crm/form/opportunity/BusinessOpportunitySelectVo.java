@@ -11,7 +11,17 @@ import java.util.List;
  * */
 public class BusinessOpportunitySelectVo extends BusinessOpportunityEntity {
 
+    private String username;
+
     private List<BusinessOpportunityApplicationEntity> applicationVoList;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public List<BusinessOpportunityApplicationEntity> getApplicationVoList() {
         return applicationVoList;

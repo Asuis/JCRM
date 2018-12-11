@@ -10,6 +10,8 @@ public class BusinessOpportunitySourceSelectVo {
 
     private String sourceName;
 
+    private String username;
+
     public Integer getOppSourceId() {
         return oppSourceId;
     }
@@ -25,5 +27,14 @@ public class BusinessOpportunitySourceSelectVo {
     public void setSourceName(String sourceName) {
         this.sourceName = sourceName;
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
 
 }

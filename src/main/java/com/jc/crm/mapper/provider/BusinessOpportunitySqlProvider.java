@@ -19,7 +19,8 @@ public class BusinessOpportunitySqlProvider {
     public String queryListOne(@Param("keyword") String keyword, @Param("uidList") List<DepartmentMemberVO> uidList) {
         String sql = new SQL(){{
             SELECT("*");
-            FROM("business_opp_source" ) ;
+            FROM("business_opp_source s" ) ;
+            INNER_JOIN("user u ON s.holder = u.uid");
             if(uidList != null){
                 String where = "holder =" + uidList.get(0).getUid();
                 for (int i=1;i<uidList.size();i++) {
@@ -70,6 +71,7 @@ public class BusinessOpportunitySqlProvider {
             SELECT("*");
             FROM("business_record r" ) ;
             INNER_JOIN(" business_opp o ON r.business_opp_id = o.business_opp_id");
+            INNER_JOIN("user u ON o.holder = u.uid");
             if(uidList != null){
                 String where = "o.holder =" + uidList.get(0).getUid();
                 for (int i=1;i<uidList.size();i++) {
