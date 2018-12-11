@@ -69,7 +69,7 @@ public interface ContactMapper {
             "SELECT * FROM contacts " +
             "WHERE consumer_id = #{cid} AND holder >= 0\n " +
             "    <if test=\"keyword != ''\">\n" +
-            "    AND consumer_name LIKE \"%\"#{keyword}\"%\"\n" +
+            "    AND contact_name LIKE \"%\"#{keyword}\"%\"\n" +
             "    </if>\n" +
             "    GROUP BY contact_id " +
             "</script>")
