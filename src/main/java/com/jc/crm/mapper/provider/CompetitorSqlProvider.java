@@ -26,6 +26,7 @@ public class CompetitorSqlProvider {
                 }
                 WHERE(where);
             }
+            AND().WHERE("status = 1");
             if (keyword != null) {
                 if(keyword.length() != 0) {
                     AND().WHERE("competitor_name LIKE '%" + keyword + "%'");
