@@ -95,7 +95,7 @@ public class ContactsController {
     })
     @GetMapping
     @ControllerServiceLog
-    public Result searchContact(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+    public Result searchContact(@RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
                                 @RequestParam(value = "pageSize", defaultValue = "6") Integer pageSize,
                                 @RequestParam (value = "keyword", defaultValue = "")String keyword,
                                 @RequestParam (value = "cid", defaultValue = "")Integer cid,

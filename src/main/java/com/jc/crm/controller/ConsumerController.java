@@ -69,7 +69,7 @@ public class ConsumerController {
     @GetMapping("listOfficial")
     @ControllerServiceLog
     public Result searchStage(@RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
-                              @RequestParam(value = "pageSize", defaultValue = "8") Integer pageSize,
+                              @RequestParam(value = "pageSize", defaultValue = "6") Integer pageSize,
                               @RequestParam (value = "keyword", defaultValue = "")String keyword,
                               @RequestAttribute Integer uid){
         PageInfo<ConsumerForm> pageInfo;
@@ -97,7 +97,7 @@ public class ConsumerController {
     @GetMapping("listNofficial")
     @ControllerServiceLog
     public Result searchStage2(@RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
-                              @RequestParam(value = "pageSize", defaultValue = "8") Integer pageSize,
+                              @RequestParam(value = "pageSize", defaultValue = "6") Integer pageSize,
                               @RequestParam (value = "keyword", defaultValue = "")String keyword,
                               @RequestAttribute Integer uid){
         PageInfo<ConsumerForm> pageInfo;
