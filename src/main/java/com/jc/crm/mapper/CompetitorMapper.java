@@ -103,7 +103,7 @@ public interface CompetitorMapper {
      * @param uid 登录用户ID
      * @return CompetitorsSelectVo类的泛型集合
      * */
-    @Select("SELECT * FROM competitors WHERE holder = #{holder} ORDER BY competitor_id ASC")
+    @Select("SELECT * FROM competitors WHERE holder = #{holder} AND status = 1 ORDER BY competitor_id ASC")
     List<CompetitorsSelectVo> selectByHolder(Integer uid);
 
     /**
